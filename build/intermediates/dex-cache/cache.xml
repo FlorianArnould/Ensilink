@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="/home/florian/Dropbox/Projets/Android/AndroidStudioProjects/Ensilink/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.0.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="07daa0b6e1d455c82a38422ffe287c18823d339a">
+        <dex dex="/home/florian/Dropbox/Projets/Android/AndroidStudioProjects/Ensilink/app/build/intermediates/pre-dexed/debug/com.android.support-support-fragment-25.0.0_7fc86c38e2c924e900f7a5ef596cc2ce8c2b715c.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/florian/Dropbox/Projets/Android/AndroidStudioProjects/Ensilink/app/build/intermediates/exploded-aar/com.android.support/design/25.0.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="26384be22ddc74cfe197ebda9edbc7d1fd8bd537">
+        <dex dex="/home/florian/Dropbox/Projets/Android/AndroidStudioProjects/Ensilink/app/build/intermediates/pre-dexed/debug/com.android.support-design-25.0.0_329452239d1a0b52cff14453f81b949a9191a4c8.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/florian/Dropbox/Projets/Android/AndroidStudioProjects/Ensilink/app/build/intermediates/exploded-aar/com.android.support/transition/25.0.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="0c6d948e6cb9ea6f535d175fb61ba2930719c0e9">
+        <dex dex="/home/florian/Dropbox/Projets/Android/AndroidStudioProjects/Ensilink/app/build/intermediates/pre-dexed/debug/com.android.support-transition-25.0.0_0827f17e9b48a0247081920b863a84ce9c821e64.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/florian/Dropbox/Projets/Android/AndroidStudioProjects/Ensilink/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.0.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="53a420cd4f49274db6bd43475f8006ba67ef6bbd">
+        <dex dex="/home/florian/Dropbox/Projets/Android/AndroidStudioProjects/Ensilink/app/build/intermediates/pre-dexed/debug/com.android.support-animated-vector-drawable-25.0.0_0c060bd3dfa056427cd956c885dd50bdacab8e29.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/florian/Dropbox/Projets/Android/AndroidStudioProjects/Ensilink/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.0.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="d29714cc76b38157e3cbd034c66e1ec808eb4c19">
+        <dex dex="/home/florian/Dropbox/Projets/Android/AndroidStudioProjects/Ensilink/app/build/intermediates/pre-dexed/debug/com.android.support-support-vector-drawable-25.0.0_81607875c5efd1f53af960c132bf924c66c8315b.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/florian/Dropbox/Projets/Android/AndroidStudioProjects/Ensilink/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.0.0/jars/libs/internal_impl-25.0.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="ee5faf4dee5b6a4364bf51587871047dde7c703a">
+        <dex dex="/home/florian/Dropbox/Projets/Android/AndroidStudioProjects/Ensilink/app/build/intermediates/pre-dexed/debug/internal_impl-25.0.0_337d9d96d431400af0bc400e24a91e5e202dc296.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/florian/Dropbox/Projets/Android/AndroidStudioProjects/Ensilink/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/25.0.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="5e497d60f0cb6ce87c458ac5420a46d0fed49bd0">
+        <dex dex="/home/florian/Dropbox/Projets/Android/AndroidStudioProjects/Ensilink/app/build/intermediates/pre-dexed/debug/com.android.support-recyclerview-v7-25.0.0_9f3c1513cf492074217a256e5ec518d43c9c9626.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/florian/Dropbox/Projets/Android/AndroidStudioProjects/Ensilink/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.0.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="75b1f366ff0bbc78f8b1f7cf0dc82e7c53afef6a">
+        <dex dex="/home/florian/Dropbox/Projets/Android/AndroidStudioProjects/Ensilink/app/build/intermediates/pre-dexed/debug/com.android.support-support-compat-25.0.0_f7986a6dbcf8a31bcbaefa6bb1837e9253249e89.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/florian/Dropbox/Projets/Android/AndroidStudioProjects/Ensilink/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.0.0/jars/libs/internal_impl-25.0.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="665d21a8a069c96b4d9e8b434f5096d865b4e261">
+        <dex dex="/home/florian/Dropbox/Projets/Android/AndroidStudioProjects/Ensilink/app/build/intermediates/pre-dexed/debug/internal_impl-25.0.0_18be59308a9a5fb4515db5527773c657dfcbbe01.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/florian/Dropbox/Projets/Android/AndroidStudioProjects/Ensilink/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.0.0/jars/libs/internal_impl-25.0.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="f2e3b9bc1ec25f652e8007ce7774c991e38f6a00">
+        <dex dex="/home/florian/Dropbox/Projets/Android/AndroidStudioProjects/Ensilink/app/build/intermediates/pre-dexed/debug/internal_impl-25.0.0_ca49f436bda17b8531a7a5b94eb5ab453f7ae956.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/florian/Dropbox/Projets/Android/AndroidStudioProjects/Ensilink/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.0.0/jars/libs/internal_impl-25.0.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="e5343c9d19cb19ff55f6b268c7f3fe8c9d224f6f">
+        <dex dex="/home/florian/Dropbox/Projets/Android/AndroidStudioProjects/Ensilink/app/build/intermediates/pre-dexed/debug/internal_impl-25.0.0_1f9e56cfb047e697b1d4e7995808cfa6e4b177cf.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/florian/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/25.0.0/support-annotations-25.0.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="a22d2cc94da87b254451fa8ed28afc30b4653773">
+        <dex dex="/home/florian/Dropbox/Projets/Android/AndroidStudioProjects/Ensilink/app/build/intermediates/pre-dexed/debug/support-annotations-25.0.0_8dfd0043dd5a520bbca39c079c29dfb96bbf8980.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/florian/Dropbox/Projets/Android/AndroidStudioProjects/Ensilink/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.0.0/jars/libs/internal_impl-25.0.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="3b61a70884adaf0be3fc06c70c801e3e6df13133">
+        <dex dex="/home/florian/Dropbox/Projets/Android/AndroidStudioProjects/Ensilink/app/build/intermediates/pre-dexed/debug/internal_impl-25.0.0_1727d149c935d0abef43e1b68aa52833e19fd599.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/florian/Dropbox/Projets/Android/AndroidStudioProjects/Ensilink/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.0.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="4ccbcda5c72027c7f7c14be9ff8640d9cb0d8da0">
+        <dex dex="/home/florian/Dropbox/Projets/Android/AndroidStudioProjects/Ensilink/app/build/intermediates/pre-dexed/debug/com.android.support-support-core-utils-25.0.0_9e0ddc778a970e4f482736ad0cfbc505406db5f8.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/florian/Dropbox/Projets/Android/AndroidStudioProjects/Ensilink/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.0.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="26674000177e45447a0326a6ad84612761199a13">
+        <dex dex="/home/florian/Dropbox/Projets/Android/AndroidStudioProjects/Ensilink/app/build/intermediates/pre-dexed/debug/com.android.support-support-core-ui-25.0.0_2cebf0a5a039ca6e3870cd09855a9bc57f72ed23.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/florian/Dropbox/Projets/Android/AndroidStudioProjects/Ensilink/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="8bc45ce1f63d1a391fd38b32a201be5a42f9c95d">
+        <dex dex="/home/florian/Dropbox/Projets/Android/AndroidStudioProjects/Ensilink/app/build/intermediates/pre-dexed/debug/com.android.support-appcompat-v7-25.0.0_46a92540c6450786f679dfd8187ef84fc2e0c5af.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/florian/Dropbox/Projets/Android/AndroidStudioProjects/Ensilink/app/build/intermediates/exploded-aar/com.android.support/support-v4/25.0.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/home/florian/Dropbox/Projets/Android/AndroidStudioProjects/Ensilink/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-25.0.0_f21f78138fead2bce23c353298b1c3c758568efd.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/florian/Dropbox/Projets/Android/AndroidStudioProjects/Ensilink/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.0.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.2"
+        sha1="76fb65a4b41ea42dab8a1310ed772a2420c96b52">
+        <dex dex="/home/florian/Dropbox/Projets/Android/AndroidStudioProjects/Ensilink/app/build/intermediates/pre-dexed/debug/com.android.support-support-media-compat-25.0.0_deaea60b3519b1b483c1c0ab302da07104e5c0b9.jar" />
+    </item>
+
+</items>
