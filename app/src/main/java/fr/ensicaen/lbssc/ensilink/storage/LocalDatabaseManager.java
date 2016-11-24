@@ -15,17 +15,18 @@ final class LocalDatabaseManager extends SQLiteOpenHelper {
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE bureaux(id serial NOT NULL PRIMARY KEY," +
-                                        "nom VARCHAR(50));");
+        db.execSQL("CREATE TABLE bureaux(" +
+                "id INTEGER NOT NULL PRIMARY KEY," +
+                "nom VARCHAR(50));");
         db.execSQL("CREATE TABLE etudiants(" +
-                "id serial NOT NULL PRIMARY KEY," +
+                "id INTEGER NOT NULL PRIMARY KEY," +
                 "nom VARCHAR(50) NOT NULL," +
                 "prenom VARCHAR(50) NOT NULL," +
                 "surnom VARCHAR(50)," +
                 "email VARCHAR(100) NOT NULL);");
 
         db.execSQL("CREATE TABLE clubs(" +
-                "id serial NOT NULL PRIMARY KEY," +
+                "id INTEGER NOT NULL PRIMARY KEY," +
                 "idbureau INTEGER NOT NULL REFERENCES bureaux (id)," +
                 "nom VARCHAR(50) NOT NULL," +
                 "jour INTEGER NOT NULL CHECK (jour>0 and jour<8)," +
