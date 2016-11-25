@@ -1,9 +1,6 @@
 package fr.ensicaen.lbssc.ensilink;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -12,6 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import fr.ensicaen.lbssc.ensilink.storage.School;
+import fr.ensicaen.lbssc.ensilink.storage.Union;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -31,6 +32,9 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        School school = School.getInstance();
+        school.refreshData(getApplicationContext());
+        displayInformations();
     }
 
     @Override
@@ -88,5 +92,17 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void displayInformations(){
+        School school = School.getInstance();
+        if(school.getUnions() != null) {
+            TextView text = (TextView) findViewById(R.id.mainText);
+            String str = "nombre de bureaux : " + school.getUnions().size() + "\n";
+            for (Union union : school.getUnions()) {
+                str += union.getName() + "\n";
+            }
+            text.setText(str);
+        }
     }
 }

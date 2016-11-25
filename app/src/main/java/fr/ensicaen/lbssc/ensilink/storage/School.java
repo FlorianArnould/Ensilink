@@ -21,4 +21,8 @@ public final class School {
     public Union getUnion(int i){
         return _unions.get(i);
     }
+
+    public List<Union> getUnions(){
+        return _unions;
+    }
 }

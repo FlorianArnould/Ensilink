@@ -16,6 +16,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -63,16 +65,29 @@ final class DatabaseCloner extends Thread {
         try {
             URL url = new URL(urlString);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setDoInput(true);
-            connection.setDoOutput(true);
-            DataOutputStream out = new DataOutputStream(connection.getOutputStream());
-            String postData = "login=" + login + "&password=" + password;
-            out.write(postData.getBytes());
-            out.flush();
-            return connection.getInputStream();
-        }catch (Exception e){
-            Log.d("D", "Error with the page return by php : " + e.getMessage());
+            try {
+                connection.setRequestMethod("POST");
+                connection.setDoInput(true);
+                connection.setDoOutput(true);
+                DataOutputStream out = new DataOutputStream(connection.getOutputStream());
+                String postData = "login=" + login + "&password=" + password;
+                out.write(postData.getBytes());
+                out.flush();
+                /*InputStream in = ;
+                StringBuilder builder = new StringBuilder();
+                int c;
+                while ((c = in.read()) != -1) {
+                    builder.append((char) c);
+                }
+                Log.d("D", builder.toString());*/
+                return connection.getInputStream();
+            }catch (ProtocolException e){
+                Log.d("D", "Error with the protocol : " + e.getMessage());
+            }
+        }catch (MalformedURLException e){
+            Log.d("D", "Error with the url: " + e.getMessage());
+        }catch (IOException e){
+            Log.d("D", "Error with input/output : " + e.getMessage());
         }
         return null;
     }
@@ -128,7 +143,7 @@ final class DatabaseCloner extends Thread {
     private void clearDatabase(){
         String[] tableList = LocalDatabaseManager.getTables();
         for(int i=tableList.length-1;i>=0;i--){
-            _db.execSQL("TRUNCATE TABLE" + tableList[i] + ";");
+            _db.delete(tableList[i], null, null);
         }
     }
 }
