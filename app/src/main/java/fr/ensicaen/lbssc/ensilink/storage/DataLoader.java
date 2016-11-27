@@ -10,28 +10,38 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-final class DataLoader {
+final class DataLoader extends Thread{
 
     private DatabaseCloner _cloner;
     private SQLiteDatabase _db;
     private LocalDatabaseManager _databaseManager;
+    private boolean _updated;
+    private List<Union> _unions;
+    private OnLoadingFinishListener _listener;
 
     DataLoader(Context context){
-        _cloner = new DatabaseCloner(context);
         _databaseManager = new LocalDatabaseManager(context);
+        _cloner = new DatabaseCloner(context);
         _db = null;
+        _updated = false;
     }
 
-    List<Union> getUnions(){
-        boolean cloned = cloneDatabase();
-        if(openDatabase() && (cloned || !isDatabaseEmpty())){
+    public void run(){
+        if(openDatabase() && (cloneDatabase() || !isDatabaseEmpty())){
             Log.d("D", String.valueOf(isDatabaseEmpty()));
-            return loadUnionsFromDatabase();
+            loadUnionsFromDatabase();
+        }else {
+            _unions = null;
         }
-        return null;
+        if(_listener != null) {
+            _listener.OnLoadingFinish(this);
+        }
     }
 
     private boolean openDatabase(){
+        if(_db != null){
+            return true;
+        }
         try{
             _db = _databaseManager.getWritableDatabase();
         }catch (SQLiteException e){
@@ -41,18 +51,28 @@ final class DataLoader {
         return true;
     }
 
+    //TODO : check speed issue with the timer on emulator
     private boolean cloneDatabase(){
         _cloner.start();
-        try{
-            _cloner.join();
-            return _cloner.succeed();
-        } catch(InterruptedException e){
-            Log.d("D", "Error with the cloner thread : " + e.getMessage());
+        try {
+            if (isDatabaseEmpty()) {
+                _cloner.join();
+            } else {
+                _cloner.join(5000);
+            }
+        } catch (InterruptedException e) {
+            Log.d("D", "Problem with the cloner thread : " + e.getMessage());
+            return false;
         }
-        return false;
+        return _updated = _cloner.succeed();
     }
 
     private boolean isDatabaseEmpty(){
+        if(_db == null){
+            if(!openDatabase()){
+                return true;
+            }
+        }
         String[] columns = {"name"};
         Cursor result = _db.query("unions", columns, null, null, null, null, null);
         boolean test = result.moveToFirst();
@@ -60,19 +80,18 @@ final class DataLoader {
         return !test;
     }
 
-    private List<Union> loadUnionsFromDatabase(){
-        List<Union> unions = new ArrayList<>();
+    private void loadUnionsFromDatabase(){
+        _unions = new ArrayList<>();
         Cursor unionCursor = _db.query("unions", null, null, null, null, null, null);
         if(unionCursor.moveToFirst()) {
             do {
                 Union union = new Union(unionCursor.getString(1));
                 loadStudentsUnionFromDatabase(unionCursor, union);
                 loadClubsFromDatabase(unionCursor, union);
-                unions.add(union);
+                _unions.add(union);
             } while (unionCursor.moveToNext());
         }
         unionCursor.close();
-        return unions;
     }
 
     private void loadStudentsUnionFromDatabase(Cursor cursor, Union union){
@@ -119,6 +138,18 @@ final class DataLoader {
             } while (studentClubCursor.moveToNext());
         }
         studentClubCursor.close();
+    }
+
+    public boolean wasUpdated(){
+        return _updated;
+    }
+
+    void setOnLoadingFinishListener(OnLoadingFinishListener listener){
+        _listener = listener;
+    }
+
+    List<Union> getUnions(){
+        return _unions;
     }
 }
 

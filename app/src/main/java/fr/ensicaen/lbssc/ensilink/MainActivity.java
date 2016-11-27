@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import fr.ensicaen.lbssc.ensilink.storage.OnSchoolDataListener;
 import fr.ensicaen.lbssc.ensilink.storage.School;
 import fr.ensicaen.lbssc.ensilink.storage.Union;
 
@@ -34,6 +35,17 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         School school = School.getInstance();
         school.refreshData(getApplicationContext());
+        School.getInstance().setOnSchoolDataListener(new OnSchoolDataListener() {
+            @Override
+            public void OnDataRefreshed(School school) {
+                runOnUiThread(new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        MainActivity.this.displayInformations();
+                    }
+                }));
+            }
+        });
         displayInformations();
     }
 
@@ -59,13 +71,13 @@ public class MainActivity extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()){
+            case R.id.action_settings:
+                return true;
+            case R.id.action_refresh:
+                School.getInstance().refreshData(getApplicationContext());
+                return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

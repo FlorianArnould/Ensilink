@@ -25,14 +25,14 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 
-final class DatabaseCloner extends Thread {
+final class DatabaseCloner extends Thread{
 
     private boolean _success;
     private LocalDatabaseManager _databaseManager;
     private SQLiteDatabase _db;
 
     DatabaseCloner(Context context){
-        _success = true;
+        _success = false;
         _databaseManager = new LocalDatabaseManager(context);
     }
 
@@ -40,7 +40,6 @@ final class DatabaseCloner extends Thread {
         return _success;
     }
 
-    @Override
     public void run(){
         InputStream in = connect();
         if(in == null){
@@ -56,6 +55,7 @@ final class DatabaseCloner extends Thread {
             _success = false;
             _db.close();
         }
+        _success = true;
     }
 
     private InputStream connect(){
@@ -116,10 +116,10 @@ final class DatabaseCloner extends Thread {
         return null;
     }
 
-    //TODO add transaction to protect the existing database
     private boolean updateDatabase(Document doc){
         clearDatabase();
         String[] tableList = LocalDatabaseManager.getTables();
+        _db.beginTransaction();
         for (String table : tableList){
             NodeList list = doc.getElementsByTagName(table);
             for(int j=0;j<list.getLength();j++){
@@ -133,10 +133,13 @@ final class DatabaseCloner extends Thread {
                     _db.insertOrThrow(table, null, values);
                 }catch (SQLiteException e){
                     Log.d("D", "Error with an insert query : " + e.getMessage());
+                    _db.endTransaction();
                     return false;
                 }
             }
         }
+        _db.setTransactionSuccessful();
+        _db.endTransaction();
         return true;
     }
 
