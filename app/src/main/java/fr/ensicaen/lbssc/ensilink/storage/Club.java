@@ -19,7 +19,7 @@ public class Club extends Association{
         _duration = duration;
         _place = place;
     }
-    private public String getDayOfWeek(){
+    private String getDayOfWeek(){
         return _daysOfWeek[_day-1];
     }
 
