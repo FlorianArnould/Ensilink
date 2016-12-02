@@ -23,4 +23,7 @@ public final class Student {
     public String getNickname(){
         return  _nickname;
     }
+    public String toString(){
+        return _name + " " + _lastName + " " + _nickname + " " + _email;
+    }
 }

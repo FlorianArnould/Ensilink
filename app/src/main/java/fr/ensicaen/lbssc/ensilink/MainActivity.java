@@ -11,8 +11,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import fr.ensicaen.lbssc.ensilink.storage.OnSchoolDataListener;
+import java.util.Map;
+
+import fr.ensicaen.lbssc.ensilink.storage.Club;
 import fr.ensicaen.lbssc.ensilink.storage.School;
+import fr.ensicaen.lbssc.ensilink.storage.Student;
 import fr.ensicaen.lbssc.ensilink.storage.Union;
 
 public class MainActivity extends AppCompatActivity
@@ -33,19 +36,6 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        School school = School.getInstance();
-        school.refreshData(getApplicationContext());
-        School.getInstance().setOnSchoolDataListener(new OnSchoolDataListener() {
-            @Override
-            public void OnDataRefreshed(School school) {
-                runOnUiThread(new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        MainActivity.this.displayInformations();
-                    }
-                }));
-            }
-        });
         displayInformations();
     }
 
@@ -55,8 +45,9 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            moveTaskToBack(true);
         }
+
     }
 
     @Override
@@ -113,6 +104,16 @@ public class MainActivity extends AppCompatActivity
             String str = "nombre de bureaux : " + school.getUnions().size() + "\n";
             for (Union union : school.getUnions()) {
                 str += union.getName() + "\n";
+                for(Map.Entry<String, Student> i : union.getStudents().entrySet()){
+                    str += "\t" + i.getKey() + " : " + i.getValue().toString() + "\n";
+                }
+                for(Club c : union.getClubs()){
+                    str += c.getName() + " :\n";
+                    str += c.toString() + "\n";
+                    for(Map.Entry<String, Student> i : c.getStudents().entrySet()){
+                        str += "\t" + i.getKey() + " : " + i.getValue().toString() + "\n";
+                    }
+                }
             }
             text.setText(str);
         }

@@ -1,28 +1,30 @@
 package fr.ensicaen.lbssc.ensilink.storage;
 
-import java.util.HashMap;
-import java.util.Map;
 
 //TODO add the others fields of a club
 
-public class Club {
-    private String _name;
-    private Map<String, Student> _students;
+public class Club extends Association{
+    private int _day;
+    private Date _date;
+    private Time _time;
+    private Time _duration;
+    private String _place;
+    private static String[] _daysOfWeek = {"Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"};
 
-    Club(String name){
-        _name = name;
-        _students = new HashMap<>();
+    Club(String name, int day, Date date, Time time, Time duration, String place){
+        super(name);
+        _day = day;
+        _date = date;
+        _time = time;
+        _duration = duration;
+        _place = place;
+    }
+    private public String getDayOfWeek(){
+        return _daysOfWeek[_day-1];
     }
 
-    void addStudent(String position, Student student){
-        _students.put(position, student);
+    public String toString(){
+        return getDayOfWeek() + " " + _time.toString() + " " + _duration.toString() + " " + _place;
     }
 
-    public String getName(){
-        return _name;
-    }
-
-    public Map<String, Student> getStudents(){
-        return _students;
-    }
 }

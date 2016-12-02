@@ -25,7 +25,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 
-final class DatabaseCloner extends Thread{
+final class DatabaseCloner{
 
     private boolean _success;
     private LocalDatabaseManager _databaseManager;
@@ -40,7 +40,7 @@ final class DatabaseCloner extends Thread{
         return _success;
     }
 
-    public void run(){
+    void cloneDatabase(){
         InputStream in = connect();
         if(in == null){
             _success = false;
@@ -73,13 +73,6 @@ final class DatabaseCloner extends Thread{
                 String postData = "login=" + login + "&password=" + password;
                 out.write(postData.getBytes());
                 out.flush();
-                /*InputStream in = ;
-                StringBuilder builder = new StringBuilder();
-                int c;
-                while ((c = in.read()) != -1) {
-                    builder.append((char) c);
-                }
-                Log.d("D", builder.toString());*/
                 return connection.getInputStream();
             }catch (ProtocolException e){
                 Log.d("D", "Error with the protocol : " + e.getMessage());

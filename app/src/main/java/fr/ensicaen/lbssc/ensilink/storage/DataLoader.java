@@ -27,12 +27,15 @@ final class DataLoader extends Thread{
     }
 
     public void run(){
-        if(openDatabase() && (cloneDatabase() || !isDatabaseEmpty())){
-            Log.d("D", String.valueOf(isDatabaseEmpty()));
+        openDatabase();
+        if(!isDatabaseEmpty()){
             loadUnionsFromDatabase();
-        }else {
-            _unions = null;
+            if(_listener != null) {
+                _listener.OnLoadingFinish(this);
+            }
         }
+        cloneDatabase();
+        loadUnionsFromDatabase();
         if(_listener != null) {
             _listener.OnLoadingFinish(this);
         }
@@ -51,19 +54,8 @@ final class DataLoader extends Thread{
         return true;
     }
 
-    //TODO : check speed issue with the timer on emulator
     private boolean cloneDatabase(){
-        _cloner.start();
-        try {
-            if (isDatabaseEmpty()) {
-                _cloner.join();
-            } else {
-                _cloner.join(5000);
-            }
-        } catch (InterruptedException e) {
-            Log.d("D", "Problem with the cloner thread : " + e.getMessage());
-            return false;
-        }
+        _cloner.cloneDatabase();
         return _updated = _cloner.succeed();
     }
 
@@ -115,8 +107,19 @@ final class DataLoader extends Thread{
                 "idunion = ?", new String[]{cursor.getString(0)}, null, null, null);
         if(clubCursor.moveToFirst()) {
             do {
-                Club club = new Club(clubCursor.getString(1));
-                //TODO set the others fields of the club
+                Date date = null;
+                if(!clubCursor.getString(3).isEmpty()){
+                    date = new Date(clubCursor.getString(3));
+                }
+                Time time = null;
+                if(!clubCursor.getString(4).isEmpty()){
+                    time = new Time(clubCursor.getString(4));
+                }
+                Time duration = null;
+                if(!clubCursor.getString(5).isEmpty()){
+                    duration = new Time(clubCursor.getString(5));
+                }
+                Club club = new Club(clubCursor.getString(1), clubCursor.getInt(2), date, time, duration, clubCursor.getString(6));
                 loadStudentsClubFromDatabase(clubCursor, club);
                 union.addClub(club);
             } while (clubCursor.moveToNext());

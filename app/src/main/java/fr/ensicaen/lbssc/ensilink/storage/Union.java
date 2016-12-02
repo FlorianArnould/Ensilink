@@ -3,7 +3,7 @@ package fr.ensicaen.lbssc.ensilink.storage;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class Union extends Club {
+public final class Union extends Association{
     private List<Club> _clubs;
 
     Union(String name){
@@ -13,5 +13,9 @@ public final class Union extends Club {
 
     void addClub(Club newClub){
         _clubs.add(newClub);
+    }
+
+    public List<Club> getClubs(){
+        return _clubs;
     }
 }

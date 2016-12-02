@@ -22,8 +22,8 @@ public final class School {
         loader.setOnLoadingFinishListener(new OnLoadingFinishListener() {
             @Override
             public void OnLoadingFinish(DataLoader loader) {
+                _unions = loader.getUnions();
                 if(_listener != null){
-                    _unions = loader.getUnions();
                     _listener.OnDataRefreshed(School.this);
                 }
             }
