@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * Abstract class that represent a student association
  */
-public abstract class Association {
+abstract class Association {
 
     private String _name;
     private Map<String, Student> _students;
