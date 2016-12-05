@@ -9,6 +9,14 @@ import android.util.Log;
 import fr.ensicaen.lbssc.ensilink.storage.OnSchoolDataListener;
 import fr.ensicaen.lbssc.ensilink.storage.School;
 
+/**
+ * @author Florian Arnould
+ * @version 1.0
+ */
+
+/**
+ * The Splash screen of the application
+ */
 public class SplashActivity extends Activity {
 
     @Override
@@ -16,26 +24,24 @@ public class SplashActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         School school = School.getInstance();
-        school.setOnSchoolDataListener(new OnSchoolDataListener(){
+        school.refreshData(getApplicationContext(), new OnSchoolDataListener(){
             @Override
             public void OnDataRefreshed(School school) {
                 Thread thread = new Thread(){
                     @Override
                     public void run(){
                         try {
-                            sleep(100);
+                            sleep(1000);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                         Intent i = new Intent(SplashActivity.this, MainActivity.class);
                         startActivity(i);
-                        School.getInstance().setOnSchoolDataListener(null);
                         finish();
                     }
                 };
                 thread.start();
             }
         });
-        school.refreshData(getApplicationContext());
     }
 }

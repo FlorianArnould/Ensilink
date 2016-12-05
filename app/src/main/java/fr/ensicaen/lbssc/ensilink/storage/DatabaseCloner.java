@@ -24,22 +24,41 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+/**
+ * @author Florian Arnould
+ * @version 1.0
+ */
 
+
+/**
+ * This class clone the online database in the local one.
+ */
 final class DatabaseCloner{
 
     private boolean _success;
     private LocalDatabaseManager _databaseManager;
     private SQLiteDatabase _db;
 
+    /**
+     * The constructor
+     * @param context an activity context needed to open the local database with the database manager
+     */
     DatabaseCloner(Context context){
         _success = false;
         _databaseManager = new LocalDatabaseManager(context);
     }
 
+    /**
+     * How to know if the cloning succeeded
+     * @return true if the cloning has succeeded
+     */
     boolean succeed(){
         return _success;
     }
 
+    /**
+     * clones, parses and fills the local database
+     */
     void cloneDatabase(){
         InputStream in = connect();
         if(in == null){
@@ -57,11 +76,16 @@ final class DatabaseCloner{
         }
         _success = true;
     }
+    //TODO test with jeremy's phone in debug mode
 
+    /**
+     * Connects to the PHP script and get his answer
+     * @return an InputStream on the script's answer
+     */
     private InputStream connect(){
         String login = "android";
         String password = "wantToClone";
-        String urlString = "http://www.ecole.ensicaen.fr/~arnould/test/interface.php";
+        String urlString = "http://www.ecole.ensicaen.fr/~arnould/others/test/interface.php";
         try {
             URL url = new URL(urlString);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -80,11 +104,15 @@ final class DatabaseCloner{
         }catch (MalformedURLException e){
             Log.d("D", "Error with the url: " + e.getMessage());
         }catch (IOException e){
-            Log.d("D", "Error with input/output : " + e.getMessage());
+            Log.d("D", "Error with input/output : " + e.getMessage() + "\n" + e.toString());
         }
         return null;
     }
 
+    /**
+     * Opens the local database
+     * @return true if the database is opened
+     */
     private boolean openDatabase(){
         try{
             _db = _databaseManager.getWritableDatabase();
@@ -95,6 +123,11 @@ final class DatabaseCloner{
         return true;
     }
 
+    /**
+     * Parses the PHP script answer
+     * @param in InputStream on the PHP script answer
+     * @return a DOM Document which contains the XML version of the online database
+     */
     private Document parseResponse(InputStream in){
         try {
             DocumentBuilder builder = (DocumentBuilderFactory.newInstance()).newDocumentBuilder();
@@ -109,6 +142,11 @@ final class DatabaseCloner{
         return null;
     }
 
+    /**
+     * Updates the local database from a DOM Document
+     * @param doc DOM Document with the XML version of the online database
+     * @return true if the local database is updated
+     */
     private boolean updateDatabase(Document doc){
         clearDatabase();
         String[] tableList = LocalDatabaseManager.getTables();
@@ -136,6 +174,9 @@ final class DatabaseCloner{
         return true;
     }
 
+    /**
+     * Cleans all tables in the database
+     */
     private void clearDatabase(){
         String[] tableList = LocalDatabaseManager.getTables();
         for(int i=tableList.length-1;i>=0;i--){

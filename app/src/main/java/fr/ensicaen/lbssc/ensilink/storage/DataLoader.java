@@ -1,6 +1,5 @@
 package fr.ensicaen.lbssc.ensilink.storage;
 
-
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,6 +9,14 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Florian Arnould
+ * @version 1.0
+ */
+
+/**
+ * The class that load the information from the local database
+ */
 final class DataLoader extends Thread{
 
     private DatabaseCloner _cloner;
@@ -19,6 +26,10 @@ final class DataLoader extends Thread{
     private List<Union> _unions;
     private OnLoadingFinishListener _listener;
 
+    /**
+     * The constructor
+     * @param context an activity context needed to open the local database with the database manager
+     */
     DataLoader(Context context){
         _databaseManager = new LocalDatabaseManager(context);
         _cloner = new DatabaseCloner(context);
@@ -26,6 +37,9 @@ final class DataLoader extends Thread{
         _updated = false;
     }
 
+    /**
+     * The main method of the thread
+     */
     public void run(){
         openDatabase();
         if(!isDatabaseEmpty()){
@@ -41,6 +55,10 @@ final class DataLoader extends Thread{
         }
     }
 
+    /**
+     * Opens the local database
+     * @return true if the database is opened
+     */
     private boolean openDatabase(){
         if(_db != null){
             return true;
@@ -54,11 +72,19 @@ final class DataLoader extends Thread{
         return true;
     }
 
+    /**
+     * clones the database with an instance of DatabaseCloner
+     * @return true if the database was cloned successfully
+     */
     private boolean cloneDatabase(){
         _cloner.cloneDatabase();
         return _updated = _cloner.succeed();
     }
 
+    /**
+     *
+     * @return true if the local database is empty
+     */
     private boolean isDatabaseEmpty(){
         if(_db == null){
             if(!openDatabase()){
@@ -72,6 +98,9 @@ final class DataLoader extends Thread{
         return !test;
     }
 
+    /**
+     * Loads unions and their information in a private attribute
+     */
     private void loadUnionsFromDatabase(){
         _unions = new ArrayList<>();
         Cursor unionCursor = _db.query("unions", null, null, null, null, null, null);
@@ -86,6 +115,11 @@ final class DataLoader extends Thread{
         unionCursor.close();
     }
 
+    /**
+     * Loads the students of an union
+     * @param cursor a cursor from a query on the unions' table
+     * @param union the union to which the students belong
+     */
     private void loadStudentsUnionFromDatabase(Cursor cursor, Union union){
         Cursor studentCursor = _db.rawQuery("SELECT lastname, name, nickname, email, position " +
                         "FROM students_union LEFT JOIN students ON id=idstudent WHERE idunion=?;",
@@ -102,6 +136,11 @@ final class DataLoader extends Thread{
         studentCursor.close();
     }
 
+    /**
+     * Loads the clubs of an union
+     * @param cursor a cursor from a query on the unions' table
+     * @param union the union to which the clubs belong
+     */
     private void loadClubsFromDatabase(Cursor cursor, Union union){
         Cursor clubCursor = _db.query("clubs", new String[]{"id", "name", "day", "date", "start_hour", "duration", "place"},
                 "idunion = ?", new String[]{cursor.getString(0)}, null, null, null);
@@ -127,6 +166,11 @@ final class DataLoader extends Thread{
         clubCursor.close();
     }
 
+    /**
+     * Loads the students of a club
+     * @param cursor a cursor from a query on the clubs' table
+     * @param club the club to which the students belong
+     */
     private void loadStudentsClubFromDatabase(Cursor cursor, Club club){
         Cursor studentClubCursor = _db.rawQuery("SELECT lastname, name, nickname, email, position " +
                         "FROM students_club LEFT JOIN students ON id=idstudent WHERE idclub=?;",
@@ -143,14 +187,18 @@ final class DataLoader extends Thread{
         studentClubCursor.close();
     }
 
-    public boolean wasUpdated(){
-        return _updated;
-    }
-
+    /**
+     * Sets the listener
+     * @param listener the listener to execute when data will be loaded
+     */
     void setOnLoadingFinishListener(OnLoadingFinishListener listener){
         _listener = listener;
     }
 
+    /**
+     *
+     * @return the previously loaded unions or null
+     */
     List<Union> getUnions(){
         return _unions;
     }

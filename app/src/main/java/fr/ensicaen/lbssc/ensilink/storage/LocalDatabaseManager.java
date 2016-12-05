@@ -4,15 +4,32 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+/**
+ * @author Florian Arnould
+ * @version 1.0
+ */
+
+/**
+ * The class needed to open the local database and which creates it if it doesn't already exist
+ */
 final class LocalDatabaseManager extends SQLiteOpenHelper {
     private static final int VERSION = 1;
     private static final String DATABASE_NAME = "ProjectsDatabase.db";
     private static final String[] _tables = {"students", "unions", "clubs", "students_club", "students_union"};
 
+    /**
+     * The constructor
+     * @param context an application context needed for the parent class
+     */
     LocalDatabaseManager(Context context){
         super(context, DATABASE_NAME, null, VERSION);
 
     }
+
+    /**
+     * Creates the database (call by the system if the database doesn't exist)
+     * @param db the local database
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE unions(" +
@@ -55,6 +72,10 @@ final class LocalDatabaseManager extends SQLiteOpenHelper {
 
     }
 
+    /**
+     *
+     * @return a array of string with the name of the tables
+     */
     static String[] getTables(){
         return _tables;
     }

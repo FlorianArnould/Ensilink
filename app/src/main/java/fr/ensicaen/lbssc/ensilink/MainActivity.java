@@ -1,6 +1,7 @@
 package fr.ensicaen.lbssc.ensilink;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import java.util.Map;
 
 import fr.ensicaen.lbssc.ensilink.storage.Club;
+import fr.ensicaen.lbssc.ensilink.storage.OnSchoolDataListener;
 import fr.ensicaen.lbssc.ensilink.storage.School;
 import fr.ensicaen.lbssc.ensilink.storage.Student;
 import fr.ensicaen.lbssc.ensilink.storage.Union;
@@ -36,7 +38,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        displayInformations();
+        displayInformation();
     }
 
     @Override
@@ -66,7 +68,12 @@ public class MainActivity extends AppCompatActivity
             case R.id.action_settings:
                 return true;
             case R.id.action_refresh:
-                School.getInstance().refreshData(getApplicationContext());
+                School.getInstance().refreshData(getApplicationContext(), new OnSchoolDataListener() {
+                    @Override
+                    public void OnDataRefreshed(School school) {
+                        displayInformation();
+                    }
+                });
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -74,7 +81,7 @@ public class MainActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -97,7 +104,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void displayInformations(){
+    private void displayInformation(){
         School school = School.getInstance();
         if(school.getUnions() != null) {
             TextView text = (TextView) findViewById(R.id.mainText);
