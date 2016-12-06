@@ -8,4 +8,7 @@
     <string name="action_refresh">Refresh</string>
 
     <string name="ensicaen_logo_description">Logo de l\'ENSICAEN</string>
+
+    <string name="drawer_student_name">Nom de l\'élève</string>
+    <string name="drawer_student_email">nom@ecole.ensicaen.fr</string>
 </resources>

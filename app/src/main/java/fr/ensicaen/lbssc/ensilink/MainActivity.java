@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         displayInformation();
+        refreshDrawer();
     }
 
     @Override
@@ -71,7 +72,13 @@ public class MainActivity extends AppCompatActivity
                 School.getInstance().refreshData(getApplicationContext(), new OnSchoolDataListener() {
                     @Override
                     public void OnDataRefreshed(School school) {
-                        displayInformation();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                displayInformation();
+                                refreshDrawer();
+                            }
+                        });
                     }
                 });
                 return true;
@@ -85,19 +92,7 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -123,6 +118,14 @@ public class MainActivity extends AppCompatActivity
                 }
             }
             text.setText(str);
+        }
+    }
+
+    private void refreshDrawer(){
+        Menu menu = ((NavigationView)findViewById(R.id.nav_view)).getMenu();
+        menu.clear();
+        for(Union i : School.getInstance().getUnions()){
+            menu.add(i.getName()).setCheckable(true);
         }
     }
 }
