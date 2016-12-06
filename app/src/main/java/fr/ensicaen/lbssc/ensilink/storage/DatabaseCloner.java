@@ -76,7 +76,6 @@ final class DatabaseCloner{
         }
         _success = true;
     }
-    //TODO test with jeremy's phone in debug mode
 
     /**
      * Connects to the PHP script and get his answer

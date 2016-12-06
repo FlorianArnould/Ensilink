@@ -1,8 +1,7 @@
 package fr.ensicaen.lbssc.ensilink.storage;
 
 
-//TODO get fields only if they are not null in toString
-//TODO set the days in string.xml
+//TODO get the days from strings.xml
 
 /**
  * @author Florian Arnould
