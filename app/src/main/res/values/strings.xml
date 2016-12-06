@@ -5,4 +5,18 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="action_refresh">Refresh</string>
+
+    <string name="ensicaen_logo_description">Logo de l\'ENSICAEN</string>
+
+    <string name="drawer_student_name">Nom de l\'élève</string>
+    <string name="drawer_student_email">nom@ecole.ensicaen.fr</string>
+    
+    <string name="day_one">Lundi</string>
+    <string name="day_two">Mardi</string>
+    <string name="day_three">Mercredi</string>
+    <string name="day_four">Jeudi</string>
+    <string name="day_five">Vendredi</string>
+    <string name="day_six">Samedi</string>
+    <string name="day_seven">Dimanche</string>
 </resources>
