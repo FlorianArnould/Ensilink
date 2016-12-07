@@ -19,6 +19,8 @@ import fr.ensicaen.lbssc.ensilink.storage.School;
  */
 public class SplashActivity extends Activity {
 
+    boolean isMainActivityLaunched = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,20 +29,23 @@ public class SplashActivity extends Activity {
         school.refreshData(getApplicationContext(), new OnSchoolDataListener(){
             @Override
             public void OnDataRefreshed(School school) {
-                Thread thread = new Thread(){
-                    @Override
-                    public void run(){
-                        try {
-                            sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                if(!isMainActivityLaunched) {
+                    isMainActivityLaunched = true;
+                    Thread thread = new Thread() {
+                        @Override
+                        public void run() {
+                            try {
+                                sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            Intent i = new Intent(SplashActivity.this, MainActivity.class);
+                            startActivity(i);
+                            finish();
                         }
-                        Intent i = new Intent(SplashActivity.this, MainActivity.class);
-                        startActivity(i);
-                        finish();
-                    }
-                };
-                thread.start();
+                    };
+                    thread.start();
+                }
             }
         });
     }
