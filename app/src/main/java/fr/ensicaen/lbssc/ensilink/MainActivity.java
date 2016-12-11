@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        displayInformation();
         refreshDrawer();
     }
 
@@ -75,7 +74,6 @@ public class MainActivity extends AppCompatActivity
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                displayInformation();
                                 refreshDrawer();
                             }
                         });
@@ -97,28 +95,6 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    private void displayInformation(){
-        School school = School.getInstance();
-        if(school.getUnions() != null) {
-            TextView text = (TextView) findViewById(R.id.mainText);
-            String str = "nombre de bureaux : " + school.getUnions().size() + "\n";
-            for (Union union : school.getUnions()) {
-                str += union.getName() + "\n";
-                for(Map.Entry<String, Student> i : union.getStudents().entrySet()){
-                    str += "\t" + i.getKey() + " : " + i.getValue().toString() + "\n";
-                }
-                for(Club c : union.getClubs()){
-                    str += c.getName() + " :\n";
-                    str += c.toString() + "\n";
-                    for(Map.Entry<String, Student> i : c.getStudents().entrySet()){
-                        str += "\t" + i.getKey() + " : " + i.getValue().toString() + "\n";
-                    }
-                }
-            }
-            text.setText(str);
-        }
     }
 
     private void refreshDrawer(){

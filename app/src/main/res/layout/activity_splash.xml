@@ -11,23 +11,15 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="fr.ensicaen.lbssc.ensilink.SplashActivity">
 
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:color="@android:color/white"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="150dp"
-        android:id="@+id/progressBar" />
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="100dp"
         android:src="@drawable/ic_ensicaen"
-        android:layout_above="@+id/progressBar"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="131dp"
         android:contentDescription="@string/ensicaen_logo_description"
-        android:id="@+id/imageView2" />
+        android:id="@+id/imageView2"
+        android:layout_centerInParent="true"/>
 
 </RelativeLayout>

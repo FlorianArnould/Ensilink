@@ -9,7 +9,7 @@
         android:layout_height="249dp"
         android:id="@+id/imageView"
         android:layout_weight="0.04"
-        android:src="@drawable/app"/>
+        android:src="@drawable/ic_ensicaen"/>
 
     <TextView
         android:id="@+id/eventTitle"
