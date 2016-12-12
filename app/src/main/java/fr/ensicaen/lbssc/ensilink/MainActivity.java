@@ -1,5 +1,6 @@
 package fr.ensicaen.lbssc.ensilink;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -10,8 +11,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.ListView;
+import android.widget.AdapterView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import fr.ensicaen.lbssc.ensilink.storage.Club;
@@ -23,6 +31,24 @@ import fr.ensicaen.lbssc.ensilink.storage.Union;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    // Array of strings for ListView Title
+    String[] listViewTitle = new String[]{
+            "Victoire au CAS 2016", "ListView Title 2", "ListView Title 3", "ListView Title 4",
+            "ListView Title 5", "ListView Title 6", "ListView Title 7", "ListView Title 8",
+    };
+
+    int[] listViewImage = new int[]{
+            R.drawable.bds, R.drawable.bds, R.drawable.bds, R.drawable.bds, R.drawable.bds,
+            R.drawable.bds, R.drawable.bds, R.drawable.bds, R.drawable.bds,
+    };
+
+    String[] listViewDescription = new String[]{
+            "Une de plus pour l'ENSI", "Android Description", "Android Description", "Android Description",
+            "Android Description", "Android Description", "Android Description", "Android Description",
+    };
+
+    ListView androidListView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,13 +59,37 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
+        drawer.setDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        displayInformation();
         refreshDrawer();
+
+        List<HashMap<String,String>> aList = new ArrayList<HashMap<String, String>>();
+
+        for (int i=0; i<8 ; i++){
+            HashMap<String,String> hm = new HashMap<String, String>();
+            hm.put("listview_title", listViewTitle[i]);
+            hm.put("listview_description", listViewDescription[i]);
+            hm.put("listview_image", Integer.toString(listViewImage[i]));
+            aList.add(hm);
+        }
+
+        String[] from = {"listview_image", "listview_title", "listview_description"};
+        int[] to = {R.id.listview_image, R.id.listview_item_title, R.id.listview_item_short_description};
+
+        SimpleAdapter simpleAdapter = new SimpleAdapter(getBaseContext(), aList, R.layout.listview_activity_1, from, to);
+        androidListView = (ListView) findViewById(R.id.list_view);
+        androidListView.setAdapter(simpleAdapter);
+
+        androidListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent myIntent = new Intent(view.getContext(), ListItemAcitivty2.class);
+                startActivity(myIntent);
+            }
+        });
+
     }
 
     @Override
@@ -60,31 +110,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        switch (item.getItemId()){
-            case R.id.action_settings:
-                return true;
-            case R.id.action_refresh:
-                School.getInstance().refreshData(getApplicationContext(), new OnSchoolDataListener() {
-                    @Override
-                    public void OnDataRefreshed(School school) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                displayInformation();
-                                refreshDrawer();
-                            }
-                        });
-                    }
-                });
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -99,27 +124,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void displayInformation(){
-        School school = School.getInstance();
-        if(school.getUnions() != null) {
-            TextView text = (TextView) findViewById(R.id.mainText);
-            String str = "nombre de bureaux : " + school.getUnions().size() + "\n";
-            for (Union union : school.getUnions()) {
-                str += union.getName() + "\n";
-                for(Map.Entry<String, Student> i : union.getStudents().entrySet()){
-                    str += "\t" + i.getKey() + " : " + i.getValue().toString() + "\n";
-                }
-                for(Club c : union.getClubs()){
-                    str += c.getName() + " :\n";
-                    str += c.toString() + "\n";
-                    for(Map.Entry<String, Student> i : c.getStudents().entrySet()){
-                        str += "\t" + i.getKey() + " : " + i.getValue().toString() + "\n";
-                    }
-                }
-            }
-            text.setText(str);
-        }
-    }
 
     private void refreshDrawer(){
         Menu menu = ((NavigationView)findViewById(R.id.nav_view)).getMenu();
