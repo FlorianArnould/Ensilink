@@ -1,5 +1,9 @@
 package fr.ensicaen.lbssc.ensilink.storage;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,15 +19,21 @@ import java.util.Map;
 abstract class Association {
 
     private String _name;
+    private File _logoFile;
+    private File _photoFile;
     private Map<String, Student> _students;
 
     /**
      * The constructor
      * @param name the name of the association
+     * @param logoFile a file with the path to the logo image
+     * @param photoFile a file with the path to the photo image
      */
-    Association(String name){
+    Association(String name, File logoFile, File photoFile){
         _name = name;
         _students = new HashMap<>();
+        _logoFile = logoFile;
+        _photoFile = photoFile;
     }
 
     /**
@@ -49,5 +59,21 @@ abstract class Association {
      */
     public Map<String, Student> getStudents(){
         return _students;
+    }
+
+    /**
+     *
+     * @return the bitmap logo of the union
+     */
+    public Bitmap getLogo(){
+        return BitmapFactory.decodeFile(_logoFile.getAbsolutePath());
+    }
+
+    /**
+     *
+     * @return the bitmap photo of the union
+     */
+    public Bitmap getPhoto(){
+        return BitmapFactory.decodeFile(_photoFile.getAbsolutePath());
     }
 }

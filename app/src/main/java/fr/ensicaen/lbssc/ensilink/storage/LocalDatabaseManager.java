@@ -15,7 +15,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 final class LocalDatabaseManager extends SQLiteOpenHelper {
     private static final int VERSION = 1;
     private static final String DATABASE_NAME = "ProjectsDatabase.db";
-    private static final String[] _tables = {"students", "unions", "clubs", "students_club", "students_union"};
+    private static final String[] _tables = {"images", "students", "unions", "clubs", "students_club", "students_union", "events"};
 
     /**
      * The constructor
@@ -32,9 +32,16 @@ final class LocalDatabaseManager extends SQLiteOpenHelper {
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE images(" +
+                "id INTEGER NOT NULL PRIMARY KEY," +
+                "name VARCHAR(100) NOT NULL);");
+
         db.execSQL("CREATE TABLE unions(" +
                 "id INTEGER NOT NULL PRIMARY KEY," +
-                "name VARCHAR(50));");
+                "name VARCHAR(50)," +
+                "idlogo INTEGER NOT NULL REFERENCES images (id)," +
+                "idphoto INTEGER NOT NULL REFERENCES images (id));");
+
         db.execSQL("CREATE TABLE students(" +
                 "id INTEGER NOT NULL PRIMARY KEY," +
                 "lastname VARCHAR(50) NOT NULL," +
@@ -47,6 +54,8 @@ final class LocalDatabaseManager extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE clubs(" +
                 "id INTEGER NOT NULL PRIMARY KEY," +
                 "idunion INTEGER NOT NULL REFERENCES unions (id)," +
+                "idlogo INTEGER NOT NULL REFERENCES images (id)," +
+                "idphoto INTEGER NOT NULL REFERENCES images (id)," +
                 "name VARCHAR(50) NOT NULL," +
                 "day INTEGER NOT NULL CHECK (day>0 and day<8)," +
                 "date DATE," +
@@ -65,6 +74,13 @@ final class LocalDatabaseManager extends SQLiteOpenHelper {
                 "idstudent INTEGER NOT NULL REFERENCES students (id)," +
                 "position VARCHAR(100) NOT NULL," +
                 "PRIMARY KEY (idclub, idstudent));");
+
+        db.execSQL("CREATE TABLE events(" +
+                "id INTEGER NOT NULL PRIMARY KEY," +
+                "idunion INTEGER NOT NULL REFERENCES unions (id)," +
+                "idimage INTEGER REFERENCES images (id)," +
+                "title VARCHAR(100) NOT NULL," +
+                "text VARCHAR(1000) NOT NULL);");
     }
 
     @Override

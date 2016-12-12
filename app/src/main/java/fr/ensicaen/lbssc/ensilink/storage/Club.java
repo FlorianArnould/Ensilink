@@ -8,6 +8,8 @@ package fr.ensicaen.lbssc.ensilink.storage;
  * @version 1.0
  */
 
+import java.io.File;
+
 /**
  * The class that represent a club of the school
  */
@@ -28,9 +30,11 @@ public class Club extends Association{
      * @param time the time of the club
      * @param duration the duration of the club
      * @param place the place where it is
+     * @param logoFile a file with the path to the logo image
+     * @param photoFile a file with the path to the photo image
      */
-    Club(String name, int day, Date date, Time time, Time duration, String place){
-        super(name);
+    Club(String name, int day, Date date, Time time, Time duration, String place, File logoFile, File photoFile){
+        super(name, logoFile, photoFile);
         _day = day;
         _date = date;
         _time = time;

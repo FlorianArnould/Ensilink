@@ -17,6 +17,7 @@ public final class School {
 
     private static School _ourInstance = new School();
     private static List<Union> _unions;
+    private static List<Event> _events;
 
     /**
      *
@@ -43,6 +44,7 @@ public final class School {
             @Override
             public void OnLoadingFinish(DataLoader loader) {
                 _unions = loader.getUnions();
+                _events = loader.getEvents();
                 if(listener != null){
                     listener.OnDataRefreshed(School.this);
                 }
@@ -66,5 +68,13 @@ public final class School {
      */
     public List<Union> getUnions(){
         return _unions;
+    }
+
+    /**
+     *
+     * @return a List with all events
+     */
+    public List<Event> getEvents(){
+        return _events;
     }
 }
