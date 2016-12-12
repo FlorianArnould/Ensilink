@@ -1,5 +1,6 @@
 package fr.ensicaen.lbssc.ensilink;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -12,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import java.util.List;
 import java.util.Map;
 
 import fr.ensicaen.lbssc.ensilink.storage.Club;
@@ -19,6 +21,7 @@ import fr.ensicaen.lbssc.ensilink.storage.OnSchoolDataListener;
 import fr.ensicaen.lbssc.ensilink.storage.School;
 import fr.ensicaen.lbssc.ensilink.storage.Student;
 import fr.ensicaen.lbssc.ensilink.storage.Union;
+import fr.ensicaen.lbssc.ensilink.unionscreen.UnionScreenActivity;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -100,8 +103,18 @@ public class MainActivity extends AppCompatActivity
     private void refreshDrawer(){
         Menu menu = ((NavigationView)findViewById(R.id.nav_view)).getMenu();
         menu.clear();
-        for(Union i : School.getInstance().getUnions()){
-            menu.add(i.getName()).setCheckable(true);
+        List<Union> list = School.getInstance().getUnions();
+        for(int i=0;i<list.size();i++){
+            final int id = i;
+            menu.add(list.get(i).getName()).setCheckable(true).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+                    Intent intent = new Intent(MainActivity.this, UnionScreenActivity.class);
+                    intent.putExtra("UNION_ID", id);
+                    startActivity(intent);
+                    return true;
+                }
+            });
         }
     }
 }

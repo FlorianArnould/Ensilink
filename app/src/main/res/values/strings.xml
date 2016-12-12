@@ -19,4 +19,8 @@
     <string name="day_five">Vendredi</string>
     <string name="day_six">Samedi</string>
     <string name="day_seven">Dimanche</string>
+
+    <string name="mails">Mails</string>
+    <string name="membres">Membres</string>
+    <string name="clubs">Clubs</string>
 </resources>
