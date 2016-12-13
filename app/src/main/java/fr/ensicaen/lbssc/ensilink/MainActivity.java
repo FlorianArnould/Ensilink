@@ -1,79 +1,43 @@
 package fr.ensicaen.lbssc.ensilink;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.SimpleAdapter;
-import android.widget.TextView;
-import android.widget.ListView;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import fr.ensicaen.lbssc.ensilink.storage.Club;
-import fr.ensicaen.lbssc.ensilink.storage.OnSchoolDataListener;
+
+import fr.ensicaen.lbssc.ensilink.storage.Event;
 import fr.ensicaen.lbssc.ensilink.storage.School;
-import fr.ensicaen.lbssc.ensilink.storage.Student;
-import fr.ensicaen.lbssc.ensilink.storage.Union;
-import fr.ensicaen.lbssc.ensilink.unionscreen.UnionScreenActivity;
 
 public class MainActivity extends DrawerActivity{
 
-    // Array of strings for ListView Title
-    String[] listViewTitle = new String[]{
-            "Victoire au CAS 2016", "ListView Title 2", "ListView Title 3", "ListView Title 4",
-            "ListView Title 5", "ListView Title 6", "ListView Title 7", "ListView Title 8",
-    };
-
-    int[] listViewImage = new int[]{
-            R.drawable.bds, R.drawable.bds, R.drawable.bds, R.drawable.bds, R.drawable.bds,
-            R.drawable.bds, R.drawable.bds, R.drawable.bds, R.drawable.bds,
-    };
-
-    String[] listViewDescription = new String[]{
-            "Une de plus pour l'ENSI", "Android Description", "Android Description", "Android Description",
-            "Android Description", "Android Description", "Android Description", "Android Description",
-    };
-
-    ListView androidListView;
+    EventAdapter _adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.d("D", String.valueOf(School.getInstance().getEvents().size()));
+        _adapter = new EventAdapter(School.getInstance().getEvents());
+        ListView list = (ListView) findViewById(R.id.list_view);
+        list.setAdapter(_adapter);
 
-        List<HashMap<String,String>> aList = new ArrayList<HashMap<String, String>>();
-
-        for (int i=0; i<8 ; i++){
-            HashMap<String,String> hm = new HashMap<String, String>();
-            hm.put("listview_title", listViewTitle[i]);
-            hm.put("listview_description", listViewDescription[i]);
-            hm.put("listview_image", Integer.toString(listViewImage[i]));
-            aList.add(hm);
-        }
-
-        String[] from = {"listview_image", "listview_title", "listview_description"};
-        int[] to = {R.id.listview_image, R.id.listview_item_title, R.id.listview_item_short_description};
-
-        SimpleAdapter simpleAdapter = new SimpleAdapter(getBaseContext(), aList, R.layout.listview_activity_1, from, to);
-        androidListView = (ListView) findViewById(R.id.list_view);
-        androidListView.setAdapter(simpleAdapter);
-
-        androidListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent myIntent = new Intent(view.getContext(), ListItemAcitivty2.class);
+                Intent myIntent = new Intent(view.getContext(), ListItemActivity2.class);
                 startActivity(myIntent);
             }
         });
@@ -91,13 +55,6 @@ public class MainActivity extends DrawerActivity{
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -111,6 +68,58 @@ public class MainActivity extends DrawerActivity{
 
     @Override
     protected void onDataRefreshed() {
-
+        _adapter.update(School.getInstance().getEvents());
     }
+
+    final class EventAdapter extends BaseAdapter {
+
+        List<Event> _events;
+
+        EventAdapter(List<Event> events){
+            super();
+            update(events);
+        }
+
+        void update(List<Event> events){
+            _events = events;
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public int getCount() {
+            return _events.size();
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return _events.get(i);
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup parent) {
+            if(view == null) {
+                LayoutInflater inflater = (LayoutInflater) MainActivity.this.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                view = inflater.inflate(R.layout.main_event_row, parent, false);
+            }
+            Event event = _events.get(i);
+            ImageView image = (ImageView) view.findViewById(R.id.listview_image);
+            image.setImageBitmap(event.getParentUnion().getLogo());
+            TextView title = (TextView) view.findViewById(R.id.listview_item_title);
+            title.setText(event.getTitle());
+            TextView description = (TextView) view.findViewById(R.id.listview_item_short_description);
+            String shortDescription = event.getMainText();
+            if(shortDescription.length() > 20){
+                shortDescription = shortDescription.substring(0,20) + "...";
+            }
+            description.setText(shortDescription);
+            return view;
+        }
+    }
+
+
 }

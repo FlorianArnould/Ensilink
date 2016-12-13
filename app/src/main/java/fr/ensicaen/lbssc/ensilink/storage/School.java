@@ -44,6 +44,7 @@ public final class School {
             @Override
             public void OnLoadingFinish(DataLoader loader) {
                 _unions = loader.getUnions();
+                //TODO : check because events are duplicated
                 _events = loader.getEvents();
                 if(listener != null){
                     listener.OnDataRefreshed(School.this);
