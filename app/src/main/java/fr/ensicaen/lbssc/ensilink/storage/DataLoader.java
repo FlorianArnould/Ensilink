@@ -39,7 +39,6 @@ final class DataLoader extends Thread{
         _db = null;
         _downloader = new FileDownloader(context);
         _fileDir = context.getFilesDir();
-        _events = new ArrayList<>();
     }
 
     /**
@@ -109,6 +108,7 @@ final class DataLoader extends Thread{
      */
     private void loadUnionsFromDatabase(){
         _unions = new ArrayList<>();
+        _events = new ArrayList<>();
         Cursor unionCursor = _db.rawQuery("SELECT u.id, u.name, l.name, p.name FROM unions AS u LEFT JOIN images AS l ON u.idlogo=l.id LEFT JOIN images AS p ON u.idphoto=p.id;", null, null);
         if(unionCursor.moveToFirst()) {
             do {

@@ -30,7 +30,6 @@ public class MainActivity extends DrawerActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.d("D", String.valueOf(School.getInstance().getEvents().size()));
         _adapter = new EventAdapter(School.getInstance().getEvents());
         ListView list = (ListView) findViewById(R.id.list_view);
         list.setAdapter(_adapter);
