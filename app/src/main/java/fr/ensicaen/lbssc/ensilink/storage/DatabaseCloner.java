@@ -36,16 +36,15 @@ import javax.xml.parsers.ParserConfigurationException;
 final class DatabaseCloner{
 
     private boolean _success;
-    private LocalDatabaseManager _databaseManager;
     private SQLiteDatabase _db;
 
     /**
      * The constructor
-     * @param context an activity context needed to open the local database with the database manager
+     * @param db the database instance
      */
-    DatabaseCloner(Context context){
+    DatabaseCloner(SQLiteDatabase db){
         _success = false;
-        _databaseManager = new LocalDatabaseManager(context);
+        _db = db;
     }
 
     /**
@@ -66,13 +65,12 @@ final class DatabaseCloner{
             return;
         }
         Document doc = parseResponse(in);
-        if(doc == null || !openDatabase()){
+        if(doc == null){
             _success = false;
             return;
         }
         if(!updateDatabase(doc)){
             _success = false;
-            _db.close();
         }
         _success = true;
     }
@@ -106,20 +104,6 @@ final class DatabaseCloner{
             Log.d("D", "Error with input/output : " + e.getMessage() + "\n" + e.toString());
         }
         return null;
-    }
-
-    /**
-     * Opens the local database
-     * @return true if the database is opened
-     */
-    private boolean openDatabase(){
-        try{
-            _db = _databaseManager.getWritableDatabase();
-        }catch (SQLiteException e){
-            Log.d("D", "Error when tried to open SQLite database : " + e.getMessage());
-            return false;
-        }
-        return true;
     }
 
     /**

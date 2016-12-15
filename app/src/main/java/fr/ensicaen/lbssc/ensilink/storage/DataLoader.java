@@ -20,7 +20,6 @@ import java.util.List;
  */
 final class DataLoader extends Thread{
 
-    private DatabaseCloner _cloner;
     private SQLiteDatabase _db;
     private LocalDatabaseManager _databaseManager;
     private List<Union> _unions;
@@ -35,7 +34,6 @@ final class DataLoader extends Thread{
      */
     DataLoader(Context context){
         _databaseManager = new LocalDatabaseManager(context);
-        _cloner = new DatabaseCloner(context);
         _db = null;
         _downloader = new FileDownloader(context);
         _fileDir = context.getFilesDir();
@@ -58,6 +56,7 @@ final class DataLoader extends Thread{
         if(_listener != null) {
             _listener.OnLoadingFinish(this);
         }
+        _db.close();
     }
 
     /**
@@ -82,8 +81,9 @@ final class DataLoader extends Thread{
      * @return true if the database was cloned successfully
      */
     private boolean cloneDatabase(){
-        _cloner.cloneDatabase();
-        return _cloner.succeed();
+        DatabaseCloner cloner = new DatabaseCloner(_db);
+        cloner.cloneDatabase();
+        return cloner.succeed();
     }
 
     /**
