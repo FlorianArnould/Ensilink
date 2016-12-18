@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
  * Created by jeremy on 12/11/16.
  */
 
-public class ActivityEvent extends AppCompatActivity{
+public class EventActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
