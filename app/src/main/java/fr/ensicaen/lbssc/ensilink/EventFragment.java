@@ -2,8 +2,8 @@ package fr.ensicaen.lbssc.ensilink;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,23 +17,24 @@ import android.widget.TextView;
 import java.util.List;
 
 import fr.ensicaen.lbssc.ensilink.storage.Event;
+import fr.ensicaen.lbssc.ensilink.storage.OnImageLoadedListener;
 import fr.ensicaen.lbssc.ensilink.storage.School;
 
 /**
- * Created by florian on 15/12/16.
+ * @author Florian Arnould
+ * @version 1.0
  */
 
 public class EventFragment extends Fragment {
 
     EventAdapter _adapter;
 
-    public EventFragment(){
-        _adapter = new EventAdapter(School.getInstance().getEvents());
-    }
+    public EventFragment(){}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        _adapter = new EventAdapter(School.getInstance().getEvents());
     }
 
     @Override
@@ -43,12 +44,6 @@ public class EventFragment extends Fragment {
         View view = inflater.inflate(R.layout.event_fragment, container, false);
         MainActivity activity = (MainActivity) getActivity();
         activity.setActionBarTitle(getActivity().getResources().getString(R.string.app_name));
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
-
         ListView list = (ListView) view.findViewById(R.id.list_view);
         list.setAdapter(_adapter);
 
@@ -58,6 +53,7 @@ public class EventFragment extends Fragment {
                 startActivity(myIntent);
             }
         });
+        return view;
     }
 
     final class EventAdapter extends BaseAdapter {
@@ -96,8 +92,18 @@ public class EventFragment extends Fragment {
                 view = inflater.inflate(R.layout.event_row, parent, false);
             }
             Event event = _events.get(i);
-            ImageView image = (ImageView) view.findViewById(R.id.listview_image);
-            image.setImageBitmap(event.getParentUnion().getLogo());
+            final ImageView image = (ImageView) view.findViewById(R.id.listview_image);
+            event.getParentUnion().loadLogo(new OnImageLoadedListener() {
+                @Override
+                public void OnImageLoaded(final Bitmap logo) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            image.setImageBitmap(logo);
+                        }
+                    });
+                }
+            });
             TextView title = (TextView) view.findViewById(R.id.listview_item_title);
             title.setText(event.getTitle());
             TextView description = (TextView) view.findViewById(R.id.listview_item_short_description);

@@ -2,6 +2,7 @@ package fr.ensicaen.lbssc.ensilink.storage;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import java.io.File;
 import java.util.HashMap;
@@ -63,6 +64,15 @@ abstract class Association {
 
     /**
      *
+     * @param listener listener called when the image will be loaded
+     */
+    public void loadLogo(OnImageLoadedListener listener){
+        ImageLoadThread thread = new ImageLoadThread(_logoFile, listener);
+        thread.start();
+    }
+
+    /**
+     *
      * @return the bitmap logo of the union
      */
     public Bitmap getLogo(){
@@ -75,5 +85,32 @@ abstract class Association {
      */
     public Bitmap getPhoto(){
         return BitmapFactory.decodeFile(_photoFile.getAbsolutePath());
+    }
+
+    /**
+     * Thread used to avoid UI lags when we loads the images
+     */
+    private class ImageLoadThread extends Thread{
+
+        File _image;
+        OnImageLoadedListener _listener;
+
+        /**
+         * The constructor
+         * @param image a file object to find the image on the local disk
+         * @param listener the listener to call when the image will be loaded
+         */
+        ImageLoadThread(File image, OnImageLoadedListener listener){
+            _image = image;
+            _listener = listener;
+        }
+
+        /**
+         * Load the image and send it to the listener
+         */
+        @Override
+        public void run(){
+            _listener.OnImageLoaded(BitmapFactory.decodeFile(_logoFile.getAbsolutePath()));
+        }
     }
 }
