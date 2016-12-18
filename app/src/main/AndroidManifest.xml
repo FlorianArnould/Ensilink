@@ -28,7 +28,7 @@
             android:name=".unionscreen.UnionScreenActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
-        <activity android:name=".ListItemActivity2">
+        <activity android:name=".EventDescription">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>

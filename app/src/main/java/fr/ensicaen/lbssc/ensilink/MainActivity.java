@@ -37,7 +37,7 @@ public class MainActivity extends DrawerActivity{
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent myIntent = new Intent(view.getContext(), ListItemActivity2.class);
+                Intent myIntent = new Intent(view.getContext(), EventDescription.class);
                 startActivity(myIntent);
             }
         });

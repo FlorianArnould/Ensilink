@@ -6,10 +6,12 @@
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="249dp"
+        android:layout_height="200dp"
+        android:adjustViewBounds="true"
         android:id="@+id/imageView"
         android:layout_weight="0.04"
-        android:src="@drawable/ic_ensicaen"/>
+        android:src="@drawable/ic_ensicaen"
+        />
 
     <TextView
         android:id="@+id/eventTitle"
@@ -18,7 +20,7 @@
         android:layout_weight="0.10" />
 
     <TextView
-        android:text="TextView"
+        android:text="Description de l'événement"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textViewDescription"
