@@ -7,11 +7,11 @@ import android.support.v7.app.AppCompatActivity;
  * Created by jeremy on 12/11/16.
  */
 
-public class ListItemActivity2 extends AppCompatActivity{
+public class ActivityEvent extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.listview_activity_2);
+        setContentView(R.layout.activity_event);
     }
 }

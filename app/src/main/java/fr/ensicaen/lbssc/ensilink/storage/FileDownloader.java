@@ -11,6 +11,8 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+//TODO catch errors when we don't have an internet connection
+
 /**
  * @author Florian Arnould
  * @version 1.0

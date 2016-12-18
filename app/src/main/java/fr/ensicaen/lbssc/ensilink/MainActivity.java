@@ -1,45 +1,59 @@
 package fr.ensicaen.lbssc.ensilink;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
-import android.view.LayoutInflater;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.List;
 
 
-import fr.ensicaen.lbssc.ensilink.storage.Event;
+import fr.ensicaen.lbssc.ensilink.storage.OnSchoolDataListener;
 import fr.ensicaen.lbssc.ensilink.storage.School;
+import fr.ensicaen.lbssc.ensilink.storage.Union;
+import fr.ensicaen.lbssc.ensilink.unionscreen.UnionFragment;
 
-public class MainActivity extends DrawerActivity{
+public class MainActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener{
 
-    EventAdapter _adapter;
+    UnionFragment _unionFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        _adapter = new EventAdapter(School.getInstance().getEvents());
-        ListView list = (ListView) findViewById(R.id.list_view);
-        list.setAdapter(_adapter);
 
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent myIntent = new Intent(view.getContext(), ListItemActivity2.class);
-                startActivity(myIntent);
-            }
-        });
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        refreshDrawer();
+
+        if (savedInstanceState == null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.fragmentContent, new EventFragment()).commit();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
     }
 
     @Override
@@ -61,64 +75,59 @@ public class MainActivity extends DrawerActivity{
         switch (item.getItemId()){
             case R.id.action_settings:
                 return true;
+            case R.id.action_refresh:
+                School.getInstance().refreshData(getApplicationContext(), new OnSchoolDataListener() {
+                    @Override
+                    public void OnDataRefreshed(School school) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                refreshDrawer();
+                            }
+                        });
+                    }
+                });
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    private void refreshDrawer(){
+        final Menu menu = ((NavigationView)findViewById(R.id.nav_view)).getMenu();
+        menu.clear();
+        menu.add("Actualité").setCheckable(true);
+        List<Union> list = School.getInstance().getUnions();
+        for(int i=0;i<list.size();i++){
+            menu.add(list.get(i).getName()).setCheckable(true);
+        }
+    }
+
     @Override
-    protected void onDataRefreshed() {
-        _adapter.update(School.getInstance().getEvents());
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        // Handle navigation view item clicks here.
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if(item.toString().equals("Actualité")){
+            fragmentManager.beginTransaction().replace(R.id.fragmentContent, new EventFragment()).commit();
+        }
+        List<Union> list = School.getInstance().getUnions();
+        for(int i=0;i<list.size();i++){
+            if(item.toString().equals(list.get(i).getName())) {
+                if (_unionFragment == null) {
+                    _unionFragment = UnionFragment.newInstance(i);
+                }else {
+                    _unionFragment.changeUnion(i);
+                }
+                fragmentManager.beginTransaction().replace(R.id.fragmentContent, _unionFragment).commit();
+            }
+        }
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 
-    final class EventAdapter extends BaseAdapter {
-
-        List<Event> _events;
-
-        EventAdapter(List<Event> events){
-            super();
-            update(events);
-        }
-
-        void update(List<Event> events){
-            _events = events;
-            notifyDataSetChanged();
-        }
-
-        @Override
-        public int getCount() {
-            return _events.size();
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return _events.get(i);
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int i, View view, ViewGroup parent) {
-            if(view == null) {
-                LayoutInflater inflater = (LayoutInflater) MainActivity.this.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                view = inflater.inflate(R.layout.main_event_row, parent, false);
-            }
-            Event event = _events.get(i);
-            ImageView image = (ImageView) view.findViewById(R.id.listview_image);
-            image.setImageBitmap(event.getParentUnion().getLogo());
-            TextView title = (TextView) view.findViewById(R.id.listview_item_title);
-            title.setText(event.getTitle());
-            TextView description = (TextView) view.findViewById(R.id.listview_item_short_description);
-            String shortDescription = event.getMainText();
-            if(shortDescription.length() > 20){
-                shortDescription = shortDescription.substring(0,20) + "...";
-            }
-            description.setText(shortDescription);
-            return view;
+    public void setActionBarTitle(String title){
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setTitle(title);
         }
     }
-
-
 }

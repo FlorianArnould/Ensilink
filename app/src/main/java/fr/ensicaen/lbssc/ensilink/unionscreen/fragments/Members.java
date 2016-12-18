@@ -9,13 +9,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import fr.ensicaen.lbssc.ensilink.R;
 
 
-public class Membres extends Fragment {
+public class Members extends Fragment {
 
-    public Membres() {
+    public Members() {
         // Required empty public constructor
     }
 
@@ -28,7 +29,14 @@ public class Membres extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.membres_union, container, false);
+        View view  = inflater.inflate(R.layout.members_union, container, false);
+        fillView(view);
+        return view;
+
+    }
+
+    private void fillView(View view){
+
     }
 
 }

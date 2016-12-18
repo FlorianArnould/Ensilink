@@ -165,7 +165,7 @@ final class DataLoader extends Thread{
                 if(!clubCursor.getString(5).isEmpty()){
                     duration = new Time(clubCursor.getString(5));
                 }
-                Club club = new Club(clubCursor.getString(1), clubCursor.getInt(2), date, time, duration, clubCursor.getString(6), new File(_fileDir, clubCursor.getString(2)), new File(_fileDir, clubCursor.getString(3)));
+                Club club = new Club(clubCursor.getString(1), clubCursor.getInt(2), date, time, duration, clubCursor.getString(6), new File(_fileDir, clubCursor.getString(7)), new File(_fileDir, clubCursor.getString(8)));
                 loadStudentsClubFromDatabase(clubCursor, club);
                 union.addClub(club);
             } while (clubCursor.moveToNext());
