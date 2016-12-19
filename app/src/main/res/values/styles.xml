@@ -41,12 +41,4 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-
-    <style name="ListView" parent="@android:style/Widget.ListView">
-        <item name="android:background">#ffffff</item>
-        <item name="android:cacheColorHint">@android:color/transparent</item>
-        <item name="android:divider">@color/dividerListView</item>
-        <item name="android:dividerHeight">3px</item>
-    </style>
-
 </resources>

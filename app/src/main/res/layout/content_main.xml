@@ -12,7 +12,6 @@
     <ListView
         android:id="@+id/list_view"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        style="@style/ListView"/>
+        android:layout_height="wrap_content"/>
 
 </RelativeLayout>
