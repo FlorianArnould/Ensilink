@@ -1,7 +1,8 @@
-package fr.ensicaen.lbssc.ensilink.unionscreen.fragments;
+package fr.ensicaen.lbssc.ensilink.unionscreen;
 
 /**
- * Created by marsel on 27/11/16.
+ * @author Marsel Arik
+ * @version 1.0
  */
 
 import android.os.Bundle;
@@ -12,14 +13,11 @@ import android.view.ViewGroup;
 
 import fr.ensicaen.lbssc.ensilink.R;
 
-public class Clubs extends Fragment {
+public class Mails extends Fragment {
 
-
-
-    public Clubs() {
+    public Mails() {
         // Required empty public constructor
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +27,7 @@ public class Clubs extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.clubs_union, container, false);
+        return inflater.inflate(R.layout.mails_union, container, false);
     }
 
 }

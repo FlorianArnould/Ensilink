@@ -23,4 +23,6 @@
     <string name="mails">Plus de fonctionnalites bientot</string>
     <string name="membres">Membres</string>
     <string name="clubs">Clubs</string>
+
+    <string name="union_photo_description">Photo de groupe du bureau</string>
 </resources>

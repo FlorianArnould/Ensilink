@@ -2,8 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fr.ensicaen.lbssc.ensilink.unionscreen.fragments.Mails">
+    tools:context="fr.ensicaen.lbssc.ensilink.unionscreen.Mails">
 
+    <!-- TODO use sp instead of dp -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -11,5 +12,4 @@
         android:textSize="8dp"
         android:textStyle="bold"
         android:layout_centerInParent="true"/>
-
 </RelativeLayout>

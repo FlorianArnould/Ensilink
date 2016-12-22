@@ -22,6 +22,7 @@ abstract class Association {
     private String _name;
     private File _logoFile;
     private File _photoFile;
+    //TODO choose another representation for members
     private Map<String, Student> _students;
 
     /**

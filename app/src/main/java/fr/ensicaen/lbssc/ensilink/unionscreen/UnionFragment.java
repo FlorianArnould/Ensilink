@@ -17,26 +17,24 @@ import fr.ensicaen.lbssc.ensilink.MainActivity;
 import fr.ensicaen.lbssc.ensilink.R;
 import fr.ensicaen.lbssc.ensilink.storage.School;
 import fr.ensicaen.lbssc.ensilink.storage.Union;
-import fr.ensicaen.lbssc.ensilink.unionscreen.fragments.Clubs;
-import fr.ensicaen.lbssc.ensilink.unionscreen.fragments.Mails;
-import fr.ensicaen.lbssc.ensilink.unionscreen.fragments.Members;
 
 /**
- * Created by florian on 15/12/16.
+ * @author Marsel Arik
+ * @version 1.0
  */
 
-public class UnionFragment extends Fragment {
-    
-    private Union _union;
+public class UnionFragment extends SuperUnionFragment {
+
     private TabLayout _tabLayout;
     private boolean _created;
     private View _view;
+    private Members _members;
+    private Clubs _clubs;
+    private Mails _mails;
 
     public static UnionFragment newInstance(int unionId){
         UnionFragment fragment = new UnionFragment();
-        Bundle args = new Bundle();
-        args.putInt("UNION_ID", unionId);
-        fragment.setArguments(args);
+        SuperUnionFragment.newInstance(unionId, fragment);
         return fragment;
     }
 
@@ -47,9 +45,6 @@ public class UnionFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            _union = School.getInstance().getUnion(getArguments().getInt("UNION_ID"));
-        }
     }
 
     @Override
@@ -70,12 +65,14 @@ public class UnionFragment extends Fragment {
         return _view;
     }
 
-    private void update(){
+    protected void update(){
         MainActivity activity = (MainActivity) getActivity();
         if( activity != null) {
-            activity.setActionBarTitle(_union.getName());
+            activity.setActionBarTitle(getUnion().getName());
         }
-
+        _members.changeUnion(getUnionId());
+        //_clubs.changeUnion(getUnionId());
+        //_mails.changeUnion(getUnionId());
         TabLayout.Tab tab = _tabLayout.getTabAt(0);
         if(tab != null){
             tab.select();
@@ -84,15 +81,13 @@ public class UnionFragment extends Fragment {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
-        adapter.addFragment(new Members(), "Membres");
-        adapter.addFragment(new Clubs(), "Clubs");
-        adapter.addFragment(new Mails(), "Mails");
+        _members = Members.newInstance(getUnionId());
+        _clubs = new Clubs();
+        _mails = new Mails();
+        adapter.addFragment(_members, "Membres");
+        adapter.addFragment(_clubs, "Clubs");
+        adapter.addFragment(_mails, "Mails");
         viewPager.setAdapter(adapter);
-    }
-
-    public void changeUnion(int unionId){
-        _union = School.getInstance().getUnion(unionId);
-        update();
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

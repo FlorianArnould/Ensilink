@@ -2,11 +2,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fr.ensicaen.lbssc.ensilink.unionscreen.fragments.Members">
+    tools:context="fr.ensicaen.lbssc.ensilink.unionscreen.Members">
+
+    <ImageView
+        android:id="@+id/photo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:layout_marginTop="@dimen/tab_layout_height"
+        android:contentDescription="@string/union_photo_description"/>
 
     <ListView
         android:id="@+id/list_view_member"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/photo"/>
 
 </RelativeLayout>

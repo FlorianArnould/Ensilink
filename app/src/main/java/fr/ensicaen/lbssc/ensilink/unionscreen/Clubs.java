@@ -1,7 +1,8 @@
-package fr.ensicaen.lbssc.ensilink.unionscreen.fragments;
+package fr.ensicaen.lbssc.ensilink.unionscreen;
 
 /**
- * Created by marsel on 27/11/16.
+ * @author Marsel Arik
+ * @version 1.0
  */
 
 import android.os.Bundle;
@@ -9,14 +10,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import fr.ensicaen.lbssc.ensilink.R;
 
+public class Clubs extends Fragment {
 
-public class Members extends Fragment {
 
-    public Members() {
+
+    public Clubs() {
         // Required empty public constructor
     }
 
@@ -29,14 +30,7 @@ public class Members extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view  = inflater.inflate(R.layout.members_union, container, false);
-        fillView(view);
-        return view;
-
-    }
-
-    private void fillView(View view){
-
+        return inflater.inflate(R.layout.clubs_union, container, false);
     }
 
 }
