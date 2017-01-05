@@ -18,7 +18,7 @@ import java.util.List;
 import fr.ensicaen.lbssc.ensilink.storage.OnSchoolDataListener;
 import fr.ensicaen.lbssc.ensilink.storage.School;
 import fr.ensicaen.lbssc.ensilink.storage.Union;
-import fr.ensicaen.lbssc.ensilink.unionscreen.UnionFragment;
+import fr.ensicaen.lbssc.ensilink.associationscreen.unionscreen.UnionFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{

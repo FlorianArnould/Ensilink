@@ -1,4 +1,4 @@
-package fr.ensicaen.lbssc.ensilink.unionscreen;
+package fr.ensicaen.lbssc.ensilink.associationscreen.unionscreen;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -15,15 +15,14 @@ import java.util.List;
 
 import fr.ensicaen.lbssc.ensilink.MainActivity;
 import fr.ensicaen.lbssc.ensilink.R;
-import fr.ensicaen.lbssc.ensilink.storage.School;
-import fr.ensicaen.lbssc.ensilink.storage.Union;
+import fr.ensicaen.lbssc.ensilink.associationscreen.SuperFragment;
 
 /**
  * @author Marsel Arik
  * @version 1.0
  */
 
-public class UnionFragment extends SuperUnionFragment {
+public class UnionFragment extends SuperFragment {
 
     private TabLayout _tabLayout;
     private boolean _created;
@@ -34,7 +33,7 @@ public class UnionFragment extends SuperUnionFragment {
 
     public static UnionFragment newInstance(int unionId){
         UnionFragment fragment = new UnionFragment();
-        SuperUnionFragment.newInstance(unionId, fragment);
+        SuperFragment.newInstance(unionId, fragment);
         return fragment;
     }
 
@@ -71,7 +70,7 @@ public class UnionFragment extends SuperUnionFragment {
             activity.setActionBarTitle(getUnion().getName());
         }
         _members.changeUnion(getUnionId());
-        //_clubs.changeUnion(getUnionId());
+        _clubs.changeUnion(getUnionId());
         //_mails.changeUnion(getUnionId());
         TabLayout.Tab tab = _tabLayout.getTabAt(0);
         if(tab != null){
@@ -82,7 +81,7 @@ public class UnionFragment extends SuperUnionFragment {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
         _members = Members.newInstance(getUnionId());
-        _clubs = new Clubs();
+        _clubs = Clubs.newInstance(getUnionId());
         _mails = new Mails();
         adapter.addFragment(_members, "Membres");
         adapter.addFragment(_clubs, "Clubs");

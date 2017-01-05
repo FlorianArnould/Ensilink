@@ -136,8 +136,9 @@ final class DataLoader extends Thread{
                 Student student = new Student(studentCursor.getString(0),
                         studentCursor.getString(1),
                         studentCursor.getString(2),
-                        studentCursor.getString(3));
-                union.addStudent(studentCursor.getString(4), student);
+                        studentCursor.getString(3),
+                        studentCursor.getString(4));
+                union.addStudent(student);
             } while (studentCursor.moveToNext());
         }
         studentCursor.close();
@@ -187,8 +188,9 @@ final class DataLoader extends Thread{
                 Student student = new Student(studentClubCursor.getString(0),
                         studentClubCursor.getString(1),
                         studentClubCursor.getString(2),
-                        studentClubCursor.getString(3));
-                club.addStudent(studentClubCursor.getString(4), student);
+                        studentClubCursor.getString(3),
+                        studentClubCursor.getString(4));
+                club.addStudent(student);
             } while (studentClubCursor.moveToNext());
         }
         studentClubCursor.close();

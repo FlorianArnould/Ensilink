@@ -7,4 +7,5 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="tab_layout_height">40dp</dimen>
+    <dimen name="club_row_margin">10dp</dimen>
 </resources>

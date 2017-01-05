@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="7dp">
@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:textStyle="bold"
+        android:textColor="#737373"
         android:gravity="start"/>
 
     <TextView
@@ -19,7 +20,8 @@
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
         android:textSize="12sp"
-        android:gravity="start"/>
+        android:gravity="start"
+        android:textColor="@color/colorSubText"/>
 
     <TextView
         android:id="@+id/listview_union_membre_mail"
@@ -27,6 +29,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
         android:textSize="12sp"
-        android:gravity="start"/>
+        android:gravity="start"
+        android:textColor="@color/colorSubText"/>
 
 </LinearLayout>

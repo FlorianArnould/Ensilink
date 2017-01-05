@@ -1,4 +1,4 @@
-package fr.ensicaen.lbssc.ensilink.unionscreen;
+package fr.ensicaen.lbssc.ensilink.associationscreen;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,12 +11,12 @@ import fr.ensicaen.lbssc.ensilink.storage.Union;
  * @version 1.0
  */
 
-public abstract class SuperUnionFragment extends Fragment {
+public abstract class SuperFragment extends Fragment {
 
     private Union _union;
     private int _unionId;
 
-    protected static void newInstance(int unionId, SuperUnionFragment fragment){
+    protected static void newInstance(int unionId, SuperFragment fragment){
         Bundle args = new Bundle();
         args.putInt("UNION_ID", unionId);
         fragment.setArguments(args);

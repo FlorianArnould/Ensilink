@@ -14,12 +14,14 @@ public final class Student {
     private String _name;
     private String _lastName;
     private String _nickname;
+    private String _position;
 
-    Student(String name, String lastName, String nickname, String email){
+    Student(String name, String lastName, String nickname, String email, String position){
         _name = name;
         _email = email;
         _lastName = lastName;
         _nickname = nickname;
+        _position = position;
     }
 
     public String getEmail(){
@@ -33,6 +35,9 @@ public final class Student {
     }
     public String getNickname(){
         return  _nickname;
+    }
+    public String getPosition(){
+        return _position;
     }
     public String toString(){
         return _name + " " + _lastName + " " + _nickname + " " + _email;

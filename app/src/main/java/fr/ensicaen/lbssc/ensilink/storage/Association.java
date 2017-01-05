@@ -5,7 +5,9 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,8 +24,7 @@ abstract class Association {
     private String _name;
     private File _logoFile;
     private File _photoFile;
-    //TODO choose another representation for members
-    private Map<String, Student> _students;
+    private List<Student> _students;
 
     /**
      * The constructor
@@ -33,18 +34,17 @@ abstract class Association {
      */
     Association(String name, File logoFile, File photoFile){
         _name = name;
-        _students = new HashMap<>();
+        _students = new ArrayList<>();
         _logoFile = logoFile;
         _photoFile = photoFile;
     }
 
     /**
      * Adds a student to the association
-     * @param position the position of the student in the association
      * @param student a student instance
      */
-    void addStudent(String position, Student student){
-        _students.put(position, student);
+    void addStudent(Student student){
+        _students.add(student);
     }
 
     /**
@@ -59,7 +59,7 @@ abstract class Association {
      *
      * @return a Map with the students and their position as key
      */
-    public Map<String, Student> getStudents(){
+    public List<Student> getStudents(){
         return _students;
     }
 

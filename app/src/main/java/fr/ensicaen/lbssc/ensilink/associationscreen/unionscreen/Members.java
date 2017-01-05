@@ -1,4 +1,4 @@
-package fr.ensicaen.lbssc.ensilink.unionscreen;
+package fr.ensicaen.lbssc.ensilink.associationscreen.unionscreen;
 
 /**
  * @author Marsel Arik
@@ -7,8 +7,6 @@ package fr.ensicaen.lbssc.ensilink.unionscreen;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,21 +16,20 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.List;
-import java.util.Map;
 
 import fr.ensicaen.lbssc.ensilink.R;
-import fr.ensicaen.lbssc.ensilink.storage.School;
+import fr.ensicaen.lbssc.ensilink.associationscreen.SuperFragment;
 import fr.ensicaen.lbssc.ensilink.storage.Student;
 
 
-public class Members extends SuperUnionFragment {
+public class Members extends SuperFragment {
 
     private StudentAdapter _adapter;
     private View _view;
 
     public static Members newInstance(int unionId){
         Members members = new Members();
-        SuperUnionFragment.newInstance(unionId, members);
+        SuperFragment.newInstance(unionId, members);
         return members;
     }
 
@@ -69,14 +66,14 @@ public class Members extends SuperUnionFragment {
 
     final class StudentAdapter extends BaseAdapter {
 
-        Map<String, Student> _students;
+        List<Student> _students;
 
-        StudentAdapter(Map<String, Student> students){
+        StudentAdapter(List<Student> students){
             super();
             update(students);
         }
 
-        void update(Map<String, Student> students){
+        void update(List<Student> students){
             _students = students;
             notifyDataSetChanged();
         }
@@ -88,8 +85,7 @@ public class Members extends SuperUnionFragment {
 
         @Override
         public Object getItem(int i) {
-            //TODO return the good element
-            return 0;
+            return _students.get(i);
         }
 
         @Override
@@ -103,10 +99,9 @@ public class Members extends SuperUnionFragment {
                 LayoutInflater inflater = (LayoutInflater) Members.this.getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 view = inflater.inflate(R.layout.union_members_row, parent, false);
             }
-            String position = _students.keySet().toArray()[i].toString();
-            Student student = _students.get(position);
+            Student student = _students.get(i);
             TextView text = (TextView) view.findViewById(R.id.listview_union_membre_role);
-            text.setText(position);
+            text.setText(student.getPosition());
             text = (TextView) view.findViewById(R.id.listview_union_membre_nom);
             text.setText(student.getName() + " \"" + student.getNickname() + "\" " + student.getLastName());
             text = (TextView) view.findViewById(R.id.listview_union_membre_mail);

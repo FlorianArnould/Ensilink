@@ -6,4 +6,5 @@
     <color name="colorBlue">#303F9F</color>
     <color name="dividerListView">#b6b6b6</color>
     <color name="listItemSelector">#d1eefd</color>
+    <color name="colorSubText">#A0A0A0</color>
 </resources>
