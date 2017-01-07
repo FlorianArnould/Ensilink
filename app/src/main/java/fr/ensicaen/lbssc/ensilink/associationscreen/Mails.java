@@ -1,4 +1,4 @@
-package fr.ensicaen.lbssc.ensilink.associationscreen.unionscreen;
+package fr.ensicaen.lbssc.ensilink.associationscreen;
 
 /**
  * @author Marsel Arik

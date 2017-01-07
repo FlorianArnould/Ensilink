@@ -2,20 +2,16 @@ package fr.ensicaen.lbssc.ensilink.associationscreen.unionscreen;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import fr.ensicaen.lbssc.ensilink.MainActivity;
 import fr.ensicaen.lbssc.ensilink.R;
+import fr.ensicaen.lbssc.ensilink.associationscreen.Mails;
 import fr.ensicaen.lbssc.ensilink.associationscreen.SuperFragment;
+import fr.ensicaen.lbssc.ensilink.associationscreen.ViewPagerAdapter;
 
 /**
  * @author Marsel Arik
@@ -87,36 +83,5 @@ public class UnionFragment extends SuperFragment {
         adapter.addFragment(_clubs, "Clubs");
         adapter.addFragment(_mails, "Mails");
         viewPager.setAdapter(adapter);
-    }
-
-    class ViewPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList;
-        private final List<String> mFragmentTitleList;
-
-        ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
-            mFragmentList = new ArrayList<>();
-            mFragmentTitleList = new ArrayList<>();
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-
-        void addFragment(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
-        }
     }
 }

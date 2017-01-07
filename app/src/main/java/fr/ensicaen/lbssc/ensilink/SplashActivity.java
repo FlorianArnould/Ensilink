@@ -2,9 +2,7 @@ package fr.ensicaen.lbssc.ensilink;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 
 import fr.ensicaen.lbssc.ensilink.storage.OnSchoolDataListener;
 import fr.ensicaen.lbssc.ensilink.storage.School;
@@ -13,6 +11,8 @@ import fr.ensicaen.lbssc.ensilink.storage.School;
  * @author Florian Arnould
  * @version 1.0
  */
+
+//TODO change the logo
 
 /**
  * The Splash screen of the application

@@ -11,7 +11,7 @@
 
     <string name="drawer_student_name">Nom de l\'élève</string>
     <string name="drawer_student_email">nom@ecole.ensicaen.fr</string>
-    
+
     <string name="day_one">Lundi</string>
     <string name="day_two">Mardi</string>
     <string name="day_three">Mercredi</string>

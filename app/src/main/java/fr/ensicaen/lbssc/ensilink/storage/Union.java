@@ -33,4 +33,8 @@ public final class Union extends Association{
     public List<Club> getClubs(){
         return _clubs;
     }
+
+    public Club getClub(int i){
+        return _clubs.get(i);
+    }
 }

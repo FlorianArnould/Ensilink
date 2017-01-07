@@ -6,10 +6,12 @@ package fr.ensicaen.lbssc.ensilink.associationscreen.unionscreen;
  */
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -18,6 +20,7 @@ import java.util.List;
 
 import fr.ensicaen.lbssc.ensilink.R;
 import fr.ensicaen.lbssc.ensilink.associationscreen.SuperFragment;
+import fr.ensicaen.lbssc.ensilink.associationscreen.clubscreen.ClubActivity;
 import fr.ensicaen.lbssc.ensilink.storage.Club;
 
 public class Clubs extends SuperFragment {
@@ -54,6 +57,15 @@ public class Clubs extends SuperFragment {
         View view = inflater.inflate(R.layout.clubs_union, container, false);
         ListView list = (ListView) view.findViewById(R.id.list_view_club);
         list.setAdapter(_adapter);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent myIntent = new Intent(view.getContext(), ClubActivity.class);
+                myIntent.putExtra("UNION_ID", getUnionId());
+                myIntent.putExtra("CLUB_ID", i);
+                startActivity(myIntent);
+            }
+        });
         update();
         return view;
     }
