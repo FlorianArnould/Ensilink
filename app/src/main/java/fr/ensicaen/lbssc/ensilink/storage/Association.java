@@ -2,13 +2,12 @@ package fr.ensicaen.lbssc.ensilink.storage;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Florian Arnould
@@ -76,10 +75,20 @@ abstract class Association {
      *
      * @return the bitmap logo of the union
      */
-    public Bitmap getLogo(){
+    public Bitmap getBitmapLogo(){
         return BitmapFactory.decodeFile(_logoFile.getAbsolutePath());
     }
 
+    /**
+     *
+     * @return the drawable logo of the union
+     */
+    public Drawable getDrawableLogo() {
+        if(Drawable.createFromPath(_logoFile.getAbsolutePath()) == null){
+            Log.d("D", "drawable is null");
+        }
+        return Drawable.createFromPath(_logoFile.getAbsolutePath());
+    }
     /**
      *
      * @return the bitmap photo of the union

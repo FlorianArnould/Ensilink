@@ -14,11 +14,10 @@ import android.view.MenuItem;
 
 import java.util.List;
 
-
+import fr.ensicaen.lbssc.ensilink.associationscreen.unionscreen.UnionFragment;
 import fr.ensicaen.lbssc.ensilink.storage.OnSchoolDataListener;
 import fr.ensicaen.lbssc.ensilink.storage.School;
 import fr.ensicaen.lbssc.ensilink.storage.Union;
-import fr.ensicaen.lbssc.ensilink.associationscreen.unionscreen.UnionFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -97,8 +96,8 @@ public class MainActivity extends AppCompatActivity
         menu.clear();
         menu.add("Actualité").setCheckable(true);
         List<Union> list = School.getInstance().getUnions();
-        for(int i=0;i<list.size();i++){
-            menu.add(list.get(i).getName()).setCheckable(true);
+        for(Union u : list){
+            menu.add(u.getName()).setIcon(u.getDrawableLogo()).setCheckable(true);
         }
     }
 
