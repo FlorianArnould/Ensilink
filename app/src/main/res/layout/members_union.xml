@@ -16,6 +16,7 @@
         android:id="@+id/list_view_member"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/photo"/>
+        android:layout_below="@id/photo"
+        android:dividerHeight="2dp"/>
 
 </RelativeLayout>

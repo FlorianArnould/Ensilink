@@ -3,7 +3,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/club_row_margin">
+    android:padding="15dp">
 
     <TextView
         android:id="@+id/listview_union_name_club"
@@ -12,7 +12,8 @@
         android:textSize="20sp"
         android:gravity="center"
         android:textStyle="bold"
-        android:textColor="#737373"/>
+        android:textColor="#737373"
+        android:drawablePadding="20dp"/>
 
 
 </LinearLayout>

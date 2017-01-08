@@ -7,6 +7,8 @@ package fr.ensicaen.lbssc.ensilink.associationscreen.unionscreen;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ScaleDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +29,7 @@ public class Clubs extends SuperFragment {
 
     ClubsAdapter _adapter;
 
-    public static Clubs newInstance(int unionId){
+    public static Clubs newInstance(int unionId) {
         Clubs clubs = new Clubs();
         SuperFragment.newInstance(unionId, clubs);
         return clubs;
@@ -45,7 +47,7 @@ public class Clubs extends SuperFragment {
 
     @Override
     protected void update() {
-        if(_adapter != null){
+        if (_adapter != null) {
             _adapter.update(getUnion().getClubs());
         }
     }
@@ -74,12 +76,12 @@ public class Clubs extends SuperFragment {
 
         List<Club> _clubs;
 
-        ClubsAdapter(List<Club> clubs){
+        ClubsAdapter(List<Club> clubs) {
             super();
             update(clubs);
         }
 
-        void update(List<Club> clubs){
+        void update(List<Club> clubs) {
             _clubs = clubs;
             notifyDataSetChanged();
         }
@@ -101,14 +103,21 @@ public class Clubs extends SuperFragment {
 
         @Override
         public View getView(int i, View view, ViewGroup parent) {
-            if(view == null) {
+            if (view == null) {
                 LayoutInflater inflater = (LayoutInflater) Clubs.this.getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 view = inflater.inflate(R.layout.union_clubs_row, parent, false);
             }
             Club club = _clubs.get(i);
             TextView text = (TextView) view.findViewById(R.id.listview_union_name_club);
             text.setText(club.getName());
+
+            Drawable image = club.getDrawableLogo();
+
+            image.setBounds(0, 0, 150, 150);
+            text.setCompoundDrawables(image, null, null, null);
+
             return view;
         }
     }
 }
+
