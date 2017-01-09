@@ -3,6 +3,7 @@ package fr.ensicaen.lbssc.ensilink;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -48,10 +49,11 @@ public class EventFragment extends Fragment {
         if(android.os.Build.VERSION.SDK_INT >= 23){
             activity.setActionBarColor(new ColorDrawable(getResources().getColor(R.color.colorPrimary, null)));
             activity.getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark, null));
+            activity.getWindow().setStatusBarColor(Color.TRANSPARENT);
         }else{
             activity.setActionBarColor(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
             if(android.os.Build.VERSION.SDK_INT >= 21){
-                activity.getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark, null));
+                activity.getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
             }
         }
 

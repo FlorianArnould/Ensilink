@@ -11,13 +11,31 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
-        android:id="@+id/imageView"
+
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="70dp"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:contentDescription="@string/ensicaen_logo_description"
-        android:src="@drawable/ic_ensicaen" />
+        android:paddingTop="20dp"
+        android:layout_height="70dp">
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_kangouroo"/>
+
+        <TextView
+            android:id="@+id/appNameTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="@string/app_name"
+            android:textAllCaps="true"
+            android:textSize="20sp"
+            android:textColor="#FFF"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:drawablePadding="20dp"/>
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"

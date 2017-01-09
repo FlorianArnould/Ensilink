@@ -8,7 +8,6 @@ package fr.ensicaen.lbssc.ensilink.associationscreen.unionscreen;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.ScaleDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -110,7 +109,7 @@ public class Clubs extends SuperFragment {
             Club club = _clubs.get(i);
             TextView text = (TextView) view.findViewById(R.id.listview_union_name_club);
             text.setText(club.getName());
-
+            //TODO: load instead of get to not stop the UI thread
             Drawable image = club.getDrawableLogo();
 
             image.setBounds(0, 0, 150, 150);
