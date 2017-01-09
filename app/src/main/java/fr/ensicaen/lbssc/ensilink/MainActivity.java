@@ -1,5 +1,6 @@
 package fr.ensicaen.lbssc.ensilink;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -39,13 +40,14 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setItemIconTintList(null);
         navigationView.setNavigationItemSelectedListener(this);
-        refreshDrawer();
 
         if (savedInstanceState == null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.fragmentContent, new EventFragment()).commit();
         }
+        refreshDrawer();
     }
 
     @Override
@@ -63,7 +65,6 @@ public class MainActivity extends AppCompatActivity
         } else {
             moveTaskToBack(true);
         }
-
     }
 
     @Override
@@ -97,7 +98,9 @@ public class MainActivity extends AppCompatActivity
         menu.add("Actualité").setCheckable(true);
         List<Union> list = School.getInstance().getUnions();
         for(Union u : list){
-            menu.add(u.getName()).setIcon(u.getDrawableLogo()).setCheckable(true);
+            MenuItem item = menu.add(u.getName());
+            item.setIcon(u.getDrawableLogo());
+            item.setCheckable(true);
         }
     }
 
@@ -117,6 +120,7 @@ public class MainActivity extends AppCompatActivity
                     _unionFragment.changeUnion(i);
                 }
                 fragmentManager.beginTransaction().replace(R.id.fragmentContent, _unionFragment).commit();
+                _unionFragment.postReplaced(this, i);
             }
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -127,6 +131,12 @@ public class MainActivity extends AppCompatActivity
     public void setActionBarTitle(String title){
         if(getSupportActionBar() != null){
             getSupportActionBar().setTitle(title);
+        }
+    }
+
+    public void setActionBarColor(Drawable color){
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setBackgroundDrawable(color);
         }
     }
 }

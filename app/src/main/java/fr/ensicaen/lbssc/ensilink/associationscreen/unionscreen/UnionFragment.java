@@ -1,5 +1,7 @@
 package fr.ensicaen.lbssc.ensilink.associationscreen.unionscreen;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -12,6 +14,7 @@ import fr.ensicaen.lbssc.ensilink.R;
 import fr.ensicaen.lbssc.ensilink.associationscreen.Mails;
 import fr.ensicaen.lbssc.ensilink.associationscreen.SuperFragment;
 import fr.ensicaen.lbssc.ensilink.associationscreen.ViewPagerAdapter;
+import fr.ensicaen.lbssc.ensilink.storage.School;
 
 /**
  * @author Marsel Arik
@@ -26,6 +29,7 @@ public class UnionFragment extends SuperFragment {
     private Members _members;
     private Clubs _clubs;
     private Mails _mails;
+    private int _color;
 
     public static UnionFragment newInstance(int unionId){
         UnionFragment fragment = new UnionFragment();
@@ -35,6 +39,7 @@ public class UnionFragment extends SuperFragment {
 
     public UnionFragment(){
         _created = false;
+        _color = Color.BLACK;
     }
 
     @Override
@@ -54,6 +59,7 @@ public class UnionFragment extends SuperFragment {
 
             _tabLayout = (TabLayout) _view.findViewById(R.id.tabs);
             _tabLayout.setupWithViewPager(viewPager);
+            _tabLayout.setBackgroundColor(_color);
             update();
             _created = true;
         }
@@ -61,10 +67,6 @@ public class UnionFragment extends SuperFragment {
     }
 
     protected void update(){
-        MainActivity activity = (MainActivity) getActivity();
-        if( activity != null) {
-            activity.setActionBarTitle(getUnion().getName());
-        }
         _members.changeUnion(getUnionId());
         _clubs.changeUnion(getUnionId());
         //_mails.changeUnion(getUnionId());
@@ -72,6 +74,38 @@ public class UnionFragment extends SuperFragment {
         if(tab != null){
             tab.select();
         }
+    }
+
+    public void postReplaced(MainActivity activity, int i){
+        if( activity != null) {
+            activity.setActionBarTitle(School.getInstance().getUnion(i).getName());
+            if(i == 0){
+                _color = Color.BLUE;
+            }else if(i == 1){
+                _color = Color.argb(255, 238, 33, 33);
+            }else if(i == 2){
+                _color = Color.argb(255, 46, 82, 68);
+            }else if(i == 3){
+                _color = Color.argb(255, 117, 4, 22);
+            }else if(i == 4){
+                _color = Color.argb(255, 15, 203, 170);
+            }
+            activity.setActionBarColor(new ColorDrawable(_color));
+            if(android.os.Build.VERSION.SDK_INT >= 21){
+                activity.getWindow().setStatusBarColor(darkerColor(_color));
+            }
+            if(_view != null){
+                TabLayout tabLayout = (TabLayout) _view.findViewById(R.id.tabs);
+                tabLayout.setBackgroundColor(_color);
+            }
+        }
+    }
+
+    private int darkerColor(int color){
+        float HSVcolor[] = new float[3];
+        Color.colorToHSV(color, HSVcolor);
+        HSVcolor[2] *= 0.9;
+        return Color.HSVToColor(HSVcolor);
     }
 
     private void setupViewPager(ViewPager viewPager) {

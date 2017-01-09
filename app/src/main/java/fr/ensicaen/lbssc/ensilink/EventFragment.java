@@ -3,6 +3,7 @@ package fr.ensicaen.lbssc.ensilink;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -44,6 +45,16 @@ public class EventFragment extends Fragment {
         View view = inflater.inflate(R.layout.event_fragment, container, false);
         MainActivity activity = (MainActivity) getActivity();
         activity.setActionBarTitle(getActivity().getResources().getString(R.string.app_name));
+        if(android.os.Build.VERSION.SDK_INT >= 23){
+            activity.setActionBarColor(new ColorDrawable(getResources().getColor(R.color.colorPrimary, null)));
+            activity.getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark, null));
+        }else{
+            activity.setActionBarColor(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
+            if(android.os.Build.VERSION.SDK_INT >= 21){
+                activity.getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark, null));
+            }
+        }
+
         ListView list = (ListView) view.findViewById(R.id.list_view);
         list.setAdapter(_adapter);
 
@@ -53,6 +64,7 @@ public class EventFragment extends Fragment {
                 startActivity(myIntent);
             }
         });
+
         return view;
     }
 
