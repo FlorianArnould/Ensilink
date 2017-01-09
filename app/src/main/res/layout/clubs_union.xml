@@ -8,6 +8,7 @@
         android:id="@+id/list_view_club"
         android:layout_width="fill_parent"
         android:layout_marginTop="@dimen/tab_layout_height"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:dividerHeight="2dp"/>
 
 </RelativeLayout>
