@@ -5,9 +5,12 @@ import android.util.Log;
 
 import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -46,15 +49,37 @@ class FileDownloader {
             byte[] buffer = new byte[1024];
             int length;
 
-            FileOutputStream fos = new FileOutputStream(new File(_context.getFilesDir(), imageName));
+            FileOutputStream fos = new FileOutputStream(new File(_context.getFilesDir(), imageName + ".new"));
             while ((length = dis.read(buffer))>0) {
                 fos.write(buffer, 0, length);
             }
-            return true;
+            return move(imageName+".new", imageName);
         } catch (MalformedURLException mue) {
-            Log.e("D", "malformed url error", mue);
+            Log.d("D", "malformed url error", mue);
         } catch (IOException ioe) {
-            Log.e("D", "io error", ioe);
+            Log.d("D", "io error", ioe);
+        }
+        return false;
+    }
+
+    private boolean move(String original, String target){
+        File originalFile = new File(_context.getFilesDir(), original);
+        try {
+            InputStream in = new FileInputStream(originalFile);
+            OutputStream out = new FileOutputStream(new File(_context.getFilesDir(), target));
+            byte[] buffer = new byte[1024];
+            int read;
+            while ((read = in.read(buffer)) != -1) {
+                out.write(buffer, 0, read);
+            }
+            in.close();
+            out.flush();
+            out.close();
+            return originalFile.delete();
+        } catch (FileNotFoundException e) {
+            Log.d("D", "File not found when moving image : " + target);
+        } catch (IOException e) {
+            Log.d("D", "Read or write error when moving image : " + target);
         }
         return false;
     }
