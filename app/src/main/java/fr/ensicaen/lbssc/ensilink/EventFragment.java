@@ -2,9 +2,9 @@ package fr.ensicaen.lbssc.ensilink;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -109,11 +109,11 @@ public class EventFragment extends Fragment {
             final ImageView image = (ImageView) view.findViewById(R.id.listview_image);
             event.getParentUnion().loadLogo(new OnImageLoadedListener() {
                 @Override
-                public void OnImageLoaded(final Bitmap logo) {
+                public void OnImageLoaded(final Drawable logo) {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            image.setImageBitmap(logo);
+                            image.setImageDrawable(logo);
                         }
                     });
                 }

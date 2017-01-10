@@ -120,7 +120,7 @@ abstract class Association {
          */
         @Override
         public void run(){
-            _listener.OnImageLoaded(BitmapFactory.decodeFile(_logoFile.getAbsolutePath()));
+            _listener.OnImageLoaded(Drawable.createFromPath(_logoFile.getAbsolutePath()));
         }
     }
 }

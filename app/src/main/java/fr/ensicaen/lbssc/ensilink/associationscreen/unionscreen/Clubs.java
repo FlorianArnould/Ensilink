@@ -23,6 +23,7 @@ import fr.ensicaen.lbssc.ensilink.R;
 import fr.ensicaen.lbssc.ensilink.associationscreen.SuperFragment;
 import fr.ensicaen.lbssc.ensilink.associationscreen.clubscreen.ClubActivity;
 import fr.ensicaen.lbssc.ensilink.storage.Club;
+import fr.ensicaen.lbssc.ensilink.storage.OnImageLoadedListener;
 
 public class Clubs extends SuperFragment {
 
@@ -107,14 +108,20 @@ public class Clubs extends SuperFragment {
                 view = inflater.inflate(R.layout.union_clubs_row, parent, false);
             }
             Club club = _clubs.get(i);
-            TextView text = (TextView) view.findViewById(R.id.listview_union_name_club);
+            final TextView text = (TextView) view.findViewById(R.id.listview_union_name_club);
             text.setText(club.getName());
-            //TODO: load instead of get to not stop the UI thread
-            Drawable image = club.getDrawableLogo();
-
-            image.setBounds(0, 0, 150, 150);
-            text.setCompoundDrawables(image, null, null, null);
-
+            club.loadLogo(new OnImageLoadedListener() {
+                @Override
+                public void OnImageLoaded(final Drawable image) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            image.setBounds(0, 0, 150, 150);
+                            text.setCompoundDrawables(image, null, null, null);
+                        }
+                    });
+                }
+            });
             return view;
         }
     }
