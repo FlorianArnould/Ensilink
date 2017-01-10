@@ -1,9 +1,6 @@
 package fr.ensicaen.lbssc.ensilink.storage;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -73,28 +70,19 @@ abstract class Association {
 
     /**
      *
-     * @return the bitmap logo of the union
+     * @return a drawable of the logo of the club
      */
-    public Bitmap getBitmapLogo(){
-        return BitmapFactory.decodeFile(_logoFile.getAbsolutePath());
+    public Drawable getLogo(){
+        return Drawable.createFromPath(_logoFile.getAbsolutePath());
     }
 
     /**
      *
-     * @return the drawable logo of the union
+     * @param listener listener called when the image will be loaded
      */
-    public Drawable getDrawableLogo() {
-        if(Drawable.createFromPath(_logoFile.getAbsolutePath()) == null){
-            Log.d("D", "drawable is null");
-        }
-        return Drawable.createFromPath(_logoFile.getAbsolutePath());
-    }
-    /**
-     *
-     * @return the bitmap photo of the union
-     */
-    public Bitmap getPhoto(){
-        return BitmapFactory.decodeFile(_photoFile.getAbsolutePath());
+    public void loadPhoto(OnImageLoadedListener listener){
+        ImageLoadThread thread = new ImageLoadThread(_photoFile, listener);
+        thread.start();
     }
 
     /**
@@ -120,7 +108,7 @@ abstract class Association {
          */
         @Override
         public void run(){
-            _listener.OnImageLoaded(Drawable.createFromPath(_logoFile.getAbsolutePath()));
+            _listener.OnImageLoaded(Drawable.createFromPath(_image.getAbsolutePath()));
         }
     }
 }

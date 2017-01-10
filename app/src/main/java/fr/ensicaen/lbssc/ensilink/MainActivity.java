@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity
         List<Union> list = School.getInstance().getUnions();
         for(Union u : list){
             MenuItem item = menu.add(u.getName());
-            item.setIcon(u.getDrawableLogo());
+            item.setIcon(u.getLogo());
             item.setCheckable(true);
         }
     }

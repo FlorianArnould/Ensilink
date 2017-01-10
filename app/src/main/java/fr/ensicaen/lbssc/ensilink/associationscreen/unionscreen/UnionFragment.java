@@ -92,7 +92,8 @@ public class UnionFragment extends SuperFragment {
             }
             activity.setActionBarColor(new ColorDrawable(_color));
             if(android.os.Build.VERSION.SDK_INT >= 21){
-                activity.getWindow().setStatusBarColor(darkerColor(_color));
+                int darker = darkerColor(_color);
+                activity.getWindow().setStatusBarColor(Color.argb(125, Color.red(darker), Color.green(darker), Color.blue(darker)));
             }
             if(_view != null){
                 TabLayout tabLayout = (TabLayout) _view.findViewById(R.id.tabs);

@@ -47,13 +47,12 @@ public class EventFragment extends Fragment {
         MainActivity activity = (MainActivity) getActivity();
         activity.setActionBarTitle(getActivity().getResources().getString(R.string.app_name));
         if(android.os.Build.VERSION.SDK_INT >= 23){
-            activity.setActionBarColor(new ColorDrawable(getResources().getColor(R.color.colorPrimary, null)));
-            activity.getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark, null));
-            activity.getWindow().setStatusBarColor(Color.TRANSPARENT);
+            activity.setActionBarColor(new ColorDrawable(Color.rgb(63,81,181)));
+            activity.getWindow().setStatusBarColor(Color.argb(125,48,63,159));
         }else{
-            activity.setActionBarColor(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
+            activity.setActionBarColor(new ColorDrawable(Color.rgb(63,81,181)));
             if(android.os.Build.VERSION.SDK_INT >= 21){
-                activity.getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+                activity.getWindow().setStatusBarColor(Color.argb(125,48,63,159));
             }
         }
 

@@ -6,6 +6,7 @@ package fr.ensicaen.lbssc.ensilink.associationscreen.unionscreen;
  */
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import java.util.List;
 
 import fr.ensicaen.lbssc.ensilink.R;
 import fr.ensicaen.lbssc.ensilink.associationscreen.SuperFragment;
+import fr.ensicaen.lbssc.ensilink.storage.OnImageLoadedListener;
 import fr.ensicaen.lbssc.ensilink.storage.Student;
 
 
@@ -47,8 +49,18 @@ public class Members extends SuperFragment {
             _adapter.update(getUnion().getStudents());
         }
         if(_view != null){
-            ImageView image = (ImageView) _view.findViewById(R.id.photo);
-            image.setImageBitmap(getUnion().getPhoto());
+            final ImageView imageView = (ImageView) _view.findViewById(R.id.photo);
+            getUnion().loadPhoto(new OnImageLoadedListener() {
+                @Override
+                public void OnImageLoaded(final Drawable image) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            imageView.setImageDrawable(image);
+                        }
+                    });
+                }
+            });
         }
     }
 
