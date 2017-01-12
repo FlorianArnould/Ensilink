@@ -12,11 +12,11 @@
         android:layout_height="60dp"
         android:layout_marginTop="30dp"
         android:layout_gravity="center_horizontal"
-
+        android:src="@drawable/ic_menu_camera"
 
         />
     <TextView
-        android:id="@+id/lieu"
+        android:id="@+id/place"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
@@ -43,11 +43,11 @@
 
         />
         <TextView
-        android:id="@+id/horaire"
+        android:id="@+id/hours"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="18h00"
+        android:text="18h00-20h00"
         android:layout_weight="0.5"
             android:textSize="18sp"
             android:textAlignment="center"
