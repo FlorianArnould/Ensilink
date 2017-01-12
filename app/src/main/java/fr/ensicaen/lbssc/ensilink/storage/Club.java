@@ -58,4 +58,35 @@ public class Club extends Association{
         return getDayOfWeek() + " " + _time.toString() + " " + _duration.toString() + " " + _place;
     }
 
+    /**
+     *
+     * @return the name of the place
+     */
+    public String getPlace(){
+        return _place;
+    }
+
+    /**
+     *
+     * @return the schedule time of the club
+     */
+    public Time getTime(){
+        return _time;
+    }
+
+    /**
+     *
+     * @return the duration of the club
+     */
+    public Time getDuration(){
+        return _duration;
+    }
+
+    /**
+     *
+     * @return return the date of the club if it hasn't weekly event
+     */
+    public Date getDate(){
+        return _date;
+    }
 }
