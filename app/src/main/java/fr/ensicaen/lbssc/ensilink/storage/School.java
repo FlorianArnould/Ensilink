@@ -18,6 +18,7 @@ public final class School {
     private static School _ourInstance = new School();
     private static List<Union> _unions;
     private static List<Event> _events;
+    private static boolean _neverUpdated;
 
     /**
      *
@@ -31,6 +32,7 @@ public final class School {
      * The private constructor
      */
     private School() {
+        _neverUpdated = true;
     }
 
     /**
@@ -39,7 +41,7 @@ public final class School {
      * @param listener a listener to get when the school will be updated
      */
     public void refreshData(Context context, final OnSchoolDataListener listener){
-        DataLoader loader = new DataLoader(context);
+        DataLoader loader = new DataLoader(context, _neverUpdated);
         loader.setOnLoadingFinishListener(new OnLoadingFinishListener() {
             @Override
             public void OnLoadingFinish(DataLoader loader) {
@@ -48,6 +50,7 @@ public final class School {
                 if(listener != null){
                     listener.OnDataRefreshed(School.this);
                 }
+                _neverUpdated = false;
             }
         });
         loader.start();

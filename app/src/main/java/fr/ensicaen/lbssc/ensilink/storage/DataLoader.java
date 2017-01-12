@@ -27,16 +27,19 @@ final class DataLoader extends Thread{
     private OnLoadingFinishListener _listener;
     private FileDownloader _downloader;
     private File _fileDir;
+    private boolean _preload;
 
     /**
      * The constructor
      * @param context an activity context needed to open the local database with the database manager
+     * @param preload is true if we want to preload the local information during download
      */
-    DataLoader(Context context){
+    DataLoader(Context context, boolean preload){
         _databaseManager = new LocalDatabaseManager(context);
         _db = null;
         _downloader = new FileDownloader(context);
         _fileDir = context.getFilesDir();
+        _preload = preload;
     }
 
     /**
@@ -44,7 +47,7 @@ final class DataLoader extends Thread{
      */
     public void run(){
         openDatabase();
-        if(!isDatabaseEmpty()){
+        if(_preload && !isDatabaseEmpty()){
             loadUnionsFromDatabase();
             if(_listener != null) {
                 _listener.OnLoadingFinish(this);
