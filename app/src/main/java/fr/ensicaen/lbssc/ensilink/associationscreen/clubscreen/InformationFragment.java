@@ -57,7 +57,6 @@ public class InformationFragment extends Fragment {
 //        ImageView image = (ImageView) view.findViewById(R.id.logo);
 //        image.setImageDrawable(club.getLogo());
 //
-
 //
 //        _students=club.getStudents();
 //
