@@ -7,6 +7,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -41,6 +42,14 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+        SwipeRefreshLayout refresher = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
+        refresher.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+        });
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setItemIconTintList(null);
@@ -78,18 +87,9 @@ public class MainActivity extends AppCompatActivity
             case R.id.action_settings:
                 return true;
             case R.id.action_refresh:
-                School.getInstance().refreshData(getApplicationContext(), new OnSchoolDataListener() {
-                    @Override
-                    public void OnDataRefreshed(School school) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                refreshDrawer();
-                                _currentFragment.update();
-                            }
-                        });
-                    }
-                });
+                SwipeRefreshLayout refresher = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
+                refresher.setRefreshing(true);
+                refresh();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -145,5 +145,24 @@ public class MainActivity extends AppCompatActivity
     private void changeFragment(UpdatableFragment fragment){
         _currentFragment = fragment;
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContent, _currentFragment).commit();
+    }
+
+
+    private void refresh(){
+        Log.d("Debug", "run update school from main activity");
+        School.getInstance().refreshData(getApplicationContext(), new OnSchoolDataListener() {
+            @Override
+            public void OnDataRefreshed(School school) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshDrawer();
+                        _currentFragment.update();
+                        SwipeRefreshLayout refresher = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
+                        refresher.setRefreshing(false);
+                    }
+                });
+            }
+        });
     }
 }
