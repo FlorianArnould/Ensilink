@@ -20,18 +20,18 @@ import android.widget.TextView;
 import java.util.List;
 
 import fr.ensicaen.lbssc.ensilink.R;
-import fr.ensicaen.lbssc.ensilink.associationscreen.SuperFragment;
+import fr.ensicaen.lbssc.ensilink.associationscreen.AssociationFragment;
 import fr.ensicaen.lbssc.ensilink.associationscreen.clubscreen.ClubActivity;
 import fr.ensicaen.lbssc.ensilink.storage.Club;
 import fr.ensicaen.lbssc.ensilink.storage.OnImageLoadedListener;
 
-public class Clubs extends SuperFragment {
+public class Clubs extends AssociationFragment {
 
     ClubsAdapter _adapter;
 
     public static Clubs newInstance(int unionId) {
         Clubs clubs = new Clubs();
-        SuperFragment.newInstance(unionId, clubs);
+        AssociationFragment.newInstance(unionId, clubs);
         return clubs;
     }
 
@@ -46,7 +46,7 @@ public class Clubs extends SuperFragment {
     }
 
     @Override
-    protected void update() {
+    public void update() {
         if (_adapter != null) {
             _adapter.update(getUnion().getClubs());
         }

@@ -12,8 +12,6 @@ import fr.ensicaen.lbssc.ensilink.storage.School;
  * @version 1.0
  */
 
-//TODO change the logo
-
 /**
  * The Splash screen of the application
  */

@@ -13,8 +13,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-
-//TODO catch errors when we don't have an internet connection
+import java.util.List;
 
 /**
  * @author Florian Arnould
@@ -36,12 +35,30 @@ class FileDownloader {
         _context = context;
     }
 
+
+    /**
+     *
+     * @param imageNames a list of the name of the images
+     * @return true if all images were downloaded successfully
+     */
+    boolean downloadImages(List<String> imageNames){
+        boolean ok = true;
+        try{
+            for (String imageName : imageNames){
+                ok &= download(imageName);
+            }
+        } catch (IOException e) {
+            Log.d("D", "io error : " + e.getMessage());
+        }
+        return ok;
+    }
+
     /**
      *
      * @param imageName the image name
      * @return true if the image was downloaded successfully
      */
-    boolean download(String imageName){
+    private boolean download(String imageName) throws IOException{
         try {
             URL url = new URL("http://www.ecole.ensicaen.fr/~arnould/others/test/images/" + imageName);
             InputStream in = url.openStream();
@@ -54,10 +71,8 @@ class FileDownloader {
                 fos.write(buffer, 0, length);
             }
             return move(imageName+".new", imageName);
-        } catch (MalformedURLException mue) {
-            Log.d("D", "malformed url error", mue);
-        } catch (IOException ioe) {
-            Log.d("D", "io error", ioe);
+        } catch (MalformedURLException e) {
+            Log.d("D", "malformed url error : " + e.getMessage());
         }
         return false;
     }
@@ -77,9 +92,9 @@ class FileDownloader {
             out.close();
             return originalFile.delete();
         } catch (FileNotFoundException e) {
-            Log.d("D", "File not found when moving image : " + target);
+            Log.d("D", "File not found when moving image " + target + " : " + e.getMessage());
         } catch (IOException e) {
-            Log.d("D", "Read or write error when moving image : " + target);
+            Log.d("D", "Read or write error when moving image " + target + " : " + e.getMessage());
         }
         return false;
     }

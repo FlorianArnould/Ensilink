@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import fr.ensicaen.lbssc.ensilink.MainActivity;
 import fr.ensicaen.lbssc.ensilink.R;
 import fr.ensicaen.lbssc.ensilink.associationscreen.Mails;
-import fr.ensicaen.lbssc.ensilink.associationscreen.SuperFragment;
+import fr.ensicaen.lbssc.ensilink.associationscreen.AssociationFragment;
 import fr.ensicaen.lbssc.ensilink.associationscreen.ViewPagerAdapter;
 import fr.ensicaen.lbssc.ensilink.storage.School;
 
@@ -21,7 +21,7 @@ import fr.ensicaen.lbssc.ensilink.storage.School;
  * @version 1.0
  */
 
-public class UnionFragment extends SuperFragment {
+public class UnionFragment extends AssociationFragment {
 
     private TabLayout _tabLayout;
     private boolean _created;
@@ -33,7 +33,7 @@ public class UnionFragment extends SuperFragment {
 
     public static UnionFragment newInstance(int unionId){
         UnionFragment fragment = new UnionFragment();
-        SuperFragment.newInstance(unionId, fragment);
+        AssociationFragment.newInstance(unionId, fragment);
         return fragment;
     }
 
@@ -66,7 +66,7 @@ public class UnionFragment extends SuperFragment {
         return _view;
     }
 
-    protected void update(){
+    public void update(){
         _members.changeUnion(getUnionId());
         _clubs.changeUnion(getUnionId());
         //_mails.changeUnion(getUnionId());

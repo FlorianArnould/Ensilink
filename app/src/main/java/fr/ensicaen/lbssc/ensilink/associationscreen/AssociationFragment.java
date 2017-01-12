@@ -1,8 +1,8 @@
 package fr.ensicaen.lbssc.ensilink.associationscreen;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 
+import fr.ensicaen.lbssc.ensilink.UpdatableFragment;
 import fr.ensicaen.lbssc.ensilink.storage.School;
 import fr.ensicaen.lbssc.ensilink.storage.Union;
 
@@ -11,12 +11,12 @@ import fr.ensicaen.lbssc.ensilink.storage.Union;
  * @version 1.0
  */
 
-public abstract class SuperFragment extends Fragment {
+public abstract class AssociationFragment extends UpdatableFragment {
 
     private Union _union;
     private int _unionId;
 
-    protected static void newInstance(int unionId, SuperFragment fragment){
+    protected static void newInstance(int unionId, AssociationFragment fragment){
         Bundle args = new Bundle();
         args.putInt("UNION_ID", unionId);
         fragment.setArguments(args);
@@ -45,6 +45,4 @@ public abstract class SuperFragment extends Fragment {
         _union = School.getInstance().getUnion(unionId);
         update();
     }
-
-    protected abstract void update();
 }

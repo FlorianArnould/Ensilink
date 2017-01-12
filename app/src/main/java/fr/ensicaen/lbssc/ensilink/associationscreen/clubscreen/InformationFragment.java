@@ -56,7 +56,7 @@ public class InformationFragment extends Fragment {
         TextView text = (TextView) view.findViewById(R.id.place);
         text.setText(club.getPlace());
         text = (TextView) view.findViewById(R.id.date_club);
-        text.setText(club.getDayOfWeek());
+        text.setText(club.getDayOfWeek(getContext()));
         if(club.getTime() != null) {
             text = (TextView) view.findViewById(R.id.hours);
             text.setText(club.getTime().toString());

@@ -226,16 +226,14 @@ final class DataLoader extends Thread{
      */
     private boolean downloadImages(){
         Cursor cursor = _db.query("images", null, null, null, null, null, null);
-        boolean ok = true;
+        List<String> list = new ArrayList<>();
         if(cursor.moveToFirst()) {
             do {
-                if(!_downloader.download(cursor.getString(1))){
-                    ok = false;
-                }
+                list.add(cursor.getString(1));
             } while (cursor.moveToNext());
         }
         cursor.close();
-        return ok;
+        return _downloader.downloadImages(list);
     }
 
     /**

@@ -1,14 +1,15 @@
 package fr.ensicaen.lbssc.ensilink.storage;
 
-
-//TODO get the days from strings.xml
-
 /**
  * @author Florian Arnould
  * @version 1.0
  */
 
+import android.content.Context;
+
 import java.io.File;
+
+import fr.ensicaen.lbssc.ensilink.R;
 
 /**
  * The class that represent a club of the school
@@ -20,7 +21,6 @@ public class Club extends Association{
     private Time _time;
     private Time _duration;
     private String _place;
-    private static String[] _daysOfWeek = {"Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"};
 
     /**
      * The constructor
@@ -46,16 +46,8 @@ public class Club extends Association{
      *
      * @return a string with the day of week
      */
-    public String getDayOfWeek(){
-        return _daysOfWeek[_day-1];
-    }
-
-    /**
-     *
-     * @return a string that sum up the club information
-     */
-    public String toString(){
-        return getDayOfWeek() + " " + _time.toString() + " " + _duration.toString() + " " + _place;
+    public String getDayOfWeek(Context context){
+        return context.getResources().getStringArray(R.array.days)[_day-1];
     }
 
     /**

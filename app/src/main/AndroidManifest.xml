@@ -27,7 +27,7 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".EventActivity"
+            android:name=".eventscreen.EventActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

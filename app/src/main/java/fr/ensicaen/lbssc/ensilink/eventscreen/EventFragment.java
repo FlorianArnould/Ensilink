@@ -1,4 +1,4 @@
-package fr.ensicaen.lbssc.ensilink;
+package fr.ensicaen.lbssc.ensilink.eventscreen;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,7 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +18,9 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import fr.ensicaen.lbssc.ensilink.MainActivity;
+import fr.ensicaen.lbssc.ensilink.R;
+import fr.ensicaen.lbssc.ensilink.UpdatableFragment;
 import fr.ensicaen.lbssc.ensilink.storage.Event;
 import fr.ensicaen.lbssc.ensilink.storage.OnImageLoadedListener;
 import fr.ensicaen.lbssc.ensilink.storage.School;
@@ -27,7 +30,7 @@ import fr.ensicaen.lbssc.ensilink.storage.School;
  * @version 1.0
  */
 
-public class EventFragment extends Fragment {
+public class EventFragment extends UpdatableFragment {
 
     EventAdapter _adapter;
 
@@ -58,7 +61,6 @@ public class EventFragment extends Fragment {
 
         ListView list = (ListView) view.findViewById(R.id.list_view);
         list.setAdapter(_adapter);
-
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent myIntent = new Intent(view.getContext(), EventActivity.class);
@@ -66,8 +68,13 @@ public class EventFragment extends Fragment {
                 startActivity(myIntent);
             }
         });
-
+        update();
         return view;
+    }
+
+    @Override
+    public void update() {
+        _adapter.update(School.getInstance().getEvents());
     }
 
     final class EventAdapter extends BaseAdapter {

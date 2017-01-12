@@ -19,19 +19,19 @@ import android.widget.TextView;
 import java.util.List;
 
 import fr.ensicaen.lbssc.ensilink.R;
-import fr.ensicaen.lbssc.ensilink.associationscreen.SuperFragment;
+import fr.ensicaen.lbssc.ensilink.associationscreen.AssociationFragment;
 import fr.ensicaen.lbssc.ensilink.storage.OnImageLoadedListener;
 import fr.ensicaen.lbssc.ensilink.storage.Student;
 
 
-public class Members extends SuperFragment {
+public class Members extends AssociationFragment {
 
     private StudentAdapter _adapter;
     private View _view;
 
     public static Members newInstance(int unionId){
         Members members = new Members();
-        SuperFragment.newInstance(unionId, members);
+        AssociationFragment.newInstance(unionId, members);
         return members;
     }
 
@@ -44,7 +44,7 @@ public class Members extends SuperFragment {
     }
 
     @Override
-    protected void update() {
+    public void update() {
         if(_adapter != null) {
             _adapter.update(getUnion().getStudents());
         }

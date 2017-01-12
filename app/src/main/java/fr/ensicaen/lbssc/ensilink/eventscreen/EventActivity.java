@@ -1,4 +1,4 @@
-package fr.ensicaen.lbssc.ensilink;
+package fr.ensicaen.lbssc.ensilink.eventscreen;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import fr.ensicaen.lbssc.ensilink.R;
 import fr.ensicaen.lbssc.ensilink.storage.Event;
 import fr.ensicaen.lbssc.ensilink.storage.School;
 

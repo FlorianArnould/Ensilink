@@ -10,12 +10,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import java.util.List;
 
 import fr.ensicaen.lbssc.ensilink.associationscreen.unionscreen.UnionFragment;
+import fr.ensicaen.lbssc.ensilink.eventscreen.EventFragment;
 import fr.ensicaen.lbssc.ensilink.storage.OnSchoolDataListener;
 import fr.ensicaen.lbssc.ensilink.storage.School;
 import fr.ensicaen.lbssc.ensilink.storage.Union;
@@ -24,6 +26,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
     UnionFragment _unionFragment;
+    UpdatableFragment _currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +47,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         if (savedInstanceState == null) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.fragmentContent, new EventFragment()).commit();
+            changeFragment(new EventFragment());
         }
         refreshDrawer();
     }
@@ -83,6 +85,7 @@ public class MainActivity extends AppCompatActivity
                             @Override
                             public void run() {
                                 refreshDrawer();
+                                _currentFragment.update();
                             }
                         });
                     }
@@ -107,9 +110,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
-        FragmentManager fragmentManager = getSupportFragmentManager();
         if(item.toString().equals("Actualité")){
-            fragmentManager.beginTransaction().replace(R.id.fragmentContent, new EventFragment()).commit();
+            changeFragment(new EventFragment());
         }
         List<Union> list = School.getInstance().getUnions();
         for(int i=0;i<list.size();i++){
@@ -119,7 +121,7 @@ public class MainActivity extends AppCompatActivity
                 }else {
                     _unionFragment.changeUnion(i);
                 }
-                fragmentManager.beginTransaction().replace(R.id.fragmentContent, _unionFragment).commit();
+                changeFragment(_unionFragment);
                 _unionFragment.postReplaced(this, i);
             }
         }
@@ -138,5 +140,10 @@ public class MainActivity extends AppCompatActivity
         if(getSupportActionBar() != null) {
             getSupportActionBar().setBackgroundDrawable(color);
         }
+    }
+
+    private void changeFragment(UpdatableFragment fragment){
+        _currentFragment = fragment;
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContent, _currentFragment).commit();
     }
 }
