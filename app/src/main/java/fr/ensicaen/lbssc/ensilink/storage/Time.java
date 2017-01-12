@@ -23,6 +23,11 @@ public class Time {
         _minutes = Integer.valueOf(strings[1]);
     }
 
+    private Time(int hour, int minutes){
+        _hours = hour;
+        _minutes = minutes;
+    }
+
     /**
      *
      * @return the time with this form : hour:minutes. Example: 03:15
@@ -37,5 +42,17 @@ public class Time {
             str += "0";
         }
         return  str + _minutes;
+    }
+
+    /**
+     *
+     * @param time to add
+     * @return the result of the sum
+     */
+    public Time add(Time time){
+        int minutes = (time._minutes + _minutes);
+        int hours = time._hours + _hours + minutes/60;
+        minutes %= 60;
+        return new Time(hours, minutes);
     }
 }
