@@ -62,6 +62,7 @@ public class EventFragment extends Fragment {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent myIntent = new Intent(view.getContext(), EventActivity.class);
+                myIntent.putExtra("EVENT_ID", position);
                 startActivity(myIntent);
             }
         });
