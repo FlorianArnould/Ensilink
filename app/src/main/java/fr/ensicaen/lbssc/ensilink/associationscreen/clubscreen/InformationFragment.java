@@ -5,6 +5,7 @@ package fr.ensicaen.lbssc.ensilink.associationscreen.clubscreen;
  * @version 1.0
  */
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,9 +14,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.List;
+
 import fr.ensicaen.lbssc.ensilink.R;
 import fr.ensicaen.lbssc.ensilink.storage.Club;
+import fr.ensicaen.lbssc.ensilink.storage.OnImageLoadedListener;
 import fr.ensicaen.lbssc.ensilink.storage.School;
+import fr.ensicaen.lbssc.ensilink.storage.Student;
 
 
 public class InformationFragment extends Fragment {
@@ -49,29 +54,41 @@ public class InformationFragment extends Fragment {
         View view = inflater.inflate(R.layout.information_fragment, container, false);
         Club club = School.getInstance().getUnion(_unionId).getClub(_clubId);
         TextView text = (TextView) view.findViewById(R.id.place);
-//        text.setText(club.getPlace());
-//        text = (TextView) view.findViewById(R.id.date_club);
-//        text.setText(club.getDate());
-//        text = (TextView) view.findViewById(R.id.hours);
-//        text.setText(club.getHours());
-//        ImageView image = (ImageView) view.findViewById(R.id.logo);
-//        image.setImageDrawable(club.getLogo());
-//
-//
-//        _students=club.getStudents();
-//
-//        text = (TextView) view.findViewById(R.id.namePrez);
-//        text.setText(_students[1].getName());
-//
-//
-//        text = (TextView) view.findViewById(R.id.mailPrez);
-//        text.setText(_students[1].getMail());
-//
-//        text = (TextView) view.findViewById(R.id.nameVicePrez);
-//        text.setText(_students[2].getName());
-//
-//        text = (TextView) view.findViewById(R.id.mailVicePrez);
-//        text.setText(_students[2].getName());
+        text.setText(club.getPlace());
+        text = (TextView) view.findViewById(R.id.date_club);
+        text.setText(club.getDayOfWeek());
+        if(club.getTime() != null) {
+            text = (TextView) view.findViewById(R.id.hours);
+            text.setText(club.getTime().toString());
+        }
+        final ImageView imageView = (ImageView) view.findViewById(R.id.logo);
+        club.loadLogo(new OnImageLoadedListener() {
+            @Override
+            public void OnImageLoaded(final Drawable image) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        imageView.setImageDrawable(image);
+                    }
+                });
+            }
+        });
+
+
+        List<Student> students = club.getStudents();
+
+        text = (TextView) view.findViewById(R.id.namePrez);
+        text.setText(students.get(0).getName());
+
+
+        text = (TextView) view.findViewById(R.id.mailPrez);
+        text.setText(students.get(0).getEmail());
+
+        text = (TextView) view.findViewById(R.id.nameVicePrez);
+        text.setText(students.get(1).getName());
+
+        text = (TextView) view.findViewById(R.id.mailVicePrez);
+        text.setText(students.get(1).getName());
 
         return view;
     }

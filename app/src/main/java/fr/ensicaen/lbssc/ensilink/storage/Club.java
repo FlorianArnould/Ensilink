@@ -46,7 +46,7 @@ public class Club extends Association{
      *
      * @return a string with the day of week
      */
-    private String getDayOfWeek(){
+    public String getDayOfWeek(){
         return _daysOfWeek[_day-1];
     }
 
