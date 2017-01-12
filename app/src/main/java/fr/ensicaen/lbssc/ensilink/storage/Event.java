@@ -12,7 +12,7 @@ import java.io.File;
  */
 
 /**
- * The class that represent a big event
+ * The class that represents a big event
  */
 public class Event {
 
@@ -28,6 +28,7 @@ public class Event {
      * @param imageFile the header image of the article
      * @param union the organiser union of the event
      */
+
     Event(String title, String text, File imageFile, Union union){
         _title = title;
         _text = text;

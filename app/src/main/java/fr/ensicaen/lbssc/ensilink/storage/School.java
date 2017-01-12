@@ -77,4 +77,13 @@ public final class School {
     public List<Event> getEvents(){
         return _events;
     }
+
+    /**
+     *
+     * @param i the union index
+     * @return return the corresponding event
+     */
+    public Event getEvent(int i) {
+        return _events.get(i);
+    }
 }
