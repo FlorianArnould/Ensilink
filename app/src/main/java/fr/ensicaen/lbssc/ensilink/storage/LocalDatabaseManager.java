@@ -15,7 +15,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 final class LocalDatabaseManager extends SQLiteOpenHelper {
     private static final int VERSION = 1;
     private static final String DATABASE_NAME = "ProjectsDatabase.db";
-    private static final String[] _tables = {"images", "students", "unions", "clubs", "students_club", "students_union", "events"};
+    private static final String[] _tables = {"colors", "images", "students", "unions", "clubs", "students_club", "students_union", "events"};
 
     /**
      * The constructor
@@ -32,6 +32,12 @@ final class LocalDatabaseManager extends SQLiteOpenHelper {
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE colors(" +
+                "id serial NOT NULL PRIMARY KEY," +
+                "red INTEGER NOT NULL CHECK (red>=0 and red<256)," +
+                "green INTEGER NOT NULL CHECK (green>=0 and green<256)," +
+                "blue INTEGER NOT NULL CHECK (blue>=0 and blue<256));");
+
         db.execSQL("CREATE TABLE images(" +
                 "id INTEGER NOT NULL PRIMARY KEY," +
                 "name VARCHAR(100) NOT NULL);");
@@ -40,7 +46,8 @@ final class LocalDatabaseManager extends SQLiteOpenHelper {
                 "id INTEGER NOT NULL PRIMARY KEY," +
                 "name VARCHAR(50)," +
                 "idlogo INTEGER NOT NULL REFERENCES images (id)," +
-                "idphoto INTEGER NOT NULL REFERENCES images (id));");
+                "idphoto INTEGER NOT NULL REFERENCES images (id)," +
+                "idcolor INTEGER NOT NULL REFERENCES colors (id));");
 
         db.execSQL("CREATE TABLE students(" +
                 "id INTEGER NOT NULL PRIMARY KEY," +

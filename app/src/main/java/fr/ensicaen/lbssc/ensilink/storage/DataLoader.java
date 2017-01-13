@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.graphics.Color;
 import android.util.Log;
 
 import java.io.File;
@@ -112,10 +113,10 @@ final class DataLoader extends Thread{
     private void loadUnionsFromDatabase(){
         _unions = new ArrayList<>();
         _events = new ArrayList<>();
-        Cursor unionCursor = _db.rawQuery("SELECT u.id, u.name, l.name, p.name FROM unions AS u LEFT JOIN images AS l ON u.idlogo=l.id LEFT JOIN images AS p ON u.idphoto=p.id;", null, null);
+        Cursor unionCursor = _db.rawQuery("SELECT u.id, u.name, l.name, p.name, c.red, c.green, c.blue FROM unions AS u LEFT JOIN images AS l ON u.idlogo=l.id LEFT JOIN images AS p ON u.idphoto=p.id LEFT JOIN colors AS c ON u.idcolor=c.id;", null, null);
         if(unionCursor.moveToFirst()) {
             do {
-                Union union = new Union(unionCursor.getString(1), new File(_fileDir, unionCursor.getString(2)), new File(_fileDir, unionCursor.getString(3)));
+                Union union = new Union(unionCursor.getString(1), new File(_fileDir, unionCursor.getString(2)), new File(_fileDir, unionCursor.getString(3)), Color.rgb(unionCursor.getInt(4), unionCursor.getInt(5), unionCursor.getInt(6)));
                 loadStudentsUnionFromDatabase(unionCursor, union);
                 loadClubsFromDatabase(unionCursor, union);
                 _unions.add(union);

@@ -116,18 +116,9 @@ public class UnionFragment extends Fragment implements Updatable {
 
     public void postReplaced(MainActivity activity, int unionId){
         if( activity != null) {
-            activity.setActionBarTitle(School.getInstance().getUnion(unionId).getName());
-            if(unionId == 0){
-                _color = Color.BLUE;
-            }else if(unionId == 1){
-                _color = Color.argb(255, 238, 33, 33);
-            }else if(unionId == 2){
-                _color = Color.argb(255, 46, 82, 68);
-            }else if(unionId == 3){
-                _color = Color.argb(255, 117, 4, 22);
-            }else if(unionId == 4){
-                _color = Color.argb(255, 15, 203, 170);
-            }
+            Union union = School.getInstance().getUnion(unionId);
+            activity.setActionBarTitle(union.getName());
+            _color = union.getColor();
             activity.setActionBarColor(new ColorDrawable(_color));
             if(android.os.Build.VERSION.SDK_INT >= 21){
                 int darker = darkerColor(_color);
