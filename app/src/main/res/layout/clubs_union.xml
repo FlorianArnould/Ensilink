@@ -5,7 +5,7 @@
     tools:context=".associationscreen.unionscreen.Clubs">
 
     <ListView
-        android:id="@+id/list_view_club"
+        android:id="@id/android:list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/tab_layout_height"

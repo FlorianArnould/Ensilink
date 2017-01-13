@@ -4,8 +4,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,6 +15,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 
 import java.util.List;
 
@@ -23,11 +26,18 @@ import fr.ensicaen.lbssc.ensilink.storage.OnSchoolDataListener;
 import fr.ensicaen.lbssc.ensilink.storage.School;
 import fr.ensicaen.lbssc.ensilink.storage.Union;
 
+/**
+ * @author Florian Arnould
+ * @version 1.0
+ */
+
+
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener, OnScrollListener{
 
     UnionFragment _unionFragment;
-    UpdatableFragment _currentFragment;
+    Updatable _currentFragment;
+    SwipeRefreshLayout _refresher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +53,8 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        SwipeRefreshLayout refresher = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
-        refresher.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        _refresher = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
+        _refresher.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 refresh();
@@ -87,8 +97,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.action_settings:
                 return true;
             case R.id.action_refresh:
-                SwipeRefreshLayout refresher = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
-                refresher.setRefreshing(true);
+                _refresher.setRefreshing(true);
                 refresh();
                 return true;
         }
@@ -110,19 +119,22 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
-        if(item.toString().equals("Actualité")){
+        if(item.getTitle().equals("Actualité")){
             changeFragment(new EventFragment());
-        }
-        List<Union> list = School.getInstance().getUnions();
-        for(int i=0;i<list.size();i++){
-            if(item.toString().equals(list.get(i).getName())) {
-                if (_unionFragment == null) {
-                    _unionFragment = UnionFragment.newInstance(i);
-                }else {
-                    _unionFragment.changeUnion(i);
+        }else {
+            List<Union> list = School.getInstance().getUnions();
+            for (int i = 0; i < list.size(); i++) {
+                if (item.toString().equals(list.get(i).getName())) {
+                    if (_unionFragment == null) {
+                        _unionFragment = UnionFragment.newInstance(i);
+                    } else {
+                        _unionFragment.changeUnion(i);
+                        //TODO return to default position after visited Events page
+                        _unionFragment.resetPosition();
+                    }
+                    changeFragment(_unionFragment);
+                    _unionFragment.postReplaced(this, i);
                 }
-                changeFragment(_unionFragment);
-                _unionFragment.postReplaced(this, i);
             }
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -142,14 +154,13 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void changeFragment(UpdatableFragment fragment){
-        _currentFragment = fragment;
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContent, _currentFragment).commit();
+    private void changeFragment(Fragment fragment){
+        _currentFragment = (Updatable) fragment;
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContent, fragment).commit();
     }
 
 
     private void refresh(){
-        Log.d("Debug", "run update school from main activity");
         School.getInstance().refreshData(getApplicationContext(), new OnSchoolDataListener() {
             @Override
             public void OnDataRefreshed(School school) {
@@ -158,11 +169,34 @@ public class MainActivity extends AppCompatActivity
                     public void run() {
                         refreshDrawer();
                         _currentFragment.update();
-                        SwipeRefreshLayout refresher = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
-                        refresher.setRefreshing(false);
+                        _refresher.setRefreshing(false);
                     }
                 });
             }
         });
+    }
+
+
+    @Override
+    public void onScrollStateChanged(AbsListView absListView, int state) {
+        if(state == OnScrollListener.SCROLL_STATE_IDLE) {
+            updateRefresherState(absListView);
+        }
+    }
+
+    @Override
+    public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+
+    }
+
+    public void updateRefresherState(AbsListView absListView){
+        if(_refresher != null) {
+            setRefresherEnabled(!ViewCompat.canScrollVertically(absListView, -1));
+        }
+    }
+
+    public void setRefresherEnabled(boolean enabled){
+        Log.d("Debug", String.valueOf(enabled));
+        _refresher.setEnabled(enabled);
     }
 }

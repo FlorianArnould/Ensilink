@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import fr.ensicaen.lbssc.ensilink.MainActivity;
 import fr.ensicaen.lbssc.ensilink.R;
 import fr.ensicaen.lbssc.ensilink.associationscreen.AssociationFragment;
 import fr.ensicaen.lbssc.ensilink.associationscreen.clubscreen.ClubActivity;
@@ -56,8 +57,13 @@ public class Clubs extends AssociationFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.clubs_union, container, false);
-        ListView list = (ListView) view.findViewById(R.id.list_view_club);
+        return inflater.inflate(R.layout.clubs_union, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedStateInstance){
+        super.onActivityCreated(savedStateInstance);
+        ListView list = getListView();
         list.setAdapter(_adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -68,8 +74,8 @@ public class Clubs extends AssociationFragment {
                 startActivity(myIntent);
             }
         });
+        list.setOnScrollListener((MainActivity)getActivity());
         update();
-        return view;
     }
 
     final class ClubsAdapter extends BaseAdapter {

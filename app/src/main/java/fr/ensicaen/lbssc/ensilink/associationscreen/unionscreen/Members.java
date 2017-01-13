@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import fr.ensicaen.lbssc.ensilink.MainActivity;
 import fr.ensicaen.lbssc.ensilink.R;
 import fr.ensicaen.lbssc.ensilink.associationscreen.AssociationFragment;
 import fr.ensicaen.lbssc.ensilink.storage.OnImageLoadedListener;
@@ -69,12 +70,17 @@ public class Members extends AssociationFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         _view = inflater.inflate(R.layout.members_union, container, false);
-        ListView list = (ListView) _view.findViewById(R.id.list_view_member);
-        list.setAdapter(_adapter);
-        update();
         return _view;
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedStateInstance){
+        super.onActivityCreated(savedStateInstance);
+        ListView list = getListView();
+        list.setAdapter(_adapter);
+        list.setOnScrollListener((MainActivity)getActivity());
+        update();
+    }
 
     final class StudentAdapter extends BaseAdapter {
 

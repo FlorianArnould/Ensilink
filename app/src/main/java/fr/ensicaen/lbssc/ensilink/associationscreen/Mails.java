@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import fr.ensicaen.lbssc.ensilink.R;
 
-public class Mails extends Fragment {
+public class Mails extends Fragment/*extends AssociationFragment*/ {
 
     public Mails() {
         // Required empty public constructor

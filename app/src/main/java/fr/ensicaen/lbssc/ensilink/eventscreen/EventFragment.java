@@ -6,7 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +20,7 @@ import java.util.List;
 
 import fr.ensicaen.lbssc.ensilink.MainActivity;
 import fr.ensicaen.lbssc.ensilink.R;
-import fr.ensicaen.lbssc.ensilink.UpdatableFragment;
+import fr.ensicaen.lbssc.ensilink.Updatable;
 import fr.ensicaen.lbssc.ensilink.storage.Event;
 import fr.ensicaen.lbssc.ensilink.storage.OnImageLoadedListener;
 import fr.ensicaen.lbssc.ensilink.storage.School;
@@ -30,7 +30,7 @@ import fr.ensicaen.lbssc.ensilink.storage.School;
  * @version 1.0
  */
 
-public class EventFragment extends UpdatableFragment {
+public class EventFragment extends ListFragment implements Updatable {
 
     EventAdapter _adapter;
 
@@ -58,8 +58,13 @@ public class EventFragment extends UpdatableFragment {
                 activity.getWindow().setStatusBarColor(Color.argb(125,48,63,159));
             }
         }
+        return view;
+    }
 
-        ListView list = (ListView) view.findViewById(R.id.list_view);
+    @Override
+    public void onActivityCreated(Bundle savedStateInstance){
+        super.onActivityCreated(savedStateInstance);
+        ListView list = getListView();
         list.setAdapter(_adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -68,8 +73,8 @@ public class EventFragment extends UpdatableFragment {
                 startActivity(myIntent);
             }
         });
+        list.setOnScrollListener((MainActivity)getActivity());
         update();
-        return view;
     }
 
     @Override

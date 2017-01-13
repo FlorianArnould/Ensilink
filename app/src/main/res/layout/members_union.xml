@@ -13,7 +13,7 @@
         android:contentDescription="@string/union_photo_description"/>
 
     <ListView
-        android:id="@+id/list_view_member"
+        android:id="@id/android:list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/photo"
