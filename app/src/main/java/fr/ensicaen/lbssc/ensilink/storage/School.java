@@ -1,7 +1,6 @@
 package fr.ensicaen.lbssc.ensilink.storage;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.util.List;
 
@@ -15,7 +14,7 @@ import java.util.List;
  */
 public final class School {
 
-    private static School _ourInstance = new School();
+    private static final School _ourInstance = new School();
     private static List<Union> _unions;
     private static List<Event> _events;
     private static boolean _neverUpdated;
@@ -48,7 +47,7 @@ public final class School {
                 _unions = loader.getUnions();
                 _events = loader.getEvents();
                 if(listener != null){
-                    listener.OnDataRefreshed(School.this);
+                    listener.OnDataRefreshed();
                 }
                 _neverUpdated = false;
             }

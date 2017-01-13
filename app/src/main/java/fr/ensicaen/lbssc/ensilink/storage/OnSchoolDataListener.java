@@ -11,7 +11,6 @@ package fr.ensicaen.lbssc.ensilink.storage;
 public interface OnSchoolDataListener {
     /**
      * Executes this when School is updated
-     * @param school the School instance itself
      */
-    void OnDataRefreshed(School school);
+    void OnDataRefreshed();
 }

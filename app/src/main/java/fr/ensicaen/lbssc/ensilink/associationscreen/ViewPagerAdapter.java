@@ -8,32 +8,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
-    private final List<Fragment> mFragmentList;
-    private final List<String> mFragmentTitleList;
+    private final List<Fragment> _FragmentList;
+    private final List<String> _TitleList;
 
     public ViewPagerAdapter(FragmentManager manager) {
         super(manager);
-        mFragmentList = new ArrayList<>();
-        mFragmentTitleList = new ArrayList<>();
+        _FragmentList = new ArrayList<>();
+        _TitleList = new ArrayList<>();
     }
 
     @Override
     public Fragment getItem(int position) {
-        return mFragmentList.get(position);
+        return _FragmentList.get(position);
     }
 
     @Override
     public int getCount() {
-        return mFragmentList.size();
+        return _FragmentList.size();
     }
 
     public void addFragment(Fragment fragment, String title) {
-        mFragmentList.add(fragment);
-        mFragmentTitleList.add(title);
+        _FragmentList.add(fragment);
+        _TitleList.add(title);
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return mFragmentTitleList.get(position);
+        return _TitleList.get(position);
     }
 }

@@ -23,9 +23,9 @@ import java.util.List;
 /**
  * Class which can download files in local directory as images
  */
-class FileDownloader {
+final class FileDownloader {
 
-    private Context _context;
+    private final Context _context;
 
     /**
      * The constructor
@@ -39,26 +39,22 @@ class FileDownloader {
     /**
      *
      * @param imageNames a list of the name of the images
-     * @return true if all images were downloaded successfully
      */
-    boolean downloadImages(List<String> imageNames){
-        boolean ok = true;
+    void downloadImages(List<String> imageNames){
         try{
             for (String imageName : imageNames){
-                ok &= download(imageName);
+                download(imageName);
             }
         } catch (IOException e) {
             Log.d("D", "io error : " + e.getMessage());
         }
-        return ok;
     }
 
     /**
-     *
+     * Download one image from the network
      * @param imageName the image name
-     * @return true if the image was downloaded successfully
      */
-    private boolean download(String imageName) throws IOException{
+    private void download(String imageName) throws IOException{
         try {
             URL url = new URL("http://www.ecole.ensicaen.fr/~arnould/others/test/images/" + imageName);
             InputStream in = url.openStream();
@@ -70,14 +66,13 @@ class FileDownloader {
             while ((length = dis.read(buffer))>0) {
                 fos.write(buffer, 0, length);
             }
-            return move(imageName+".new", imageName);
+            move(imageName+".new", imageName);
         } catch (MalformedURLException e) {
             Log.d("D", "malformed url error : " + e.getMessage());
         }
-        return false;
     }
 
-    private boolean move(String original, String target){
+    private void move(String original, String target){
         File originalFile = new File(_context.getFilesDir(), original);
         try {
             InputStream in = new FileInputStream(originalFile);
@@ -90,12 +85,13 @@ class FileDownloader {
             in.close();
             out.flush();
             out.close();
-            return originalFile.delete();
+            if(!originalFile.delete()){
+                Log.d("D", "File " + original + " was not removed correctly");
+            }
         } catch (FileNotFoundException e) {
             Log.d("D", "File not found when moving image " + target + " : " + e.getMessage());
         } catch (IOException e) {
             Log.d("D", "Read or write error when moving image " + target + " : " + e.getMessage());
         }
-        return false;
     }
 }

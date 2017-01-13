@@ -30,9 +30,9 @@ import fr.ensicaen.lbssc.ensilink.storage.School;
  * @version 1.0
  */
 
-public class EventFragment extends ListFragment implements Updatable {
+public final class EventFragment extends ListFragment implements Updatable {
 
-    EventAdapter _adapter;
+    private EventAdapter _adapter;
 
     public EventFragment(){}
 
@@ -134,8 +134,8 @@ public class EventFragment extends ListFragment implements Updatable {
             title.setText(event.getTitle());
             TextView description = (TextView) view.findViewById(R.id.listview_item_short_description);
             String shortDescription = event.getMainText();
-            if(shortDescription.length() > 20){
-                shortDescription = shortDescription.substring(0,20) + "...";
+            if(shortDescription.length() > 35){
+                shortDescription = shortDescription.substring(0,35) + "...";
             }
             description.setText(shortDescription);
             return view;

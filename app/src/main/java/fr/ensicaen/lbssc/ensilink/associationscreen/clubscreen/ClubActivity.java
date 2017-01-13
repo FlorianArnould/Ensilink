@@ -1,6 +1,5 @@
 package fr.ensicaen.lbssc.ensilink.associationscreen.clubscreen;
 
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -8,11 +7,17 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import fr.ensicaen.lbssc.ensilink.ColorCreator;
 import fr.ensicaen.lbssc.ensilink.R;
-import fr.ensicaen.lbssc.ensilink.associationscreen.Mails;
+import fr.ensicaen.lbssc.ensilink.associationscreen.Emails;
 import fr.ensicaen.lbssc.ensilink.associationscreen.ViewPagerAdapter;
 import fr.ensicaen.lbssc.ensilink.storage.School;
 import fr.ensicaen.lbssc.ensilink.storage.Union;
+
+/**
+ * @author Marsel Arik
+ * @version 1.0
+ */
 
 public class ClubActivity extends AppCompatActivity {
 
@@ -40,24 +45,17 @@ public class ClubActivity extends AppCompatActivity {
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(color));
         }
         if(android.os.Build.VERSION.SDK_INT >= 21){
-            getWindow().setStatusBarColor(darkerColor(color));
+            getWindow().setStatusBarColor(ColorCreator.semiTransparentColor(ColorCreator.darkerColor(color)));
         }
         tabLayout.setBackgroundColor(color);
     }
 
-    private int darkerColor(int color){
-        float HSVcolor[] = new float[3];
-        Color.colorToHSV(color, HSVcolor);
-        HSVcolor[2] *= 0.9;
-        return Color.HSVToColor(HSVcolor);
-    }
-
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        Mails mails = new Mails();
-        InformationFragment info= InformationFragment.newInstance(_unionId, _clubId);
-        adapter.addFragment(info, "Informations");
-        adapter.addFragment(mails, "Mails");
+        Emails emails = Emails.newInstance(_unionId);
+        InformationFragment info = InformationFragment.newInstance(_unionId, _clubId);
+        adapter.addFragment(info, getString(R.string.information));
+        adapter.addFragment(emails, getString(R.string.emails));
         viewPager.setAdapter(adapter);
     }
 

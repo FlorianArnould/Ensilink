@@ -17,16 +17,17 @@ import fr.ensicaen.lbssc.ensilink.storage.School;
  */
 public class SplashActivity extends Activity {
 
-    boolean isMainActivityLaunched = false;
+    private boolean isMainActivityLaunched;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        isMainActivityLaunched = false;
         School school = School.getInstance();
         school.refreshData(getApplicationContext(), new OnSchoolDataListener(){
             @Override
-            public void OnDataRefreshed(School school) {
+            public void OnDataRefreshed() {
                 if(!isMainActivityLaunched) {
                     isMainActivityLaunched = true;
                     Thread thread = new Thread() {

@@ -14,12 +14,12 @@ import java.io.File;
 /**
  * The class that represents a big event
  */
-public class Event {
+public final class Event {
 
-    private String _title;
-    private String _text;
-    private File _imageFile;
-    private Union _union;
+    private final String _title;
+    private final String _text;
+    private final File _imageFile;
+    private final Union _union;
 
     /**
      * The constructor

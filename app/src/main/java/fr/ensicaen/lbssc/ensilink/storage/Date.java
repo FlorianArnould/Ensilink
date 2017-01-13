@@ -9,9 +9,9 @@ package fr.ensicaen.lbssc.ensilink.storage;
  * A representation of a date
  */
 public final class Date{
-    private int _year;
-    private int _month;
-    private int _dayOfMonth;
+    private final int _year;
+    private final int _month;
+    private final int _dayOfMonth;
 
     /**
      * The constructor

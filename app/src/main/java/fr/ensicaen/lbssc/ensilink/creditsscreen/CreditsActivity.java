@@ -22,7 +22,7 @@ import fr.ensicaen.lbssc.ensilink.R;
  * @version 1.0
  */
 
-public class CreditsActivity extends AppCompatActivity {
+public final class CreditsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedStateInstance){
@@ -48,8 +48,8 @@ public class CreditsActivity extends AppCompatActivity {
 
     private final class CreditsAdapter extends BaseAdapter {
 
-        private List<Integer> _rowLayout;
-        private List<Object> _rowContent;
+        private final List<Integer> _rowLayout;
+        private final List<Object> _rowContent;
 
         CreditsAdapter(){
             _rowLayout = new ArrayList<>();

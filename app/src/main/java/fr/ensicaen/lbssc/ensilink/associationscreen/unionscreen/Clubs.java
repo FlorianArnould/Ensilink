@@ -26,9 +26,9 @@ import fr.ensicaen.lbssc.ensilink.associationscreen.clubscreen.ClubActivity;
 import fr.ensicaen.lbssc.ensilink.storage.Club;
 import fr.ensicaen.lbssc.ensilink.storage.OnImageLoadedListener;
 
-public class Clubs extends AssociationFragment {
+public final class Clubs extends AssociationFragment {
 
-    ClubsAdapter _adapter;
+    private ClubsAdapter _adapter;
 
     public static Clubs newInstance(int unionId) {
         Clubs clubs = new Clubs();
@@ -122,6 +122,7 @@ public class Clubs extends AssociationFragment {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            //Todo protect against no file found
                             image.setBounds(0, 0, 150, 150);
                             text.setCompoundDrawables(image, null, null, null);
                         }

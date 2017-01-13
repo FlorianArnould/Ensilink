@@ -56,10 +56,24 @@ public class InformationFragment extends Fragment {
         TextView text = (TextView) view.findViewById(R.id.place);
         text.setText(club.getPlace());
         text = (TextView) view.findViewById(R.id.date_club);
-        text.setText(club.getDayOfWeek(getContext()));
+        if(club.getDayOfWeek(getContext()) != null) {
+            text.setText(club.getDayOfWeek(getContext()));
+        }else if(club.getDate() != null){
+            text.setText(club.getDate().toString());
+        }else{
+            text.setText(getString(R.string.unknown));
+        }
+        text = (TextView) view.findViewById(R.id.hours);
         if(club.getTime() != null) {
-            text = (TextView) view.findViewById(R.id.hours);
-            text.setText(club.getTime().toString());
+            String str = club.getTime().toString() + "-";
+            if(club.getDuration() != null){
+                str += club.getTime().add(club.getDuration()).toString();
+            }else{
+                str += getString(R.string.unknown);
+            }
+            text.setText(str);
+        }else{
+            text.setText(getString(R.string.unknown));
         }
         final ImageView imageView = (ImageView) view.findViewById(R.id.logo);
         club.loadLogo(new OnImageLoadedListener() {

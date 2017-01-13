@@ -13,7 +13,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AbsListView;
@@ -34,12 +33,12 @@ import fr.ensicaen.lbssc.ensilink.storage.Union;
  */
 
 
-public class MainActivity extends AppCompatActivity
+public final class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnScrollListener{
 
-    UnionFragment _unionFragment;
-    Updatable _currentFragment;
-    SwipeRefreshLayout _refresher;
+    private UnionFragment _unionFragment;
+    private Updatable _currentFragment;
+    private SwipeRefreshLayout _refresher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +112,7 @@ public class MainActivity extends AppCompatActivity
     private void refreshDrawer(){
         final Menu menu = ((NavigationView)findViewById(R.id.nav_view)).getMenu();
         menu.clear();
-        menu.add("Actualité").setCheckable(true);
+        menu.add(getString(R.string.news)).setCheckable(true);
         List<Union> list = School.getInstance().getUnions();
         for(Union u : list){
             MenuItem item = menu.add(u.getName());
@@ -125,7 +124,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
-        if(item.getTitle().equals("Actualité")){
+        if(item.getTitle().equals(getString(R.string.news))){
             changeFragment(new EventFragment());
         }else {
             List<Union> list = School.getInstance().getUnions();
@@ -169,7 +168,7 @@ public class MainActivity extends AppCompatActivity
     private void refresh(){
         School.getInstance().refreshData(getApplicationContext(), new OnSchoolDataListener() {
             @Override
-            public void OnDataRefreshed(School school) {
+            public void OnDataRefreshed() {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -202,7 +201,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void setRefresherEnabled(boolean enabled){
-        Log.d("Debug", String.valueOf(enabled));
         _refresher.setEnabled(enabled);
     }
 }

@@ -5,17 +5,24 @@ package fr.ensicaen.lbssc.ensilink.associationscreen;
  * @version 1.0
  */
 
+//TODO functionality will be implemented in the next released
+
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import fr.ensicaen.lbssc.ensilink.R;
 
-public class Mails extends Fragment/*extends AssociationFragment*/ {
+public class Emails extends AssociationFragment {
 
-    public Mails() {
+    public static Emails newInstance(int unionId) {
+        Emails clubs = new Emails();
+        AssociationFragment.newInstance(unionId, clubs);
+        return clubs;
+    }
+
+    public Emails() {
         // Required empty public constructor
     }
     @Override
@@ -30,4 +37,8 @@ public class Mails extends Fragment/*extends AssociationFragment*/ {
         return inflater.inflate(R.layout.mails_union, container, false);
     }
 
+    @Override
+    public void update() {
+
+    }
 }

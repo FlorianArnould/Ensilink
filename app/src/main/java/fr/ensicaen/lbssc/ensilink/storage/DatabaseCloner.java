@@ -1,7 +1,6 @@
 package fr.ensicaen.lbssc.ensilink.storage;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.util.Log;
@@ -36,7 +35,7 @@ import javax.xml.parsers.ParserConfigurationException;
 final class DatabaseCloner{
 
     private boolean _success;
-    private SQLiteDatabase _db;
+    private final SQLiteDatabase _db;
 
     /**
      * The constructor

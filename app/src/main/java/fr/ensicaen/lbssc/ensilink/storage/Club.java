@@ -14,13 +14,13 @@ import fr.ensicaen.lbssc.ensilink.R;
 /**
  * The class that represent a club of the school
  */
-public class Club extends Association{
+public final class Club extends Association{
 
-    private int _day;
-    private Date _date;
-    private Time _time;
-    private Time _duration;
-    private String _place;
+    private final int _day;
+    private final Date _date;
+    private final Time _time;
+    private final Time _duration;
+    private final String _place;
 
     /**
      * The constructor

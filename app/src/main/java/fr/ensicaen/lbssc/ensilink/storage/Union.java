@@ -14,8 +14,8 @@ import java.util.List;
  */
 public final class Union extends Association{
 
-    private List<Club> _clubs;
-    private int _color;
+    private final List<Club> _clubs;
+    private final int _color;
 
     /**
      * The constructor

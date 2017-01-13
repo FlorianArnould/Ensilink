@@ -10,11 +10,11 @@ package fr.ensicaen.lbssc.ensilink.storage;
  */
 public final class Student {
 
-    private String _email;
-    private String _name;
-    private String _lastName;
-    private String _nickname;
-    private String _position;
+    private final String _email;
+    private final String _name;
+    private final String _lastName;
+    private final String _nickname;
+    private final String _position;
 
     Student(String name, String lastName, String nickname, String email, String position){
         _name = name;

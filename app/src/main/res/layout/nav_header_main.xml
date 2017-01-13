@@ -18,10 +18,11 @@
         android:layout_height="70dp">
 
         <ImageView
+            android:contentDescription="@string/application_icon"
             android:layout_width="60dp"
             android:layout_height="50dp"
             android:layout_marginEnd="10dp"
-            android:src="@drawable/ic_kangouroo"/>
+            android:src="@drawable/ic_kangaroo"/>
 
         <TextView
             android:id="@+id/appNameTitle"

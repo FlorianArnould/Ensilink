@@ -11,10 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import fr.ensicaen.lbssc.ensilink.ColorCreator;
 import fr.ensicaen.lbssc.ensilink.MainActivity;
 import fr.ensicaen.lbssc.ensilink.R;
 import fr.ensicaen.lbssc.ensilink.Updatable;
-import fr.ensicaen.lbssc.ensilink.associationscreen.Mails;
+import fr.ensicaen.lbssc.ensilink.associationscreen.Emails;
 import fr.ensicaen.lbssc.ensilink.associationscreen.ViewPagerAdapter;
 import fr.ensicaen.lbssc.ensilink.storage.School;
 import fr.ensicaen.lbssc.ensilink.storage.Union;
@@ -31,7 +32,7 @@ public class UnionFragment extends Fragment implements Updatable {
     private View _view;
     private Members _members;
     private Clubs _clubs;
-    private Mails _mails;
+    private Emails _emails;
     private int _color;
     private int _unionId;
 
@@ -106,7 +107,7 @@ public class UnionFragment extends Fragment implements Updatable {
     public void update(){
         _members.changeUnion(_unionId);
         _clubs.changeUnion(_unionId);
-        //_mails.changeUnion(_unionId);
+        _emails.changeUnion(_unionId);
     }
 
     public void resetPosition(){
@@ -123,8 +124,8 @@ public class UnionFragment extends Fragment implements Updatable {
             _color = union.getColor();
             activity.setActionBarColor(new ColorDrawable(_color));
             if(android.os.Build.VERSION.SDK_INT >= 21){
-                int darker = darkerColor(_color);
-                activity.getWindow().setStatusBarColor(Color.argb(125, Color.red(darker), Color.green(darker), Color.blue(darker)));
+                int darker = ColorCreator.darkerColor(_color);
+                activity.getWindow().setStatusBarColor(ColorCreator.semiTransparentColor(darker));
             }
             if(_view != null){
                 TabLayout tabLayout = (TabLayout) _view.findViewById(R.id.tabs);
@@ -133,21 +134,14 @@ public class UnionFragment extends Fragment implements Updatable {
         }
     }
 
-    private int darkerColor(int color){
-        float HSVcolor[] = new float[3];
-        Color.colorToHSV(color, HSVcolor);
-        HSVcolor[2] *= 0.9;
-        return Color.HSVToColor(HSVcolor);
-    }
-
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
         _members = Members.newInstance(_unionId);
         _clubs = Clubs.newInstance(_unionId);
-        _mails = new Mails();
-        adapter.addFragment(_members, "Membres");
-        adapter.addFragment(_clubs, "Clubs");
-        adapter.addFragment(_mails, "Mails");
+        _emails = Emails.newInstance(_unionId);
+        adapter.addFragment(_members, getString(R.string.members));
+        adapter.addFragment(_clubs, getString(R.string.clubs));
+        adapter.addFragment(_emails, getString(R.string.emails));
         viewPager.setAdapter(adapter);
     }
 

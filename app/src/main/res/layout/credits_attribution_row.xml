@@ -7,6 +7,7 @@
 
     <ImageView
         android:id="@+id/icon"
+        android:contentDescription="@string/attribution_logo"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:paddingStart="15dp"

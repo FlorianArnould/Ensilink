@@ -22,13 +22,13 @@ import java.util.List;
 final class DataLoader extends Thread{
 
     private SQLiteDatabase _db;
-    private LocalDatabaseManager _databaseManager;
+    private final LocalDatabaseManager _databaseManager;
     private List<Union> _unions;
     private List<Event> _events;
     private OnLoadingFinishListener _listener;
-    private FileDownloader _downloader;
-    private File _fileDir;
-    private boolean _preload;
+    private final FileDownloader _downloader;
+    private final File _fileDir;
+    private final boolean _preload;
 
     /**
      * The constructor
@@ -54,11 +54,12 @@ final class DataLoader extends Thread{
                 _listener.OnLoadingFinish(this);
             }
         }
-        cloneDatabase();
-        downloadImages();
-        loadUnionsFromDatabase();
-        if(_listener != null) {
-            _listener.OnLoadingFinish(this);
+        if(cloneDatabase()) {
+            downloadImages();
+            loadUnionsFromDatabase();
+            if (_listener != null) {
+                _listener.OnLoadingFinish(this);
+            }
         }
         _db.close();
     }
@@ -225,10 +226,9 @@ final class DataLoader extends Thread{
     }
 
     /**
-     *
-     * @return true if all images were loaded successfully
+     * Download All images from network
      */
-    private boolean downloadImages(){
+    private void downloadImages(){
         Cursor cursor = _db.query("images", null, null, null, null, null, null);
         List<String> list = new ArrayList<>();
         if(cursor.moveToFirst()) {
@@ -237,7 +237,7 @@ final class DataLoader extends Thread{
             } while (cursor.moveToNext());
         }
         cursor.close();
-        return _downloader.downloadImages(list);
+        _downloader.downloadImages(list);
     }
 
     /**

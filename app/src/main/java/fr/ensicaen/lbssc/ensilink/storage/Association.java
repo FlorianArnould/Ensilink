@@ -1,6 +1,7 @@
 package fr.ensicaen.lbssc.ensilink.storage;
 
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -17,10 +18,10 @@ import java.util.List;
  */
 abstract class Association {
 
-    private String _name;
-    private File _logoFile;
-    private File _photoFile;
-    private List<Student> _students;
+    private final String _name;
+    private final File _logoFile;
+    private final File _photoFile;
+    private final List<Student> _students;
 
     /**
      * The constructor
@@ -65,6 +66,7 @@ abstract class Association {
      */
     public void loadLogo(OnImageLoadedListener listener){
         ImageLoadThread thread = new ImageLoadThread(_logoFile, listener);
+        Log.d("Debug", _logoFile.getAbsolutePath());
         thread.start();
     }
 
@@ -90,8 +92,8 @@ abstract class Association {
      */
     private class ImageLoadThread extends Thread{
 
-        File _image;
-        OnImageLoadedListener _listener;
+        private final File _image;
+        private final OnImageLoadedListener _listener;
 
         /**
          * The constructor

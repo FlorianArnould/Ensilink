@@ -8,10 +8,10 @@ package fr.ensicaen.lbssc.ensilink.storage;
 /**
  * A representation of a time
  */
-public class Time {
+public final class Time {
 
-    private int _hours;
-    private int _minutes;
+    private final int _hours;
+    private final int _minutes;
 
     /**
      * The constructor

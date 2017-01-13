@@ -5,10 +5,11 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:layout_width="fill_parent"
+        android:id="@+id/imageView"
+        android:contentDescription="@string/event_image"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
-        android:id="@+id/imageView"
         android:layout_weight="0.04"/>
 
     <TextView
@@ -18,7 +19,6 @@
         android:layout_weight="0.10" />
 
     <TextView
-        android:text="Description de l'évènement"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textViewDescription"

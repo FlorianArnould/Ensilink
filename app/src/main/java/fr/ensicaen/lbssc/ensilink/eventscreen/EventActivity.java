@@ -2,7 +2,6 @@ package fr.ensicaen.lbssc.ensilink.eventscreen;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.test.suitebuilder.TestMethod;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,7 +11,7 @@ import fr.ensicaen.lbssc.ensilink.storage.Event;
 import fr.ensicaen.lbssc.ensilink.storage.School;
 
 /**
- * Created by jeremy on 12/11/16.
+ * @author Jérémy Filipozzi
  */
 
 public class EventActivity extends AppCompatActivity{

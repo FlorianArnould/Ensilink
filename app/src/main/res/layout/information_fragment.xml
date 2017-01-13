@@ -11,50 +11,42 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="30dp"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/ic_menu_camera"
+        android:contentDescription="@string/club_logo"
+        android:layout_gravity="center_horizontal"/>
 
-        />
     <TextView
         android:id="@+id/place"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:textAlignment="center"
-        android:text="Chez moi"
         android:textSize="18sp"
-        android:textStyle="bold"
-        />
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-     <TextView
-        android:id="@+id/date_club"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.5"
-        android:layout_marginTop="30dp"
-        android:text="Lundi"
-         android:textSize="18sp"
-         android:textAlignment="center"
-
-        />
         <TextView
-        android:id="@+id/hours"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="18h00-20h00"
-        android:layout_weight="0.5"
+            android:id="@+id/date_club"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:layout_marginTop="30dp"
             android:textSize="18sp"
-            android:textAlignment="center"
+            android:textAlignment="center" />
 
-        />
+        <TextView
+            android:id="@+id/hours"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_weight="0.5"
+            android:textSize="18sp"
+            android:textAlignment="center" />
 
-        </LinearLayout>
+    </LinearLayout>
 
     <View
         android:layout_marginTop="40dp"
@@ -70,8 +62,7 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="#737373"
-        android:gravity="start"
-        android:text="Prez"/>
+        android:gravity="start"/>
 
     <TextView
         android:id="@+id/namePrez"
@@ -80,8 +71,7 @@
         android:paddingTop="5dp"
         android:textSize="12sp"
         android:gravity="start"
-        android:textColor="@color/colorSubText"
-        android:text="Jérémy Filipozzi"/>
+        android:textColor="@color/colorSubText"/>
 
     <TextView
         android:id="@+id/mailPrez"
@@ -90,8 +80,7 @@
         android:paddingTop="5dp"
         android:textSize="12sp"
         android:gravity="start"
-        android:textColor="@color/colorSubText"
-        android:text="Filipozzi@ecole.ensicaen.fr"/>
+        android:textColor="@color/colorSubText"/>
 
     <View
         android:layout_marginTop="20dp"
@@ -107,8 +96,7 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="#737373"
-        android:gravity="start"
-        android:text="VicePrez"/>
+        android:gravity="start"/>
 
     <TextView
         android:id="@+id/nameVicePrez"
@@ -117,8 +105,7 @@
         android:paddingTop="5dp"
         android:textSize="12sp"
         android:gravity="start"
-        android:textColor="@color/colorSubText"
-        android:text="Marsel ARIK"/>
+        android:textColor="@color/colorSubText"/>
 
     <TextView
         android:id="@+id/mailVicePrez"
@@ -127,8 +114,7 @@
         android:paddingTop="5dp"
         android:textSize="12sp"
         android:gravity="start"
-        android:textColor="@color/colorSubText"
-        android:text="arik@ecole.ensicaen.fr"/>
+        android:textColor="@color/colorSubText"/>
 
     <View
         android:layout_marginTop="20dp"
