@@ -25,7 +25,8 @@
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name=".eventscreen.EventActivity"
             android:screenOrientation="portrait">
@@ -35,6 +36,10 @@
         </activity>
         <activity
             android:name=".associationscreen.clubscreen.ClubActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".creditsscreen.CreditsActivity"
             android:screenOrientation="portrait">
         </activity>
     </application>

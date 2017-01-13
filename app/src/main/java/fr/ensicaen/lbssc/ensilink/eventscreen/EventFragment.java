@@ -82,7 +82,7 @@ public class EventFragment extends ListFragment implements Updatable {
         _adapter.update(School.getInstance().getEvents());
     }
 
-    final class EventAdapter extends BaseAdapter {
+    private final class EventAdapter extends BaseAdapter {
 
         List<Event> _events;
 

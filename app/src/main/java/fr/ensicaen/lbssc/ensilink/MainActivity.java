@@ -1,5 +1,6 @@
 package fr.ensicaen.lbssc.ensilink;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,6 +22,7 @@ import android.widget.AbsListView.OnScrollListener;
 import java.util.List;
 
 import fr.ensicaen.lbssc.ensilink.associationscreen.unionscreen.UnionFragment;
+import fr.ensicaen.lbssc.ensilink.creditsscreen.CreditsActivity;
 import fr.ensicaen.lbssc.ensilink.eventscreen.EventFragment;
 import fr.ensicaen.lbssc.ensilink.storage.OnSchoolDataListener;
 import fr.ensicaen.lbssc.ensilink.storage.School;
@@ -99,6 +101,10 @@ public class MainActivity extends AppCompatActivity
             case R.id.action_refresh:
                 _refresher.setRefreshing(true);
                 refresh();
+                return true;
+            case R.id.action_credits:
+                Intent intent = new Intent(MainActivity.this, CreditsActivity.class);
+                startActivity(intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);

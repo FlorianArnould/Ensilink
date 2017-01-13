@@ -27,4 +27,19 @@
     <string name="clubs">Clubs</string>
 
     <string name="union_photo_description">Photo de groupe du bureau</string>
+
+    <string name="credits">Crédits</string>
+    <string name="developers">Développeurs</string>
+    <string name="manager">Chef de projet</string>
+    <string name="developer">Développeur</string>
+    <string-array name="team_2016_2017">
+        <item name="leader">Florian ARNOULD</item>
+        <item name="developer_1">Jérémy FILIPOZZI</item>
+        <item name="developer_2">Marsel ARIK</item>
+    </string-array>
+    <string name="attributions">Artistes du site The Noun Project</string>
+    <string name="application_icon"><i>Kangaroo</i> by Yi Chen</string>
+    <string name="manager_icon"><i>management</i> by Gregor Črešnar</string>
+    <string name="developer_icon"><i>Mobile Development</i> by ProSymbols</string>
+
 </resources>

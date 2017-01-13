@@ -85,7 +85,9 @@ public class UnionFragment extends Fragment implements Updatable {
                         default:
                             listFragment = _clubs;
                     }
-                    ((MainActivity)getActivity()).updateRefresherState(listFragment.getListView());
+                    if(getActivity() != null) {
+                        ((MainActivity) getActivity()).updateRefresherState(listFragment.getListView());
+                    }
                 }
 
                 @Override
