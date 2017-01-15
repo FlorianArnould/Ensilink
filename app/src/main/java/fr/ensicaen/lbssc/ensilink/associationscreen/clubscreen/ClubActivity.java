@@ -1,6 +1,7 @@
 package fr.ensicaen.lbssc.ensilink.associationscreen.clubscreen;
 
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -32,6 +33,7 @@ public class ClubActivity extends AppCompatActivity {
         _clubId = getIntent().getIntExtra("CLUB_ID", 0);
         if(getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setElevation(0);
         }
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
@@ -44,8 +46,8 @@ public class ClubActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(union.getClub(_clubId).getName());
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(color));
         }
-        if(android.os.Build.VERSION.SDK_INT >= 21){
-            getWindow().setStatusBarColor(ColorCreator.semiTransparentColor(ColorCreator.darkerColor(color)));
+        if(Build.VERSION.SDK_INT >= 21){
+            getWindow().setStatusBarColor(ColorCreator.darkerColor(union.getColor()));
         }
         tabLayout.setBackgroundColor(color);
     }
