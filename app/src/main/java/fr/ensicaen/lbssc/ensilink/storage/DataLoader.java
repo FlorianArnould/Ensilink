@@ -88,7 +88,7 @@ final class DataLoader extends Thread{
         DatabaseCloner cloner = new DatabaseCloner(_db);
         cloner.cloneDatabase();
         if(_fileDir.list().length == 0 || cloner.lastUpdateOfImageFolder() > _fileDir.lastModified()/1000){
-            downloadImages();
+            updateImages();
         }
         return cloner.succeed();
     }
@@ -228,9 +228,9 @@ final class DataLoader extends Thread{
     }
 
     /**
-     * Download All images from network
+     * Download All images from network and remove the unused files
      */
-    private void downloadImages(){
+    private void updateImages(){
         Cursor cursor = _db.query("images", null, null, null, null, null, null);
         List<String> list = new ArrayList<>();
         if(cursor.moveToFirst()) {
@@ -240,6 +240,7 @@ final class DataLoader extends Thread{
         }
         cursor.close();
         _downloader.downloadImages(list);
+        removeUnusedFiles(list);
     }
 
     /**
@@ -255,6 +256,16 @@ final class DataLoader extends Thread{
             } while (cursor.moveToNext());
         }
         cursor.close();
+    }
+
+    private void removeUnusedFiles(List<String> filesUsed){
+        for (String file : _fileDir.list()){
+            if(!filesUsed.contains(file)){
+                if(! new File(file).delete()){
+                    Log.d("Error", "Unused file wasn't deleted");
+                }
+            }
+        }
     }
 }
 
