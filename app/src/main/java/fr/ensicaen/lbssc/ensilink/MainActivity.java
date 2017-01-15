@@ -1,8 +1,11 @@
 package fr.ensicaen.lbssc.ensilink;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -13,7 +16,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AbsListView;
@@ -40,6 +42,7 @@ public final class MainActivity extends AppCompatActivity
     private UnionFragment _unionFragment;
     private Updatable _currentFragment;
     private SwipeRefreshLayout _refresher;
+    private DrawerLayout _drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +52,11 @@ public final class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        _drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        _drawer.setStatusBarBackgroundColor(Color.RED);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
+                this, _drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        _drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         _refresher = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
@@ -154,9 +158,12 @@ public final class MainActivity extends AppCompatActivity
         }
     }
 
-    public void setActionBarColor(Drawable color){
+    public void setApplicationColor(@ColorInt int color){
         if(getSupportActionBar() != null) {
-            getSupportActionBar().setBackgroundDrawable(color);
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(color));
+        }
+        if(_drawer != null) {
+            _drawer.setStatusBarBackgroundColor(ColorCreator.darkerColor(color));
         }
     }
 

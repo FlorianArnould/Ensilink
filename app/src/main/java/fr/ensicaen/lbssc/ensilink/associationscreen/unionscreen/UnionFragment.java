@@ -122,11 +122,7 @@ public class UnionFragment extends Fragment implements Updatable {
             Union union = School.getInstance().getUnion(unionId);
             activity.setActionBarTitle(union.getName());
             _color = union.getColor();
-            activity.setActionBarColor(new ColorDrawable(_color));
-            if(android.os.Build.VERSION.SDK_INT >= 21){
-                int darker = ColorCreator.darkerColor(_color);
-                activity.getWindow().setStatusBarColor(ColorCreator.semiTransparentColor(darker));
-            }
+            activity.setApplicationColor(_color);
             if(_view != null){
                 TabLayout tabLayout = (TabLayout) _view.findViewById(R.id.tabs);
                 tabLayout.setBackgroundColor(_color);

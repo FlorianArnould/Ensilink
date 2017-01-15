@@ -1,5 +1,6 @@
 package fr.ensicaen.lbssc.ensilink.eventscreen;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -20,6 +21,11 @@ public class EventActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
+        if(Build.VERSION.SDK_INT >= 23){
+            getWindow().setStatusBarColor(getColor(R.color.colorPrimaryDark));
+        }else if(Build.VERSION.SDK_INT >= 21){
+            getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+        }
         if(getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }

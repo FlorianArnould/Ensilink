@@ -49,15 +49,7 @@ public final class EventFragment extends ListFragment implements Updatable {
         View view = inflater.inflate(R.layout.event_fragment, container, false);
         MainActivity activity = (MainActivity) getActivity();
         activity.setActionBarTitle(getActivity().getResources().getString(R.string.app_name));
-        if(android.os.Build.VERSION.SDK_INT >= 23){
-            activity.setActionBarColor(new ColorDrawable(Color.rgb(63,81,181)));
-            activity.getWindow().setStatusBarColor(Color.argb(125,48,63,159));
-        }else{
-            activity.setActionBarColor(new ColorDrawable(Color.rgb(63,81,181)));
-            if(android.os.Build.VERSION.SDK_INT >= 21){
-                activity.getWindow().setStatusBarColor(Color.argb(125,48,63,159));
-            }
-        }
+        activity.setApplicationColor(Color.rgb(63,81,181));
         return view;
     }
 

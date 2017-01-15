@@ -1,6 +1,7 @@
 package fr.ensicaen.lbssc.ensilink.creditsscreen;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -28,6 +29,11 @@ public final class CreditsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedStateInstance){
         super.onCreate(savedStateInstance);
         setContentView(R.layout.activity_credits);
+        if(Build.VERSION.SDK_INT >= 23){
+            getWindow().setStatusBarColor(getColor(R.color.colorPrimaryDark));
+        }else if(Build.VERSION.SDK_INT >= 21){
+            getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+        }
         if(getSupportActionBar() != null){
             getSupportActionBar().setTitle(getString(R.string.credits));
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
