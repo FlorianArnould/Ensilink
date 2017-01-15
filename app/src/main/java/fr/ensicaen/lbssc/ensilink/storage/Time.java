@@ -12,6 +12,7 @@ public final class Time {
 
     private final int _hours;
     private final int _minutes;
+    private final int _seconds;
 
     /**
      * The constructor
@@ -21,11 +22,13 @@ public final class Time {
         String[] strings = time.split(Character.toString(':'));
         _hours = Integer.valueOf(strings[0]);
         _minutes = Integer.valueOf(strings[1]);
+        _seconds = Integer.valueOf(strings[2]);
     }
 
-    private Time(int hour, int minutes){
+    private Time(int hour, int minutes, int seconds){
         _hours = hour;
         _minutes = minutes;
+        _seconds = seconds;
     }
 
     /**
@@ -50,9 +53,11 @@ public final class Time {
      * @return the result of the sum
      */
     public Time add(Time time){
-        int minutes = (time._minutes + _minutes);
+        int seconds = (time._seconds + _seconds);
+        int minutes = (time._minutes + _minutes + seconds/60);
+        seconds %= 60;
         int hours = time._hours + _hours + minutes/60;
         minutes %= 60;
-        return new Time(hours, minutes);
+        return new Time(hours, minutes, seconds);
     }
 }

@@ -66,7 +66,6 @@ abstract class Association {
      */
     public void loadLogo(OnImageLoadedListener listener){
         ImageLoadThread thread = new ImageLoadThread(_logoFile, listener);
-        Log.d("Debug", _logoFile.getAbsolutePath());
         thread.start();
     }
 

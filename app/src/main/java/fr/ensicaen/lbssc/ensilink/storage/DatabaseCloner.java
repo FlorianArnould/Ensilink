@@ -36,6 +36,7 @@ final class DatabaseCloner{
 
     private boolean _success;
     private final SQLiteDatabase _db;
+    private long _lastUpdateOfImageFolder;
 
     /**
      * The constructor
@@ -44,6 +45,7 @@ final class DatabaseCloner{
     DatabaseCloner(SQLiteDatabase db){
         _success = false;
         _db = db;
+        _lastUpdateOfImageFolder = 0;
     }
 
     /**
@@ -130,6 +132,7 @@ final class DatabaseCloner{
      * @return true if the local database is updated
      */
     private boolean updateDatabase(Document doc){
+        _lastUpdateOfImageFolder = Long.valueOf(doc.getElementsByTagName("last_update_image_folder").item(0).getAttributes().item(0).getNodeValue());
         clearDatabase();
         String[] tableList = LocalDatabaseManager.getTables();
         _db.beginTransaction();
@@ -164,5 +167,13 @@ final class DatabaseCloner{
         for(int i=tableList.length-1;i>=0;i--){
             _db.delete(tableList[i], null, null);
         }
+    }
+
+    /**
+     *
+     * @return the timestamp of the last update
+     */
+    long lastUpdateOfImageFolder(){
+        return _lastUpdateOfImageFolder;
     }
 }

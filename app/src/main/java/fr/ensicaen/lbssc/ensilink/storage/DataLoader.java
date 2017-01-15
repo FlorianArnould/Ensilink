@@ -54,8 +54,7 @@ final class DataLoader extends Thread{
                 _listener.OnLoadingFinish(this);
             }
         }
-        if(cloneDatabase()) {
-            downloadImages();
+        if(cloneDatabaseAndDownloadFiles()) {
             loadUnionsFromDatabase();
             if (_listener != null) {
                 _listener.OnLoadingFinish(this);
@@ -82,12 +81,15 @@ final class DataLoader extends Thread{
     }
 
     /**
-     * clones the database with an instance of DatabaseCloner
+     * clones the database with an instance of DatabaseCloner and download images if it is necessary
      * @return true if the database was cloned successfully
      */
-    private boolean cloneDatabase(){
+    private boolean cloneDatabaseAndDownloadFiles(){
         DatabaseCloner cloner = new DatabaseCloner(_db);
         cloner.cloneDatabase();
+        if(_fileDir.list().length == 0 || cloner.lastUpdateOfImageFolder() > _fileDir.lastModified()/1000){
+            downloadImages();
+        }
         return cloner.succeed();
     }
 
