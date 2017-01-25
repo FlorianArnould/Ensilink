@@ -1,9 +1,6 @@
 package fr.ensicaen.lbssc.ensilink.associationscreen;
 
-/**
- * @author Marsel Arik
- * @version 1.0
- */
+
 
 //TODO functionality will be implemented in the next released
 
@@ -14,12 +11,26 @@ import android.view.ViewGroup;
 
 import fr.ensicaen.lbssc.ensilink.R;
 
+
+/**
+ * @author Marsel Arik
+ * @version 1.0
+ */
+
+/**
+ * Class which display the screen of a the mails of an union
+ */
+
 public class Emails extends AssociationFragment {
 
+    /**
+     * Create an object Emails
+     * @return return the list of the mails
+     */
     public static Emails newInstance(int unionId) {
-        Emails clubs = new Emails();
-        AssociationFragment.newInstance(unionId, clubs);
-        return clubs;
+        Emails mails = new Emails();
+        AssociationFragment.newInstance(unionId, mails);
+        return mails;
     }
 
     public Emails() {

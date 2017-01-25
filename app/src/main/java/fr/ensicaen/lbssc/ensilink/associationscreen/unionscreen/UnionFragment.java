@@ -24,7 +24,9 @@ import fr.ensicaen.lbssc.ensilink.storage.Union;
  * @author Marsel Arik
  * @version 1.0
  */
-
+/**
+ * Class which displays the screen of a union
+ */
 public class UnionFragment extends Fragment implements Updatable {
 
     private TabLayout _tabLayout;
@@ -35,7 +37,10 @@ public class UnionFragment extends Fragment implements Updatable {
     private Emails _emails;
     private int _color;
     private int _unionId;
-
+    /**
+     * create an object
+     * @return an union fragment
+     */
     public static UnionFragment newInstance(int unionId){
         UnionFragment fragment = new UnionFragment();
         Bundle args = new Bundle();
@@ -43,7 +48,9 @@ public class UnionFragment extends Fragment implements Updatable {
         fragment.setArguments(args);
         return fragment;
     }
-
+    /**
+     * the default constructor
+     */
     public UnionFragment(){
         _created = false;
         _color = Color.BLACK;
@@ -103,20 +110,26 @@ public class UnionFragment extends Fragment implements Updatable {
         }
         return _view;
     }
-
+    /**
+     * Update the data of on union
+     */
     public void update(){
         _members.changeUnion(_unionId);
         _clubs.changeUnion(_unionId);
         _emails.changeUnion(_unionId);
     }
-
+    /**
+     * Reset the position of the selected fragment
+     */
     public void resetPosition(){
         TabLayout.Tab tab = _tabLayout.getTabAt(0);
         if(tab != null){
             tab.select();
         }
     }
-
+    /**
+     *  Update parameters after the update of union
+     */
     public void postReplaced(MainActivity activity, int unionId){
         if( activity != null) {
             Union union = School.getInstance().getUnion(unionId);
@@ -129,7 +142,9 @@ public class UnionFragment extends Fragment implements Updatable {
             }
         }
     }
-
+    /**
+     * Creates the differents fragments
+     */
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
         _members = Members.newInstance(_unionId);
@@ -140,7 +155,9 @@ public class UnionFragment extends Fragment implements Updatable {
         adapter.addFragment(_emails, getString(R.string.emails));
         viewPager.setAdapter(adapter);
     }
-
+    /**
+     * Change the union selected
+     */
     public void changeUnion(int unionId){
         _unionId = unionId;
         update();
