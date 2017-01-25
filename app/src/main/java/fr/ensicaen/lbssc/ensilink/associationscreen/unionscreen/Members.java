@@ -1,9 +1,6 @@
 package fr.ensicaen.lbssc.ensilink.associationscreen.unionscreen;
 
-/**
- * @author Marsel Arik
- * @version 1.0
- */
+
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -24,12 +21,23 @@ import fr.ensicaen.lbssc.ensilink.associationscreen.AssociationFragment;
 import fr.ensicaen.lbssc.ensilink.storage.OnImageLoadedListener;
 import fr.ensicaen.lbssc.ensilink.storage.Student;
 
+/**
+ * @author Marsel Arik
+ * @version 1.0
+ */
+
+/**
+ * Class which display the screen of a the members of the union
+ */
 
 public class Members extends AssociationFragment {
 
     private StudentAdapter _adapter;
     private View _view;
-
+    /**
+     * Create an object Members
+     * @return the list of members of an union
+     */
     public static Members newInstance(int unionId){
         Members members = new Members();
         AssociationFragment.newInstance(unionId, members);
@@ -84,15 +92,23 @@ public class Members extends AssociationFragment {
         update();
     }
 
+    /**
+     *  Provides access to the list of members for an union.
+     *  The class is also responsible for making a View for each item in the list view.
+     */
     final class StudentAdapter extends BaseAdapter {
 
         List<Student> _students;
-
+        /**
+         * Fill the adapter
+         */
         StudentAdapter(List<Student> students){
             super();
             update(students);
         }
-
+        /**
+         * Verify if no members has been added to the database
+         */
         void update(List<Student> students){
             _students = students;
             notifyDataSetChanged();

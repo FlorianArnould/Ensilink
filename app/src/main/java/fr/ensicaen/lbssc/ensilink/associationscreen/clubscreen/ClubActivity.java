@@ -20,6 +20,9 @@ import fr.ensicaen.lbssc.ensilink.storage.Union;
  * @version 1.0
  */
 
+/**
+ * Class which manage the screen of a club with all of the informations related to the club
+ */
 public class ClubActivity extends AppCompatActivity {
 
     private int _unionId;
@@ -52,6 +55,9 @@ public class ClubActivity extends AppCompatActivity {
         tabLayout.setBackgroundColor(color);
     }
 
+    /**
+     * setting the differents fragments of the page in the adapter
+     */
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         Emails emails = Emails.newInstance(_unionId);

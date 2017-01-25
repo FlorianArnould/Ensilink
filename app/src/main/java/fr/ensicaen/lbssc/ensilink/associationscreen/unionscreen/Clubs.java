@@ -1,9 +1,6 @@
 package fr.ensicaen.lbssc.ensilink.associationscreen.unionscreen;
 
-/**
- * @author Marsel Arik
- * @version 1.0
- */
+
 
 import android.content.Context;
 import android.content.Intent;
@@ -25,11 +22,22 @@ import fr.ensicaen.lbssc.ensilink.associationscreen.AssociationFragment;
 import fr.ensicaen.lbssc.ensilink.associationscreen.clubscreen.ClubActivity;
 import fr.ensicaen.lbssc.ensilink.storage.Club;
 import fr.ensicaen.lbssc.ensilink.storage.OnImageLoadedListener;
+/**
+ * @author Marsel Arik
+ * @version 1.0
+ */
+
+/**
+ * Class which display the screen of a club in the unionscreen
+ */
 
 public final class Clubs extends AssociationFragment {
 
     private ClubsAdapter _adapter;
-
+    /**
+     * Create an object Clubs
+     * @return the list of a clubs for an union
+     */
     public static Clubs newInstance(int unionId) {
         Clubs clubs = new Clubs();
         AssociationFragment.newInstance(unionId, clubs);
@@ -78,15 +86,24 @@ public final class Clubs extends AssociationFragment {
         update();
     }
 
+    /**
+     *  Provides access to the list of clubs for an union.
+     *  The class is also responsible for making a View for each item in the list view.
+     */
     final class ClubsAdapter extends BaseAdapter {
 
         List<Club> _clubs;
 
+        /**
+         * Fill the adapter
+         */
         ClubsAdapter(List<Club> clubs) {
             super();
             update(clubs);
         }
-
+        /**
+         * Verify if no club has been added to the database
+         */
         void update(List<Club> clubs) {
             _clubs = clubs;
             notifyDataSetChanged();
