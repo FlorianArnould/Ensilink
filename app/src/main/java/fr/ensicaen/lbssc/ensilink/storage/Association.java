@@ -1,7 +1,6 @@
 package fr.ensicaen.lbssc.ensilink.storage;
 
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -54,7 +53,7 @@ abstract class Association {
 
     /**
      *
-     * @return a Map with the students and their position as key
+     * @return a List of the students
      */
     public List<Student> getStudents(){
         return _students;

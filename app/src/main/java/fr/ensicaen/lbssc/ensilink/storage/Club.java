@@ -1,15 +1,16 @@
 package fr.ensicaen.lbssc.ensilink.storage;
 
-/**
- * @author Florian Arnould
- * @version 1.0
- */
-
 import android.content.Context;
 
 import java.io.File;
 
 import fr.ensicaen.lbssc.ensilink.R;
+
+/**
+ * @author Florian Arnould
+ * @version 1.0
+ */
+
 
 /**
  * The class that represent a club of the school
