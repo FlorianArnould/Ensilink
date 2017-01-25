@@ -13,8 +13,13 @@ import fr.ensicaen.lbssc.ensilink.storage.School;
 
 /**
  * @author Jérémy Filipozzi
+ * @version 1.0
  */
 
+/**
+ * Class which displays the event selected from the homepage list. It displays an image related to
+ * the event and a complete description of it.
+ */
 public class EventActivity extends AppCompatActivity{
 
     @Override
