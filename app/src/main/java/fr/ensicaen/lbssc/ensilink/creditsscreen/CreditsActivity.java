@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,18 +18,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.ensicaen.lbssc.ensilink.R;
+import fr.ensicaen.lbssc.ensilink.storage.Image;
+import fr.ensicaen.lbssc.ensilink.storage.School;
 
 /**
  * @author Florian Arnould
  * @version 1.0
  */
 
+/**
+ * Page to display developers and images creators attributions
+ */
 public final class CreditsActivity extends AppCompatActivity {
 
     @Override
+    @SuppressWarnings("deprecation") //For retro compatibility
     protected void onCreate(Bundle savedStateInstance){
         super.onCreate(savedStateInstance);
-        setContentView(R.layout.activity_credits);
+        setContentView(R.layout.credits_activity);
         if(Build.VERSION.SDK_INT >= 23){
             getWindow().setStatusBarColor(getColor(R.color.colorPrimaryDark));
         }else if(Build.VERSION.SDK_INT >= 21){
@@ -52,11 +59,17 @@ public final class CreditsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Adapter to store the rows with the attributions
+     */
     private final class CreditsAdapter extends BaseAdapter {
 
         private final List<Integer> _rowLayout;
         private final List<Object> _rowContent;
 
+        /**
+         * The constructor
+         */
         CreditsAdapter(){
             _rowLayout = new ArrayList<>();
             _rowContent = new ArrayList<>();
@@ -72,11 +85,17 @@ public final class CreditsActivity extends AppCompatActivity {
             _rowLayout.add(R.layout.credits_title_row);
             _rowContent.add(getString(R.string.attributions));
             _rowLayout.add(R.layout.credits_attribution_row);
-            _rowContent.add(new Artist(R.mipmap.ic_launcher, R.string.application_icon));
+            _rowContent.add(new Artist(getDrawable(R.mipmap.ic_launcher), getString(R.string.application_icon)));
             _rowLayout.add(R.layout.credits_attribution_row);
-            _rowContent.add(new Artist(R.drawable.ic_manager, R.string.manager_icon));
+            _rowContent.add(new Artist(getDrawable(R.drawable.ic_manager), getString(R.string.manager_icon)));
             _rowLayout.add(R.layout.credits_attribution_row);
-            _rowContent.add(new Artist(R.drawable.ic_developer, R.string.developer_icon));
+            _rowContent.add(new Artist(getDrawable(R.drawable.ic_developer), getString(R.string.developer_icon)));
+            for(Image image : School.getInstance().getImages()){
+                if(image.needsAttribution()){
+                    _rowLayout.add(R.layout.credits_attribution_row);
+                    _rowContent.add(new Artist(image));
+                }
+            }
         }
 
         @Override
@@ -120,9 +139,9 @@ public final class CreditsActivity extends AppCompatActivity {
                 case R.layout.credits_attribution_row:
                     Artist artist = (Artist) _rowContent.get(i);
                     image = (ImageView)view.findViewById(R.id.icon);
-                    image.setImageResource(artist.getDrawableId());
+                    image.setImageDrawable(artist.getDrawable());
                     text = (TextView)view.findViewById(R.id.attribution);
-                    text.setText(getText(artist.getAttribution()));
+                    text.setText(artist.getAttribution());
                     break;
             }
             return view;

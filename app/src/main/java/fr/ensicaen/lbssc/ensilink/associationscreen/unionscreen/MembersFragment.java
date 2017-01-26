@@ -1,7 +1,5 @@
 package fr.ensicaen.lbssc.ensilink.associationscreen.unionscreen;
 
-
-
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -27,25 +25,27 @@ import fr.ensicaen.lbssc.ensilink.storage.Student;
  */
 
 /**
- * Class which display the screen of a the members of the union
+ * Fragment used to display the screen of a the members of the union
  */
-
-public class Members extends AssociationFragment {
+public class MembersFragment extends AssociationFragment {
 
     private StudentAdapter _adapter;
     private View _view;
+
     /**
-     * Create an object Members
+     * Create an object MembersFragment
      * @return the list of members of an union
      */
-    public static Members newInstance(int unionId){
-        Members members = new Members();
-        AssociationFragment.newInstance(unionId, members);
-        return members;
+    public static MembersFragment newInstance(int unionId){
+        MembersFragment membersFragment = new MembersFragment();
+        AssociationFragment.newInstance(unionId, membersFragment);
+        return membersFragment;
     }
+    /**
+     * Required empty public constructor
+     */
+    public MembersFragment() {
 
-    public Members() {
-        // Required empty public constructor
     }
 
     @Override
@@ -78,8 +78,7 @@ public class Members extends AssociationFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        _view = inflater.inflate(R.layout.members_union, container, false);
+        _view = inflater.inflate(R.layout.members_fragment, container, false);
         return _view;
     }
 
@@ -93,21 +92,24 @@ public class Members extends AssociationFragment {
     }
 
     /**
-     *  Provides access to the list of members for an union.
-     *  The class is also responsible for making a View for each item in the list view.
+     *  Class which store the students to show in the ListView
      */
     final class StudentAdapter extends BaseAdapter {
 
         List<Student> _students;
+
         /**
          * Fill the adapter
+         * @param students a list with all the students
          */
         StudentAdapter(List<Student> students){
             super();
             update(students);
         }
+
         /**
-         * Verify if no members has been added to the database
+         * Replace the list of the students
+         * @param students a list with all the students
          */
         void update(List<Student> students){
             _students = students;
@@ -132,8 +134,8 @@ public class Members extends AssociationFragment {
         @Override
         public View getView(int i, View view, ViewGroup parent) {
             if(view == null) {
-                LayoutInflater inflater = (LayoutInflater) Members.this.getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                view = inflater.inflate(R.layout.union_members_row, parent, false);
+                LayoutInflater inflater = (LayoutInflater) MembersFragment.this.getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                view = inflater.inflate(R.layout.members_fragment_row, parent, false);
             }
             Student student = _students.get(i);
             TextView text = (TextView) view.findViewById(R.id.listview_union_membre_role);

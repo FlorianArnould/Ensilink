@@ -19,32 +19,30 @@ import fr.ensicaen.lbssc.ensilink.R;
 
 /**
  * Class which display the screen of a the mails of an union
+ * The real implementation will come in the second version
  */
-
-public class Emails extends AssociationFragment {
+public class EmailsFragment extends AssociationFragment {
 
     /**
-     * Create an object Emails
+     * create an instance of InformationFragment
      * @return return the list of the mails
      */
-    public static Emails newInstance(int unionId) {
-        Emails mails = new Emails();
+    public static EmailsFragment newInstance(int unionId) {
+        EmailsFragment mails = new EmailsFragment();
         AssociationFragment.newInstance(unionId, mails);
         return mails;
     }
 
-    public Emails() {
-        // Required empty public constructor
-    }
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    /**
+     * Required empty public constructor
+     */
+    public EmailsFragment() {
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.mails_union, container, false);
     }
 

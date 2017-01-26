@@ -4,7 +4,6 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Réglages</string>
     <string name="action_refresh">Refresh</string>
 
     <string name="news">Actualité</string>
@@ -18,9 +17,6 @@
 
     <string name="drawer_student_name">Nom de l\'élève</string>
     <string name="drawer_student_email">nom@ecole.ensicaen.fr</string>
-
-    <string name="emails">Mails</string>
-    <string name="information">Informations</string>
 
     <string-array name="days">
         <item name="day_one">Lundi</item>
@@ -37,6 +33,8 @@
     <string name="emails_placeholder">Fonctionnalité à venir</string>
     <string name="members">Membres</string>
     <string name="clubs">Clubs</string>
+    <string name="emails">Mails</string>
+    <string name="information">Informations</string>
 
     <string name="union_photo_description">Photo de groupe du bureau</string>
 

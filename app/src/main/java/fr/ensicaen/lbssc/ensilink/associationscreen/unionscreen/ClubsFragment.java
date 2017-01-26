@@ -1,7 +1,5 @@
 package fr.ensicaen.lbssc.ensilink.associationscreen.unionscreen;
 
-
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -22,6 +20,7 @@ import fr.ensicaen.lbssc.ensilink.associationscreen.AssociationFragment;
 import fr.ensicaen.lbssc.ensilink.associationscreen.clubscreen.ClubActivity;
 import fr.ensicaen.lbssc.ensilink.storage.Club;
 import fr.ensicaen.lbssc.ensilink.storage.OnImageLoadedListener;
+
 /**
  * @author Marsel Arik
  * @version 1.0
@@ -30,22 +29,26 @@ import fr.ensicaen.lbssc.ensilink.storage.OnImageLoadedListener;
 /**
  * Class which display the screen of a club in the unionscreen
  */
-
-public final class Clubs extends AssociationFragment {
+public final class ClubsFragment extends AssociationFragment {
 
     private ClubsAdapter _adapter;
+
     /**
-     * Create an object Clubs
-     * @return the list of a clubs for an union
+     * Method to use to create an instance of ClubsFragment
+     * @param unionId the id of the union of the club
+     * @return a new instance of ClubsFragment
      */
-    public static Clubs newInstance(int unionId) {
-        Clubs clubs = new Clubs();
-        AssociationFragment.newInstance(unionId, clubs);
-        return clubs;
+    public static ClubsFragment newInstance(int unionId) {
+        ClubsFragment clubsFragment = new ClubsFragment();
+        AssociationFragment.newInstance(unionId, clubsFragment);
+        return clubsFragment;
     }
 
-    public Clubs() {
-        // Required empty public constructor
+    /**
+     * Required empty public constructor
+     */
+    public ClubsFragment() {
+
     }
 
     @Override
@@ -87,8 +90,7 @@ public final class Clubs extends AssociationFragment {
     }
 
     /**
-     *  Provides access to the list of clubs for an union.
-     *  The class is also responsible for making a View for each item in the list view.
+     *  Class which store the clubs to show in the ListView
      */
     final class ClubsAdapter extends BaseAdapter {
 
@@ -96,13 +98,16 @@ public final class Clubs extends AssociationFragment {
 
         /**
          * Fill the adapter
+         * @param clubs a list with all the clubs
          */
         ClubsAdapter(List<Club> clubs) {
             super();
             update(clubs);
         }
+
         /**
-         * Verify if no club has been added to the database
+         * Replace the list of the clubs
+         * @param clubs a list with all the clubs
          */
         void update(List<Club> clubs) {
             _clubs = clubs;
@@ -127,8 +132,8 @@ public final class Clubs extends AssociationFragment {
         @Override
         public View getView(int i, View view, ViewGroup parent) {
             if (view == null) {
-                LayoutInflater inflater = (LayoutInflater) Clubs.this.getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                view = inflater.inflate(R.layout.union_clubs_row, parent, false);
+                LayoutInflater inflater = (LayoutInflater) ClubsFragment.this.getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                view = inflater.inflate(R.layout.clubs_fragment_row, parent, false);
             }
             Club club = _clubs.get(i);
             final TextView text = (TextView) view.findViewById(R.id.listview_union_name_club);

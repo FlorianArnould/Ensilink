@@ -17,10 +17,10 @@ public final class School {
     private static final School _ourInstance = new School();
     private static List<Union> _unions;
     private static List<Event> _events;
+    private static List<Image> _images;
     private static boolean _neverUpdated;
 
     /**
-     *
      * @return the school instance
      */
     public static School getInstance() {
@@ -46,6 +46,7 @@ public final class School {
             public void OnLoadingFinish(DataLoader loader) {
                 _unions = loader.getUnions();
                 _events = loader.getEvents();
+                _images = loader.getImages();
                 if(listener != null){
                     listener.OnDataRefreshed();
                 }
@@ -56,16 +57,14 @@ public final class School {
     }
 
     /**
-     *
      * @param i the union index
-     * @return return the corresponding union
+     * @return the corresponding union
      */
     public Union getUnion(int i){
         return _unions.get(i);
     }
 
     /**
-     *
      * @return a List with all unions
      */
     public List<Union> getUnions(){
@@ -73,7 +72,6 @@ public final class School {
     }
 
     /**
-     *
      * @return a List with all events
      */
     public List<Event> getEvents(){
@@ -81,11 +79,17 @@ public final class School {
     }
 
     /**
-     *
      * @param i the union index
-     * @return return the corresponding event
+     * @return the corresponding event
      */
     public Event getEvent(int i) {
         return _events.get(i);
+    }
+
+    /**
+     * @return a List with all images of the application
+     */
+    public List<Image> getImages(){
+        return _images;
     }
 }

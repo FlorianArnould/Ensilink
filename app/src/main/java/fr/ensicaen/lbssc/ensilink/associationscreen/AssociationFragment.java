@@ -18,6 +18,11 @@ public abstract class AssociationFragment extends ListFragment implements Updata
     private Union _union;
     private int _unionId;
 
+    /**
+     * Method to use to initialize an AssociationFragment
+     * @param unionId the id of the union displayed in the fragment
+     * @param fragment the fragment to initialize
+     */
     protected static void newInstance(int unionId, AssociationFragment fragment){
         Bundle args = new Bundle();
         args.putInt("UNION_ID", unionId);
@@ -34,14 +39,24 @@ public abstract class AssociationFragment extends ListFragment implements Updata
         }
     }
 
+    /**
+     * @return the union displayed in the fragment
+     */
     protected Union getUnion(){
         return _union;
     }
 
+    /**
+     * @return the id of the union displayed in the fragment
+     */
     protected int getUnionId(){
         return _unionId;
     }
 
+    /**
+     * change the union displayed in the fragment by the union which has this ID
+     * @param unionId the id of the new union
+     */
     public void changeUnion(int unionId){
         _unionId = unionId;
         _union = School.getInstance().getUnion(unionId);

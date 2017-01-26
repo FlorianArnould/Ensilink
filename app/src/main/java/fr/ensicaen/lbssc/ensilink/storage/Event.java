@@ -28,7 +28,6 @@ public final class Event {
      * @param imageFile the header image of the article
      * @param union the organiser union of the event
      */
-
     Event(String title, String text, File imageFile, Union union){
         _title = title;
         _text = text;
@@ -36,18 +35,30 @@ public final class Event {
         _union = union;
     }
 
+    /**
+     * @return the title of the event
+     */
     public String getTitle(){
         return _title;
     }
 
+    /**
+     * @return the text of the event's article
+     */
     public  String getMainText(){
         return _text;
     }
 
+    /**
+     * @return the bitmap image of the event
+     */
     public Bitmap getImage(){
         return BitmapFactory.decodeFile(_imageFile.getAbsolutePath());
     }
 
+    /**
+     * @return the union which organise thus event
+     */
     public Union getParentUnion(){
         return _union;
     }

@@ -22,7 +22,7 @@ public class SplashActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+        setContentView(R.layout.splash_activity);
         isMainActivityLaunched = false;
         School school = School.getInstance();
         school.refreshData(getApplicationContext(), new OnSchoolDataListener(){

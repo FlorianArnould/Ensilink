@@ -5,29 +5,49 @@ package fr.ensicaen.lbssc.ensilink.creditsscreen;
  * @version 1.0
  */
 
+import android.graphics.drawable.Drawable;
+
+import fr.ensicaen.lbssc.ensilink.storage.Image;
+
 /**
- * Used to store information for credits activity
+ * Used to store information about the images creators for credits activity
  */
 final class Artist {
 
-    private final int _drawableId;
-    private final int _attributionId;
+    private final Drawable _drawable;
+    private final String _attribution;
+
 
     /**
-     *
+     * The constructor
      * @param drawableId resource id of the drawable
      * @param attribution attribution text for the creative commons license
      */
-    Artist(int drawableId, int attribution){
-        _drawableId = drawableId;
-        _attributionId = attribution;
+    Artist(Drawable drawableId, String attribution){
+        _drawable = drawableId;
+        _attribution = attribution;
     }
 
-    int getDrawableId(){
-        return _drawableId;
+    /**
+     * The constructor
+     * @param image which needs an attribution
+     */
+    Artist(Image image){
+        _drawable = Drawable.createFromPath(image.getAbsolutePath());
+        _attribution = image.getAttribution();
     }
 
-    int getAttribution(){
-        return _attributionId;
+    /**
+     * @return a resource id to the drawable that the artist created
+     */
+    Drawable getDrawable(){
+        return _drawable;
+    }
+
+    /**
+     * @return a resource id to the string of the attribution
+     */
+    String getAttribution(){
+        return _attribution;
     }
 }

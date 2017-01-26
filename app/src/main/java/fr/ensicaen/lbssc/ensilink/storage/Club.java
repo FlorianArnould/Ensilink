@@ -2,8 +2,6 @@ package fr.ensicaen.lbssc.ensilink.storage;
 
 import android.content.Context;
 
-import java.io.File;
-
 import fr.ensicaen.lbssc.ensilink.R;
 
 /**
@@ -31,11 +29,11 @@ public final class Club extends Association{
      * @param time the time of the club
      * @param duration the duration of the club
      * @param place the place where it is
-     * @param logoFile a file with the path to the logo image
-     * @param photoFile a file with the path to the photo image
+     * @param logo the logo image
+     * @param photo the photo image
      */
-    Club(String name, int day, Date date, Time time, Time duration, String place, File logoFile, File photoFile){
-        super(name, logoFile, photoFile);
+    Club(String name, int day, Date date, Time time, Time duration, String place, Image logo, Image photo){
+        super(name, logo, photo);
         _day = day;
         _date = date;
         _time = time;
@@ -44,15 +42,13 @@ public final class Club extends Association{
     }
 
     /**
-     *
-     * @return a string with the day of week
+     * @return a string with the day of the week of the meeting
      */
     public String getDayOfWeek(Context context){
         return context.getResources().getStringArray(R.array.days)[_day-1];
     }
 
     /**
-     *
      * @return the name of the place
      */
     public String getPlace(){
@@ -60,7 +56,6 @@ public final class Club extends Association{
     }
 
     /**
-     *
      * @return the schedule time of the club
      */
     public Time getTime(){
@@ -68,16 +63,14 @@ public final class Club extends Association{
     }
 
     /**
-     *
-     * @return the duration of the club
+     * @return the duration of the meeting of the club
      */
     public Time getDuration(){
         return _duration;
     }
 
     /**
-     *
-     * @return return the date of the club if it hasn't weekly event
+     * @return return the date of the meeting of the club if it hasn't weekly event
      */
     public Date getDate(){
         return _date;

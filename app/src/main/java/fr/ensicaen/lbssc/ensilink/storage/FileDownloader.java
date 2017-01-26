@@ -37,7 +37,6 @@ final class FileDownloader {
 
 
     /**
-     *
      * @param imageNames a list of the name of the images
      */
     void downloadImages(List<String> imageNames){
@@ -72,6 +71,11 @@ final class FileDownloader {
         }
     }
 
+    /**
+     * Rename the original file to the target
+     * @param original the name of the existing file
+     * @param target the new name of the file
+     */
     private void move(String original, String target){
         File originalFile = new File(_context.getFilesDir(), original);
         try {

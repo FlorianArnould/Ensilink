@@ -1,6 +1,5 @@
 package fr.ensicaen.lbssc.ensilink.storage;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,28 +19,42 @@ public final class Union extends Association{
     /**
      * The constructor
      * @param name the name of the union
-     * @param logoFile a file with the path to the logo image
-     * @param photoFile a file with the path to the photo image
+     * @param logo the logo image
+     * @param photo the photo image
      * @param color an integer representing the color of the union
      */
-    Union(String name, File logoFile, File photoFile, int color){
-        super(name, logoFile, photoFile);
+    Union(String name, Image logo, Image photo, int color){
+        super(name, logo, photo);
         _clubs = new ArrayList<>();
         _color = color;
     }
 
+    /**
+     * Add the club to this union
+     * @param newClub the club to add
+     */
     void addClub(Club newClub){
         _clubs.add(newClub);
     }
 
+    /**
+     * @return the list of the clubs of the union
+     */
     public List<Club> getClubs(){
         return _clubs;
     }
 
+    /**
+     * @param i the club index
+     * @return the corresponding club
+     */
     public Club getClub(int i){
         return _clubs.get(i);
     }
 
+    /**
+     * @return the color of the union
+     */
     public int getColor(){
         return _color;
     }

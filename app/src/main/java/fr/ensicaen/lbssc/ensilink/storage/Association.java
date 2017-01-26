@@ -2,7 +2,6 @@ package fr.ensicaen.lbssc.ensilink.storage;
 
 import android.graphics.drawable.Drawable;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,28 +10,27 @@ import java.util.List;
  * @version 1.0
  */
 
-
 /**
  * Abstract class that represent a student association
  */
 abstract class Association {
 
     private final String _name;
-    private final File _logoFile;
-    private final File _photoFile;
+    private final Image _logo;
+    private final Image _photo;
     private final List<Student> _students;
 
     /**
      * The constructor
      * @param name the name of the association
-     * @param logoFile a file with the path to the logo image
-     * @param photoFile a file with the path to the photo image
+     * @param logo the logo image
+     * @param photo the photo image
      */
-    Association(String name, File logoFile, File photoFile){
+    Association(String name, Image logo, Image photo){
         _name = name;
         _students = new ArrayList<>();
-        _logoFile = logoFile;
-        _photoFile = photoFile;
+        _logo = logo;
+        _photo = photo;
     }
 
     /**
@@ -44,7 +42,6 @@ abstract class Association {
     }
 
     /**
-     *
      * @return the name of the association
      */
     public String getName(){
@@ -52,36 +49,35 @@ abstract class Association {
     }
 
     /**
-     *
-     * @return a List of the students
+     * @return the List of the students
      */
     public List<Student> getStudents(){
         return _students;
     }
 
     /**
-     *
+     * load the logo in a thread and after call the listener
      * @param listener listener called when the image will be loaded
      */
     public void loadLogo(OnImageLoadedListener listener){
-        ImageLoadThread thread = new ImageLoadThread(_logoFile, listener);
+        ImageLoadThread thread = new ImageLoadThread(_logo.getAbsolutePath(), listener);
         thread.start();
     }
 
     /**
-     *
+     * Load the logo here and return it
      * @return a drawable of the logo of the club
      */
     public Drawable getLogo(){
-        return Drawable.createFromPath(_logoFile.getAbsolutePath());
+        return Drawable.createFromPath(_logo.getAbsolutePath());
     }
 
     /**
-     *
+     * Load the photo in a thread and after call the listener
      * @param listener listener called when the image will be loaded
      */
     public void loadPhoto(OnImageLoadedListener listener){
-        ImageLoadThread thread = new ImageLoadThread(_photoFile, listener);
+        ImageLoadThread thread = new ImageLoadThread(_photo.getAbsolutePath(), listener);
         thread.start();
     }
 
@@ -90,16 +86,16 @@ abstract class Association {
      */
     private class ImageLoadThread extends Thread{
 
-        private final File _image;
+        private final String _path;
         private final OnImageLoadedListener _listener;
 
         /**
          * The constructor
-         * @param image a file object to find the image on the local disk
+         * @param path to the local file
          * @param listener the listener to call when the image will be loaded
          */
-        ImageLoadThread(File image, OnImageLoadedListener listener){
-            _image = image;
+        ImageLoadThread(String path, OnImageLoadedListener listener){
+            _path = path;
             _listener = listener;
         }
 
@@ -108,7 +104,7 @@ abstract class Association {
          */
         @Override
         public void run(){
-            _listener.OnImageLoaded(Drawable.createFromPath(_image.getAbsolutePath()));
+            _listener.OnImageLoaded(Drawable.createFromPath(_path));
         }
     }
 }

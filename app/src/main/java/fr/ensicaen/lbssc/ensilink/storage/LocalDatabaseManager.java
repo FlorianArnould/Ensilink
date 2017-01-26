@@ -26,10 +26,6 @@ final class LocalDatabaseManager extends SQLiteOpenHelper {
 
     }
 
-    /**
-     * Creates the database (call by the system if the database doesn't exist)
-     * @param db the local database
-     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE colors(" +
@@ -40,7 +36,8 @@ final class LocalDatabaseManager extends SQLiteOpenHelper {
 
         db.execSQL("CREATE TABLE images(" +
                 "id INTEGER NOT NULL PRIMARY KEY," +
-                "name VARCHAR(100) NOT NULL);");
+                "name VARCHAR(100) NOT NULL," +
+                "attribution VARCHAR(500));");
 
         db.execSQL("CREATE TABLE unions(" +
                 "id INTEGER NOT NULL PRIMARY KEY," +
@@ -96,7 +93,6 @@ final class LocalDatabaseManager extends SQLiteOpenHelper {
     }
 
     /**
-     *
      * @return a array of string with the name of the tables
      */
     static String[] getTables(){

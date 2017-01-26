@@ -3,7 +3,6 @@ package fr.ensicaen.lbssc.ensilink.eventscreen;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -30,11 +29,19 @@ import fr.ensicaen.lbssc.ensilink.storage.School;
  * @version 1.0
  */
 
+/**
+ * Fragment to display the event of the school
+ */
 public final class EventFragment extends ListFragment implements Updatable {
 
     private EventAdapter _adapter;
 
-    public EventFragment(){}
+    /**
+     * Required empty public constructor
+     */
+    public EventFragment(){
+
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,15 +81,26 @@ public final class EventFragment extends ListFragment implements Updatable {
         _adapter.update(School.getInstance().getEvents());
     }
 
+    /**
+     * Class which store the event to show in the ListView
+     */
     private final class EventAdapter extends BaseAdapter {
 
         List<Event> _events;
 
+        /**
+         * The constructor
+         * @param events a list of the events
+         */
         EventAdapter(List<Event> events){
             super();
             update(events);
         }
 
+        /**
+         * Replace the list of the events
+         * @param events a list of the events
+         */
         void update(List<Event> events){
             _events = events;
             notifyDataSetChanged();

@@ -25,7 +25,6 @@ public final class Date{
     }
 
     /**
-     *
      * @return the date with this form : day-month-year. Example: 22-05-2016
      */
     public String toString(){

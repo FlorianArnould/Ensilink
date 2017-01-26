@@ -28,7 +28,6 @@ import javax.xml.parsers.ParserConfigurationException;
  * @version 1.0
  */
 
-
 /**
  * This class clone the online database in the local one.
  */
@@ -57,7 +56,7 @@ final class DatabaseCloner{
     }
 
     /**
-     * clones, parses and fills the local database
+     * Clones, parses and fills the local database
      */
     void cloneDatabase(){
         InputStream in = connect();
@@ -170,7 +169,6 @@ final class DatabaseCloner{
     }
 
     /**
-     *
      * @return the timestamp of the last update
      */
     long lastUpdateOfImageFolder(){

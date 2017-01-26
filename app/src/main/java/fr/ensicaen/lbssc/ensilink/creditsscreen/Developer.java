@@ -6,7 +6,7 @@ package fr.ensicaen.lbssc.ensilink.creditsscreen;
  */
 
 /**
- * Used to store information for credits activity
+ * Used to store information about the developers for the credits
  */
 final class Developer {
 
@@ -15,7 +15,7 @@ final class Developer {
     private final String _name;
 
     /**
-     *
+     * The constructor
      * @param drawableId resource id of the drawable
      * @param position position of the developer
      * @param name name of the developer
@@ -26,14 +26,23 @@ final class Developer {
         _name = name;
     }
 
+    /**
+     * @return the resource id of the position's icon
+     */
     int getDrawableId(){
         return _drawableId;
     }
 
+    /**
+     * @return the position of the developer
+     */
     String getPosition(){
         return _position;
     }
 
+    /**
+     * @return the name of the developer
+     */
     String getName(){
         return _name;
     }

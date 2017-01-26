@@ -1,10 +1,5 @@
 package fr.ensicaen.lbssc.ensilink.associationscreen.clubscreen;
 
-/**
- * @author Florian Arnould
- * @version 1.0
- */
-
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,12 +17,25 @@ import fr.ensicaen.lbssc.ensilink.storage.OnImageLoadedListener;
 import fr.ensicaen.lbssc.ensilink.storage.School;
 import fr.ensicaen.lbssc.ensilink.storage.Student;
 
+/**
+ * @author Florian Arnould
+ * @version 1.0
+ */
 
+/**
+ * The fragment with the information of the club
+ */
 public class InformationFragment extends Fragment {
 
     private int _unionId;
     private int _clubId;
 
+    /**
+     * Method to use to create an instance of InformationFragment
+     * @param unionId the id of the union of the club
+     * @param clubId the id of the club
+     * @return a new instance of InformationFragment
+     */
     public static InformationFragment newInstance(int unionId, int clubId){
         InformationFragment informationFragment = new InformationFragment();
         Bundle args = new Bundle();
@@ -37,7 +45,12 @@ public class InformationFragment extends Fragment {
         return informationFragment;
     }
 
-    public InformationFragment() {}
+    /**
+     * Required empty public constructor
+     */
+    public InformationFragment() {
+
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

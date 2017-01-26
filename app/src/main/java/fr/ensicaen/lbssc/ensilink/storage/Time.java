@@ -32,7 +32,6 @@ public final class Time {
     }
 
     /**
-     *
      * @return the time with this form : hour:minutes. Example: 03:15
      */
     public String toString(){
@@ -48,7 +47,6 @@ public final class Time {
     }
 
     /**
-     *
      * @param time to add
      * @return the result of the sum
      */

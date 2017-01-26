@@ -10,7 +10,7 @@ import android.view.MenuItem;
 
 import fr.ensicaen.lbssc.ensilink.ColorCreator;
 import fr.ensicaen.lbssc.ensilink.R;
-import fr.ensicaen.lbssc.ensilink.associationscreen.Emails;
+import fr.ensicaen.lbssc.ensilink.associationscreen.EmailsFragment;
 import fr.ensicaen.lbssc.ensilink.associationscreen.ViewPagerAdapter;
 import fr.ensicaen.lbssc.ensilink.storage.School;
 import fr.ensicaen.lbssc.ensilink.storage.Union;
@@ -31,7 +31,7 @@ public class ClubActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_club);
+        setContentView(R.layout.club_activity);
         _unionId = getIntent().getIntExtra("UNION_ID", 0);
         _clubId = getIntent().getIntExtra("CLUB_ID", 0);
         if(getSupportActionBar() != null) {
@@ -56,14 +56,14 @@ public class ClubActivity extends AppCompatActivity {
     }
 
     /**
-     * setting the differents fragments of the page in the adapter
+     * Set the fragments of the page in the adapter
      */
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        Emails emails = Emails.newInstance(_unionId);
+        EmailsFragment emailsFragment = EmailsFragment.newInstance(_unionId);
         InformationFragment info = InformationFragment.newInstance(_unionId, _clubId);
         adapter.addFragment(info, getString(R.string.information));
-        adapter.addFragment(emails, getString(R.string.emails));
+        adapter.addFragment(emailsFragment, getString(R.string.emails));
         viewPager.setAdapter(adapter);
     }
 

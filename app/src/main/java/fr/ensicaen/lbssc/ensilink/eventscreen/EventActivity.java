@@ -23,9 +23,10 @@ import fr.ensicaen.lbssc.ensilink.storage.School;
 public class EventActivity extends AppCompatActivity{
 
     @Override
+    @SuppressWarnings("deprecation") //For retro compatibility
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_event);
+        setContentView(R.layout.event_activity);
         if(Build.VERSION.SDK_INT >= 23){
             getWindow().setStatusBarColor(getColor(R.color.colorPrimaryDark));
         }else if(Build.VERSION.SDK_INT >= 21){

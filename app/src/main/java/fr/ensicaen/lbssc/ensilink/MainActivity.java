@@ -1,9 +1,7 @@
 package fr.ensicaen.lbssc.ensilink;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
@@ -35,7 +33,9 @@ import fr.ensicaen.lbssc.ensilink.storage.Union;
  * @version 1.0
  */
 
-
+/**
+ * The main activity of the application which manage the navigation drawer and the fragments
+ */
 public final class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnScrollListener{
 
@@ -47,7 +47,7 @@ public final class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.main_activity);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -78,7 +78,6 @@ public final class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
@@ -95,12 +94,9 @@ public final class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()){
-            case R.id.action_settings:
-                return true;
+            /*case R.id.action_settings:
+                return true;*/
             case R.id.action_refresh:
                 _refresher.setRefreshing(true);
                 refresh();
@@ -127,7 +123,6 @@ public final class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handle navigation view item clicks here.
         if(item.getTitle().equals(getString(R.string.news))){
             changeFragment(new EventFragment());
         }else {
@@ -142,7 +137,7 @@ public final class MainActivity extends AppCompatActivity
                         _unionFragment.resetPosition();
                     }
                     changeFragment(_unionFragment);
-                    _unionFragment.postReplaced(this, i);
+                    _unionFragment.changeColor(this, i);
                 }
             }
         }
@@ -151,12 +146,21 @@ public final class MainActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * set the text displayed in the action bar
+     * @param title the text to display
+     */
     public void setActionBarTitle(String title){
         if(getSupportActionBar() != null){
             getSupportActionBar().setTitle(title);
         }
     }
 
+    /**
+     * Set the color of the action bar
+     * @param color the color to set
+     */
+    //TODO move the status bar color here
     public void setApplicationColor(@ColorInt int color){
         if(getSupportActionBar() != null) {
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(color));
@@ -166,12 +170,18 @@ public final class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Replace the main fragment by another
+     * @param fragment the new fragment
+     */
     private void changeFragment(Fragment fragment){
         _currentFragment = (Updatable) fragment;
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContent, fragment).commit();
     }
 
-
+    /**
+     * Reload all information in the application
+     */
     private void refresh(){
         School.getInstance().refreshData(getApplicationContext(), new OnSchoolDataListener() {
             @Override
@@ -198,15 +208,23 @@ public final class MainActivity extends AppCompatActivity
 
     @Override
     public void onScroll(AbsListView absListView, int i, int i1, int i2) {
-
+        //Need to be empty for optimisation reasons
     }
 
+    /**
+     * Update the state of the "swipe to refresh" action
+     * @param absListView active listview
+     */
     public void updateRefresherState(AbsListView absListView){
         if(_refresher != null) {
             setRefresherEnabled(!ViewCompat.canScrollVertically(absListView, -1));
         }
     }
 
+    /**
+     * Set the state of the "swipe to refresh" action
+     * @param enabled the new state
+     */
     public void setRefresherEnabled(boolean enabled){
         _refresher.setEnabled(enabled);
     }

@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import fr.ensicaen.lbssc.ensilink.MainActivity;
 import fr.ensicaen.lbssc.ensilink.R;
 import fr.ensicaen.lbssc.ensilink.Updatable;
-import fr.ensicaen.lbssc.ensilink.associationscreen.Emails;
+import fr.ensicaen.lbssc.ensilink.associationscreen.EmailsFragment;
 import fr.ensicaen.lbssc.ensilink.associationscreen.ViewPagerAdapter;
 import fr.ensicaen.lbssc.ensilink.storage.School;
 import fr.ensicaen.lbssc.ensilink.storage.Union;
@@ -22,19 +22,21 @@ import fr.ensicaen.lbssc.ensilink.storage.Union;
  * @author Marsel Arik
  * @version 1.0
  */
+
 /**
- * Class which displays the screen of a union
+ * Fragment of an union with the members, the clubs and the mails
  */
 public class UnionFragment extends Fragment implements Updatable {
 
     private TabLayout _tabLayout;
     private boolean _created;
     private View _view;
-    private Members _members;
-    private Clubs _clubs;
-    private Emails _emails;
+    private MembersFragment _membersFragment;
+    private ClubsFragment _clubsFragment;
+    private EmailsFragment _emailsFragment;
     private int _color;
     private int _unionId;
+
     /**
      * create an object
      * @return an union fragment
@@ -86,10 +88,10 @@ public class UnionFragment extends Fragment implements Updatable {
                     ListFragment listFragment;
                     switch (position){
                         case 0:
-                            listFragment = _members;
+                            listFragment = _membersFragment;
                             break;
                         default:
-                            listFragment = _clubs;
+                            listFragment = _clubsFragment;
                     }
                     if(getActivity() != null) {
                         ((MainActivity) getActivity()).updateRefresherState(listFragment.getListView());
@@ -108,16 +110,16 @@ public class UnionFragment extends Fragment implements Updatable {
         }
         return _view;
     }
-    /**
-     * Update the data of on union
-     */
+
+    @Override
     public void update(){
-        _members.changeUnion(_unionId);
-        _clubs.changeUnion(_unionId);
-        _emails.changeUnion(_unionId);
+        _membersFragment.changeUnion(_unionId);
+        _clubsFragment.changeUnion(_unionId);
+        _emailsFragment.changeUnion(_unionId);
     }
+
     /**
-     * Reset the position of the selected fragment
+     * Reset the selected fragment to the default
      */
     public void resetPosition(){
         TabLayout.Tab tab = _tabLayout.getTabAt(0);
@@ -125,10 +127,11 @@ public class UnionFragment extends Fragment implements Updatable {
             tab.select();
         }
     }
+
     /**
-     *  Update parameters after the update of union
+     *  Change the color of the top of the application
      */
-    public void postReplaced(MainActivity activity, int unionId){
+    public void changeColor(MainActivity activity, int unionId){
         if( activity != null) {
             Union union = School.getInstance().getUnion(unionId);
             activity.setActionBarTitle(union.getName());
@@ -140,21 +143,22 @@ public class UnionFragment extends Fragment implements Updatable {
             }
         }
     }
+
     /**
-     * Creates the differents fragments
+     * Set the fragments of the page in the adapter
      */
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
-        _members = Members.newInstance(_unionId);
-        _clubs = Clubs.newInstance(_unionId);
-        _emails = Emails.newInstance(_unionId);
-        adapter.addFragment(_members, getString(R.string.members));
-        adapter.addFragment(_clubs, getString(R.string.clubs));
-        adapter.addFragment(_emails, getString(R.string.emails));
+        _membersFragment = MembersFragment.newInstance(_unionId);
+        _clubsFragment = ClubsFragment.newInstance(_unionId);
+        _emailsFragment = EmailsFragment.newInstance(_unionId);
+        adapter.addFragment(_membersFragment, getString(R.string.members));
+        adapter.addFragment(_clubsFragment, getString(R.string.clubs));
+        adapter.addFragment(_emailsFragment, getString(R.string.emails));
         viewPager.setAdapter(adapter);
     }
     /**
-     * Change the union selected
+     * Change the displayed union in the fragment
      */
     public void changeUnion(int unionId){
         _unionId = unionId;
