@@ -1,4 +1,4 @@
-package fr.ensicaen.lbssc.ensilink.storage;
+package fr.ensicaen.lbssc.ensilink.loader;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -11,6 +11,14 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.ensicaen.lbssc.ensilink.storage.Club;
+import fr.ensicaen.lbssc.ensilink.storage.Date;
+import fr.ensicaen.lbssc.ensilink.storage.Event;
+import fr.ensicaen.lbssc.ensilink.storage.Image;
+import fr.ensicaen.lbssc.ensilink.storage.Student;
+import fr.ensicaen.lbssc.ensilink.storage.Time;
+import fr.ensicaen.lbssc.ensilink.storage.Union;
+
 /**
  * @author Florian Arnould
  * @version 1.0
@@ -19,7 +27,7 @@ import java.util.List;
 /**
  * The class that load the information from the local database
  */
-final class DataLoader extends Thread{
+final public class DataLoader extends Thread{
 
     private SQLiteDatabase _db;
     private final LocalDatabaseManager _databaseManager;
@@ -32,11 +40,10 @@ final class DataLoader extends Thread{
     private final boolean _preload;
 
     /**
-     * The constructor
      * @param context an activity context needed to open the local database with the database manager
      * @param preload is true if we want to preload the local information during download
      */
-    DataLoader(Context context, boolean preload){
+    public DataLoader(Context context, boolean preload){
         _databaseManager = new LocalDatabaseManager(context);
         _db = null;
         _downloader = new FileDownloader(context);
@@ -221,28 +228,28 @@ final class DataLoader extends Thread{
      * Sets the listener
      * @param listener the listener to execute when data will be loaded
      */
-    void setOnLoadingFinishListener(OnLoadingFinishListener listener){
+    public void setOnLoadingFinishListener(OnLoadingFinishListener listener){
         _listener = listener;
     }
 
     /**
      * @return the previously loaded unions or null
      */
-    List<Union> getUnions(){
+    public List<Union> getUnions(){
         return _unions;
     }
 
     /**
      * @return the previously loaded events or an empty list
      */
-    List<Event> getEvents(){
+    public List<Event> getEvents(){
         return _events;
     }
 
     /**
      * @return the images used in the application
      */
-    List<Image> getImages(){
+    public List<Image> getImages(){
         return _images;
     }
 

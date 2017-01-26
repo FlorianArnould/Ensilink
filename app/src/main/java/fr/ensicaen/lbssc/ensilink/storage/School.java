@@ -4,6 +4,9 @@ import android.content.Context;
 
 import java.util.List;
 
+import fr.ensicaen.lbssc.ensilink.loader.DataLoader;
+import fr.ensicaen.lbssc.ensilink.loader.OnLoadingFinishListener;
+
 /**
  * @author Florian Arnould
  * @version 1.0

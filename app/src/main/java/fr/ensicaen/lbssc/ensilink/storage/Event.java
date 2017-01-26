@@ -28,7 +28,7 @@ public final class Event {
      * @param imageFile the header image of the article
      * @param union the organiser union of the event
      */
-    Event(String title, String text, File imageFile, Union union){
+    public Event(String title, String text, File imageFile, Union union){
         _title = title;
         _text = text;
         _imageFile = imageFile;

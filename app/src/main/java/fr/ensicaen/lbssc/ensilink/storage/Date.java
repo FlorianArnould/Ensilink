@@ -17,7 +17,7 @@ public final class Date{
      * The constructor
      * @param date a string to parse to get the date with this form : day-month-year. Example: 22-05-2016
      */
-    Date(String date){
+    public Date(String date){
         String[] strings = date.split(Character.toString('-'));
         _dayOfMonth = Integer.valueOf(strings[0]);
         _month = Integer.valueOf(strings[1]);

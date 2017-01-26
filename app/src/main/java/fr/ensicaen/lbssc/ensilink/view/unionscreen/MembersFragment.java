@@ -1,4 +1,4 @@
-package fr.ensicaen.lbssc.ensilink.associationscreen.unionscreen;
+package fr.ensicaen.lbssc.ensilink.view.unionscreen;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -13,9 +13,9 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import fr.ensicaen.lbssc.ensilink.MainActivity;
+import fr.ensicaen.lbssc.ensilink.view.MainActivity;
 import fr.ensicaen.lbssc.ensilink.R;
-import fr.ensicaen.lbssc.ensilink.associationscreen.AssociationFragment;
+import fr.ensicaen.lbssc.ensilink.view.AssociationFragment;
 import fr.ensicaen.lbssc.ensilink.storage.OnImageLoadedListener;
 import fr.ensicaen.lbssc.ensilink.storage.Student;
 

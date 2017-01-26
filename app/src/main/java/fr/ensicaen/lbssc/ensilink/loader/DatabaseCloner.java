@@ -1,4 +1,4 @@
-package fr.ensicaen.lbssc.ensilink.storage;
+package fr.ensicaen.lbssc.ensilink.loader;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
@@ -38,7 +38,6 @@ final class DatabaseCloner{
     private long _lastUpdateOfImageFolder;
 
     /**
-     * The constructor
      * @param db the database instance
      */
     DatabaseCloner(SQLiteDatabase db){

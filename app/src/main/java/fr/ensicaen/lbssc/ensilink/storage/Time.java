@@ -18,7 +18,7 @@ public final class Time {
      * The constructor
      * @param time a string to parse to get the time with this form : hour:minutes. Example: 03:15
      */
-    Time(String time){
+    public Time(String time){
         String[] strings = time.split(Character.toString(':'));
         _hours = Integer.valueOf(strings[0]);
         _minutes = Integer.valueOf(strings[1]);

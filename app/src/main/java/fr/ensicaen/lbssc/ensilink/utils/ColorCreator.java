@@ -1,4 +1,4 @@
-package fr.ensicaen.lbssc.ensilink;
+package fr.ensicaen.lbssc.ensilink.utils;
 
 import android.graphics.Color;
 

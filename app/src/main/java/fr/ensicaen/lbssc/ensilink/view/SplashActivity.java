@@ -1,9 +1,10 @@
-package fr.ensicaen.lbssc.ensilink;
+package fr.ensicaen.lbssc.ensilink.view;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import fr.ensicaen.lbssc.ensilink.R;
 import fr.ensicaen.lbssc.ensilink.storage.OnSchoolDataListener;
 import fr.ensicaen.lbssc.ensilink.storage.School;
 

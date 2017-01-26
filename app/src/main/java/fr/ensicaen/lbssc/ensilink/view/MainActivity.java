@@ -1,4 +1,4 @@
-package fr.ensicaen.lbssc.ensilink;
+package fr.ensicaen.lbssc.ensilink.view;
 
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -21,12 +21,13 @@ import android.widget.AbsListView.OnScrollListener;
 
 import java.util.List;
 
-import fr.ensicaen.lbssc.ensilink.associationscreen.unionscreen.UnionFragment;
-import fr.ensicaen.lbssc.ensilink.creditsscreen.CreditsActivity;
-import fr.ensicaen.lbssc.ensilink.eventscreen.EventFragment;
+import fr.ensicaen.lbssc.ensilink.R;
+import fr.ensicaen.lbssc.ensilink.view.unionscreen.UnionFragment;
+import fr.ensicaen.lbssc.ensilink.view.creditsscreen.CreditsActivity;
 import fr.ensicaen.lbssc.ensilink.storage.OnSchoolDataListener;
 import fr.ensicaen.lbssc.ensilink.storage.School;
 import fr.ensicaen.lbssc.ensilink.storage.Union;
+import fr.ensicaen.lbssc.ensilink.utils.ColorCreator;
 
 /**
  * @author Florian Arnould
@@ -109,6 +110,9 @@ public final class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Replace the drawer rows with the new ones
+     */
     private void refreshDrawer(){
         final Menu menu = ((NavigationView)findViewById(R.id.nav_view)).getMenu();
         menu.clear();
@@ -133,7 +137,6 @@ public final class MainActivity extends AppCompatActivity
                         _unionFragment = UnionFragment.newInstance(i);
                     } else {
                         _unionFragment.changeUnion(i);
-                        //TODO return to default position after visited Events page
                         _unionFragment.resetPosition();
                     }
                     changeFragment(_unionFragment);
@@ -160,7 +163,6 @@ public final class MainActivity extends AppCompatActivity
      * Set the color of the action bar
      * @param color the color to set
      */
-    //TODO move the status bar color here
     public void setApplicationColor(@ColorInt int color){
         if(getSupportActionBar() != null) {
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(color));

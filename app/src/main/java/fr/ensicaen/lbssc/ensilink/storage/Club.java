@@ -32,7 +32,7 @@ public final class Club extends Association{
      * @param logo the logo image
      * @param photo the photo image
      */
-    Club(String name, int day, Date date, Time time, Time duration, String place, Image logo, Image photo){
+    public Club(String name, int day, Date date, Time time, Time duration, String place, Image logo, Image photo){
         super(name, logo, photo);
         _day = day;
         _date = date;

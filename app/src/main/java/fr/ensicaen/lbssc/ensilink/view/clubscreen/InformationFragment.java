@@ -1,4 +1,4 @@
-package fr.ensicaen.lbssc.ensilink.associationscreen.clubscreen;
+package fr.ensicaen.lbssc.ensilink.view.clubscreen;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;

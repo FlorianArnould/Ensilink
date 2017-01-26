@@ -1,4 +1,4 @@
-package fr.ensicaen.lbssc.ensilink.associationscreen.unionscreen;
+package fr.ensicaen.lbssc.ensilink.view.unionscreen;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,11 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import fr.ensicaen.lbssc.ensilink.MainActivity;
+import fr.ensicaen.lbssc.ensilink.view.MainActivity;
 import fr.ensicaen.lbssc.ensilink.R;
-import fr.ensicaen.lbssc.ensilink.Updatable;
-import fr.ensicaen.lbssc.ensilink.associationscreen.EmailsFragment;
-import fr.ensicaen.lbssc.ensilink.associationscreen.ViewPagerAdapter;
+import fr.ensicaen.lbssc.ensilink.view.Updatable;
+import fr.ensicaen.lbssc.ensilink.view.EmailsFragment;
+import fr.ensicaen.lbssc.ensilink.view.ViewPagerAdapter;
 import fr.ensicaen.lbssc.ensilink.storage.School;
 import fr.ensicaen.lbssc.ensilink.storage.Union;
 
@@ -48,6 +48,7 @@ public class UnionFragment extends Fragment implements Updatable {
         fragment.setArguments(args);
         return fragment;
     }
+
     /**
      * the default constructor
      */
@@ -80,7 +81,7 @@ public class UnionFragment extends Fragment implements Updatable {
             viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                    //Do nothing always called during animation
+                    //Do nothing because it is always called during animation
                 }
 
                 @Override
@@ -129,7 +130,7 @@ public class UnionFragment extends Fragment implements Updatable {
     }
 
     /**
-     *  Change the color of the top of the application
+     * Change the color of the top of the application
      */
     public void changeColor(MainActivity activity, int unionId){
         if( activity != null) {
@@ -157,6 +158,7 @@ public class UnionFragment extends Fragment implements Updatable {
         adapter.addFragment(_emailsFragment, getString(R.string.emails));
         viewPager.setAdapter(adapter);
     }
+
     /**
      * Change the displayed union in the fragment
      */

@@ -1,4 +1,4 @@
-package fr.ensicaen.lbssc.ensilink.associationscreen;
+package fr.ensicaen.lbssc.ensilink.view;
 
 
 

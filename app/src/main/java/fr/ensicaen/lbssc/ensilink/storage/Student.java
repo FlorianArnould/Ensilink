@@ -24,7 +24,7 @@ public final class Student {
      * @param email his or her email address
      * @param position his or her position in the club or in the union
      */
-    Student(String name, String lastName, String nickname, String email, String position){
+    public Student(String name, String lastName, String nickname, String email, String position){
         _name = name;
         _email = email;
         _lastName = lastName;

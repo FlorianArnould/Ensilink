@@ -1,13 +1,13 @@
-package fr.ensicaen.lbssc.ensilink.creditsscreen;
+package fr.ensicaen.lbssc.ensilink.view.creditsscreen;
+
+import android.graphics.drawable.Drawable;
+
+import fr.ensicaen.lbssc.ensilink.storage.Image;
 
 /**
  * @author Florian Arnould
  * @version 1.0
  */
-
-import android.graphics.drawable.Drawable;
-
-import fr.ensicaen.lbssc.ensilink.storage.Image;
 
 /**
  * Used to store information about the images creators for credits activity
@@ -17,9 +17,7 @@ final class Artist {
     private final Drawable _drawable;
     private final String _attribution;
 
-
     /**
-     * The constructor
      * @param drawableId resource id of the drawable
      * @param attribution attribution text for the creative commons license
      */
@@ -29,7 +27,6 @@ final class Artist {
     }
 
     /**
-     * The constructor
      * @param image which needs an attribution
      */
     Artist(Image image){

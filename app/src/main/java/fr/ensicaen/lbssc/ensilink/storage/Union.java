@@ -23,7 +23,7 @@ public final class Union extends Association{
      * @param photo the photo image
      * @param color an integer representing the color of the union
      */
-    Union(String name, Image logo, Image photo, int color){
+    public Union(String name, Image logo, Image photo, int color){
         super(name, logo, photo);
         _clubs = new ArrayList<>();
         _color = color;
@@ -33,7 +33,7 @@ public final class Union extends Association{
      * Add the club to this union
      * @param newClub the club to add
      */
-    void addClub(Club newClub){
+    public void addClub(Club newClub){
         _clubs.add(newClub);
     }
 

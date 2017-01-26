@@ -1,4 +1,4 @@
-package fr.ensicaen.lbssc.ensilink.associationscreen.clubscreen;
+package fr.ensicaen.lbssc.ensilink.view.clubscreen;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -8,10 +8,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import fr.ensicaen.lbssc.ensilink.ColorCreator;
+import fr.ensicaen.lbssc.ensilink.utils.ColorCreator;
 import fr.ensicaen.lbssc.ensilink.R;
-import fr.ensicaen.lbssc.ensilink.associationscreen.EmailsFragment;
-import fr.ensicaen.lbssc.ensilink.associationscreen.ViewPagerAdapter;
+import fr.ensicaen.lbssc.ensilink.view.EmailsFragment;
+import fr.ensicaen.lbssc.ensilink.view.ViewPagerAdapter;
 import fr.ensicaen.lbssc.ensilink.storage.School;
 import fr.ensicaen.lbssc.ensilink.storage.Union;
 

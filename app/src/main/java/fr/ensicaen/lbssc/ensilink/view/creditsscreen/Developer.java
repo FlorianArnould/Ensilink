@@ -1,4 +1,4 @@
-package fr.ensicaen.lbssc.ensilink.creditsscreen;
+package fr.ensicaen.lbssc.ensilink.view.creditsscreen;
 
 /**
  * @author Florian Arnould
@@ -15,7 +15,6 @@ final class Developer {
     private final String _name;
 
     /**
-     * The constructor
      * @param drawableId resource id of the drawable
      * @param position position of the developer
      * @param name name of the developer

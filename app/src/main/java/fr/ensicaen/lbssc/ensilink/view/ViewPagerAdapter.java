@@ -1,4 +1,4 @@
-package fr.ensicaen.lbssc.ensilink.associationscreen;
+package fr.ensicaen.lbssc.ensilink.view;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

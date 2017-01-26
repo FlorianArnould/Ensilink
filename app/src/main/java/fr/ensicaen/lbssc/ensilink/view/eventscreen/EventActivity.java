@@ -1,4 +1,4 @@
-package fr.ensicaen.lbssc.ensilink.eventscreen;
+package fr.ensicaen.lbssc.ensilink.view.eventscreen;
 
 import android.os.Build;
 import android.os.Bundle;

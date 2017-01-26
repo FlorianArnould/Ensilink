@@ -1,4 +1,4 @@
-package fr.ensicaen.lbssc.ensilink.eventscreen;
+package fr.ensicaen.lbssc.ensilink.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,9 +17,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import fr.ensicaen.lbssc.ensilink.MainActivity;
 import fr.ensicaen.lbssc.ensilink.R;
-import fr.ensicaen.lbssc.ensilink.Updatable;
+import fr.ensicaen.lbssc.ensilink.view.eventscreen.EventActivity;
 import fr.ensicaen.lbssc.ensilink.storage.Event;
 import fr.ensicaen.lbssc.ensilink.storage.OnImageLoadedListener;
 import fr.ensicaen.lbssc.ensilink.storage.School;

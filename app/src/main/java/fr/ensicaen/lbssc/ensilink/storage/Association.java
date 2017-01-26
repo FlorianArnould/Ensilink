@@ -37,7 +37,7 @@ abstract class Association {
      * Adds a student to the association
      * @param student a student instance
      */
-    void addStudent(Student student){
+    public void addStudent(Student student){
         _students.add(student);
     }
 

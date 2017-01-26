@@ -1,4 +1,4 @@
-package fr.ensicaen.lbssc.ensilink.associationscreen.unionscreen;
+package fr.ensicaen.lbssc.ensilink.view.unionscreen;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,10 +14,10 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import fr.ensicaen.lbssc.ensilink.MainActivity;
+import fr.ensicaen.lbssc.ensilink.view.MainActivity;
 import fr.ensicaen.lbssc.ensilink.R;
-import fr.ensicaen.lbssc.ensilink.associationscreen.AssociationFragment;
-import fr.ensicaen.lbssc.ensilink.associationscreen.clubscreen.ClubActivity;
+import fr.ensicaen.lbssc.ensilink.view.AssociationFragment;
+import fr.ensicaen.lbssc.ensilink.view.clubscreen.ClubActivity;
 import fr.ensicaen.lbssc.ensilink.storage.Club;
 import fr.ensicaen.lbssc.ensilink.storage.OnImageLoadedListener;
 

@@ -4,7 +4,7 @@
     android:id="@+id/activity_credits"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fr.ensicaen.lbssc.ensilink.creditsscreen.CreditsActivity">
+    tools:context=".view.creditsscreen.CreditsActivity">
 
     <ListView
         android:id="@+id/list"

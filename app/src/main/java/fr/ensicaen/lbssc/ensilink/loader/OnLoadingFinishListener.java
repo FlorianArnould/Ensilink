@@ -1,4 +1,4 @@
-package fr.ensicaen.lbssc.ensilink.storage;
+package fr.ensicaen.lbssc.ensilink.loader;
 
 /**
  * @author Florian Arnould
@@ -8,7 +8,7 @@ package fr.ensicaen.lbssc.ensilink.storage;
 /**
  * The interface of a listener to listen that the DataLoader finish its work
  */
-interface OnLoadingFinishListener {
+public interface OnLoadingFinishListener {
     /**
      * Executes this when loading is finished
      * @param loader the DataLoader instance itself

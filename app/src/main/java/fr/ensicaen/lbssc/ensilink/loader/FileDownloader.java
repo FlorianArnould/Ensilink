@@ -1,4 +1,4 @@
-package fr.ensicaen.lbssc.ensilink.storage;
+package fr.ensicaen.lbssc.ensilink.loader;
 
 import android.content.Context;
 import android.util.Log;
@@ -28,7 +28,6 @@ final class FileDownloader {
     private final Context _context;
 
     /**
-     * The constructor
      * @param context an activity context needed to open the local file directory
      */
     FileDownloader(Context context){

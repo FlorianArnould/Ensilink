@@ -1,4 +1,4 @@
-package fr.ensicaen.lbssc.ensilink.storage;
+package fr.ensicaen.lbssc.ensilink.loader;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -18,7 +18,6 @@ final class LocalDatabaseManager extends SQLiteOpenHelper {
     private static final String[] _tables = {"colors", "images", "students", "unions", "clubs", "students_club", "students_union", "events"};
 
     /**
-     * The constructor
      * @param context an application context needed for the parent class
      */
     LocalDatabaseManager(Context context){

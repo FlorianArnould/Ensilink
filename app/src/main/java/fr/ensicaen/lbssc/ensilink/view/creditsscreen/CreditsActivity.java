@@ -1,10 +1,9 @@
-package fr.ensicaen.lbssc.ensilink.creditsscreen;
+package fr.ensicaen.lbssc.ensilink.view.creditsscreen;
 
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -67,9 +66,6 @@ public final class CreditsActivity extends AppCompatActivity {
         private final List<Integer> _rowLayout;
         private final List<Object> _rowContent;
 
-        /**
-         * The constructor
-         */
         CreditsAdapter(){
             _rowLayout = new ArrayList<>();
             _rowContent = new ArrayList<>();

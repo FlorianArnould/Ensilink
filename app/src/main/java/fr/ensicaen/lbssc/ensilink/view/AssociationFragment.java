@@ -1,10 +1,8 @@
-package fr.ensicaen.lbssc.ensilink.associationscreen;
-
+package fr.ensicaen.lbssc.ensilink.view;
 
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 
-import fr.ensicaen.lbssc.ensilink.Updatable;
 import fr.ensicaen.lbssc.ensilink.storage.School;
 import fr.ensicaen.lbssc.ensilink.storage.Union;
 
@@ -13,6 +11,9 @@ import fr.ensicaen.lbssc.ensilink.storage.Union;
  * @version 1.0
  */
 
+/**
+ * Abstraction to store the union of the fragment
+ */
 public abstract class AssociationFragment extends ListFragment implements Updatable {
 
     private Union _union;
