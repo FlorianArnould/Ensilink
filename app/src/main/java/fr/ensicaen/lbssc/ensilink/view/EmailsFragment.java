@@ -2,7 +2,7 @@ package fr.ensicaen.lbssc.ensilink.view;
 
 
 
-//TODO functionality will be implemented in the next released
+//TODO feature will be implemented in the next released
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

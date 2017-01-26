@@ -55,12 +55,13 @@ public class UnionFragment extends Fragment implements Updatable {
     public UnionFragment(){
         _created = false;
         _color = Color.BLACK;
+        _unionId = 0;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
+        if (getArguments() != null && _unionId == 0) {
             _unionId = getArguments().getInt("UNION_ID");
         }
     }

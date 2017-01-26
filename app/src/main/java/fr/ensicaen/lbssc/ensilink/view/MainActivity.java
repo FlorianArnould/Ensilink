@@ -127,6 +127,9 @@ public final class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        if(_unionFragment != null){
+            _unionFragment.resetPosition();
+        }
         if(item.getTitle().equals(getString(R.string.news))){
             changeFragment(new EventFragment());
         }else {
@@ -137,7 +140,6 @@ public final class MainActivity extends AppCompatActivity
                         _unionFragment = UnionFragment.newInstance(i);
                     } else {
                         _unionFragment.changeUnion(i);
-                        _unionFragment.resetPosition();
                     }
                     changeFragment(_unionFragment);
                     _unionFragment.changeColor(this, i);

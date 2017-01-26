@@ -1,23 +1,18 @@
 package fr.ensicaen.lbssc.ensilink.view.unionscreen;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
-
-import java.util.List;
 
 import fr.ensicaen.lbssc.ensilink.view.MainActivity;
 import fr.ensicaen.lbssc.ensilink.R;
 import fr.ensicaen.lbssc.ensilink.view.AssociationFragment;
 import fr.ensicaen.lbssc.ensilink.storage.OnImageLoadedListener;
-import fr.ensicaen.lbssc.ensilink.storage.Student;
+import fr.ensicaen.lbssc.ensilink.view.StudentAdapter;
 
 /**
  * @author Marsel Arik
@@ -51,7 +46,7 @@ public class MembersFragment extends AssociationFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        _adapter = new StudentAdapter(getUnion().getStudents());
+        _adapter = new StudentAdapter(getUnion().getStudents(), getActivity());
     }
 
     @Override
@@ -89,62 +84,5 @@ public class MembersFragment extends AssociationFragment {
         list.setAdapter(_adapter);
         list.setOnScrollListener((MainActivity)getActivity());
         update();
-    }
-
-    /**
-     *  Class which store the students to show in the ListView
-     */
-    final class StudentAdapter extends BaseAdapter {
-
-        List<Student> _students;
-
-        /**
-         * Fill the adapter
-         * @param students a list with all the students
-         */
-        StudentAdapter(List<Student> students){
-            super();
-            update(students);
-        }
-
-        /**
-         * Replace the list of the students
-         * @param students a list with all the students
-         */
-        void update(List<Student> students){
-            _students = students;
-            notifyDataSetChanged();
-        }
-
-        @Override
-        public int getCount() {
-            return _students.size();
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return _students.get(i);
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int i, View view, ViewGroup parent) {
-            if(view == null) {
-                LayoutInflater inflater = (LayoutInflater) MembersFragment.this.getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                view = inflater.inflate(R.layout.members_fragment_row, parent, false);
-            }
-            Student student = _students.get(i);
-            TextView text = (TextView) view.findViewById(R.id.listview_union_membre_role);
-            text.setText(student.getPosition());
-            text = (TextView) view.findViewById(R.id.listview_union_membre_nom);
-            text.setText(student.getName() + " \"" + student.getNickname() + "\" " + student.getLastName());
-            text = (TextView) view.findViewById(R.id.listview_union_membre_mail);
-            text.setText(student.getEmail());
-            return view;
-        }
     }
 }

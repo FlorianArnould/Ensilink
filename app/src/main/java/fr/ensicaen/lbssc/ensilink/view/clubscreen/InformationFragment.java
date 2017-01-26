@@ -7,15 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
-
-import java.util.List;
 
 import fr.ensicaen.lbssc.ensilink.R;
 import fr.ensicaen.lbssc.ensilink.storage.Club;
 import fr.ensicaen.lbssc.ensilink.storage.OnImageLoadedListener;
 import fr.ensicaen.lbssc.ensilink.storage.School;
-import fr.ensicaen.lbssc.ensilink.storage.Student;
+import fr.ensicaen.lbssc.ensilink.view.StudentAdapter;
 
 /**
  * @author Florian Arnould
@@ -29,6 +28,7 @@ public class InformationFragment extends Fragment {
 
     private int _unionId;
     private int _clubId;
+    private StudentAdapter _adapter;
 
     /**
      * Method to use to create an instance of InformationFragment
@@ -57,14 +57,14 @@ public class InformationFragment extends Fragment {
         super.onCreate(savedInstanceState);
         _unionId = getArguments().getInt("UNION_ID");
         _clubId = getArguments().getInt("CLUB_ID");
-
+        _adapter = new StudentAdapter(School.getInstance().getUnion(_unionId).getClub(_clubId).getStudents(), getActivity());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.information_fragment, container, false);
+        View view = inflater.inflate(R.layout.clubs_information_fragment, container, false);
         Club club = School.getInstance().getUnion(_unionId).getClub(_clubId);
         TextView text = (TextView) view.findViewById(R.id.place);
         text.setText(club.getPlace());
@@ -100,23 +100,13 @@ public class InformationFragment extends Fragment {
                 });
             }
         });
-
-
-        List<Student> students = club.getStudents();
-
-        text = (TextView) view.findViewById(R.id.namePrez);
-        text.setText(students.get(0).getName());
-
-
-        text = (TextView) view.findViewById(R.id.mailPrez);
-        text.setText(students.get(0).getEmail());
-
-        text = (TextView) view.findViewById(R.id.nameVicePrez);
-        text.setText(students.get(1).getName());
-
-        text = (TextView) view.findViewById(R.id.mailVicePrez);
-        text.setText(students.get(1).getName());
-
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedStateInstance){
+        super.onActivityCreated(savedStateInstance);
+        ListView list = (ListView) getActivity().findViewById(R.id.list);
+        list.setAdapter(_adapter);
     }
 }

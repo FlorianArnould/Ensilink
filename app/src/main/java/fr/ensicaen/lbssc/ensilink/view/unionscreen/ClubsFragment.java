@@ -68,7 +68,7 @@ public final class ClubsFragment extends AssociationFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.clubs_union, container, false);
+        return inflater.inflate(R.layout.clubs_fragment, container, false);
     }
 
     @Override
@@ -144,9 +144,10 @@ public final class ClubsFragment extends AssociationFragment {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            //Todo protect against no file found
-                            image.setBounds(0, 0, 150, 150);
-                            text.setCompoundDrawables(image, null, null, null);
+                            if(image != null) {
+                                image.setBounds(0, 0, 150, 150);
+                                text.setCompoundDrawables(image, null, null, null);
+                            }
                         }
                     });
                 }

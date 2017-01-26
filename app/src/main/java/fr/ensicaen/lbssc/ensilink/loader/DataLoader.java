@@ -209,7 +209,7 @@ final public class DataLoader extends Thread{
      */
     private void loadStudentsClubFromDatabase(Cursor cursor, Club club){
         Cursor studentClubCursor = _db.rawQuery("SELECT lastname, name, nickname, email, position " +
-                        "FROM students_club LEFT JOIN students ON id=idstudent WHERE idclub=?;",
+                        "FROM students_club LEFT JOIN students ON id=idstudent WHERE idclub=? ORDER BY position;",
                 new String[]{cursor.getString(0)});
         if(studentClubCursor.moveToFirst()) {
             do {
