@@ -4,19 +4,52 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
     <string name="action_refresh">Refresh</string>
+
+    <string name="news">Actualité</string>
+
+    <string name="club_logo">Logo du club</string>
+    <string name="event_image">Image de l\'évènement</string>
+    <string name="attribution_logo">Logo creative commons</string>
+    <string name="position_logo">Logo de pour le développeur</string>
 
     <string name="ensicaen_logo_description">Logo de l\'ENSICAEN</string>
 
     <string name="drawer_student_name">Nom de l\'élève</string>
     <string name="drawer_student_email">nom@ecole.ensicaen.fr</string>
-    
-    <string name="day_one">Lundi</string>
-    <string name="day_two">Mardi</string>
-    <string name="day_three">Mercredi</string>
-    <string name="day_four">Jeudi</string>
-    <string name="day_five">Vendredi</string>
-    <string name="day_six">Samedi</string>
-    <string name="day_seven">Dimanche</string>
+
+    <string-array name="days">
+        <item name="day_one">Lundi</item>
+        <item name="day_two">Mardi</item>
+        <item name="day_three">Mercredi</item>
+        <item name="day_four">Jeudi</item>
+        <item name="day_five">Vendredi</item>
+        <item name="day_six">Samedi</item>
+        <item name="day_seven">Dimanche</item>
+    </string-array>
+
+    <string name="unknown">NC</string>
+
+    <string name="emails_placeholder">Fonctionnalité à venir</string>
+    <string name="members">Membres</string>
+    <string name="clubs">Clubs</string>
+    <string name="emails">Mails</string>
+    <string name="information">Informations</string>
+
+    <string name="union_photo_description">Photo de groupe du bureau</string>
+
+    <string name="credits">Crédits</string>
+    <string name="developers">Développeurs</string>
+    <string name="manager">Chef de projet</string>
+    <string name="developer">Développeur</string>
+    <string-array name="team_2016_2017">
+        <item name="leader">Florian ARNOULD</item>
+        <item name="developer_1">Jérémy FILIPOZZI</item>
+        <item name="developer_2">Marsel ARIK</item>
+    </string-array>
+    <string name="attributions">Artistes du site The Noun Project</string>
+    <string name="application_icon"><i>Kangaroo</i> by Yi Chen</string>
+    <string name="manager_icon"><i>management</i> by Gregor Črešnar</string>
+    <string name="developer_icon"><i>Mobile Development</i> by ProSymbols</string>
+
 </resources>

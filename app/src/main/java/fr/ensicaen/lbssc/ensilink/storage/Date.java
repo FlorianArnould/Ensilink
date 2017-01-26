@@ -9,15 +9,15 @@ package fr.ensicaen.lbssc.ensilink.storage;
  * A representation of a date
  */
 public final class Date{
-    private int _year;
-    private int _month;
-    private int _dayOfMonth;
+    private final int _year;
+    private final int _month;
+    private final int _dayOfMonth;
 
     /**
      * The constructor
      * @param date a string to parse to get the date with this form : day-month-year. Example: 22-05-2016
      */
-    Date(String date){
+    public Date(String date){
         String[] strings = date.split(Character.toString('-'));
         _dayOfMonth = Integer.valueOf(strings[0]);
         _month = Integer.valueOf(strings[1]);
@@ -25,7 +25,6 @@ public final class Date{
     }
 
     /**
-     *
      * @return the date with this form : day-month-year. Example: 22-05-2016
      */
     public String toString(){

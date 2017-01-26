@@ -8,23 +8,30 @@ package fr.ensicaen.lbssc.ensilink.storage;
 /**
  * A representation of a time
  */
-public class Time {
+public final class Time {
 
-    private int _hours;
-    private int _minutes;
+    private final int _hours;
+    private final int _minutes;
+    private final int _seconds;
 
     /**
      * The constructor
      * @param time a string to parse to get the time with this form : hour:minutes. Example: 03:15
      */
-    Time(String time){
+    public Time(String time){
         String[] strings = time.split(Character.toString(':'));
         _hours = Integer.valueOf(strings[0]);
         _minutes = Integer.valueOf(strings[1]);
+        _seconds = Integer.valueOf(strings[2]);
+    }
+
+    private Time(int hour, int minutes, int seconds){
+        _hours = hour;
+        _minutes = minutes;
+        _seconds = seconds;
     }
 
     /**
-     *
      * @return the time with this form : hour:minutes. Example: 03:15
      */
     public String toString(){
@@ -37,5 +44,18 @@ public class Time {
             str += "0";
         }
         return  str + _minutes;
+    }
+
+    /**
+     * @param time to add
+     * @return the result of the sum
+     */
+    public Time add(Time time){
+        int seconds = (time._seconds + _seconds);
+        int minutes = (time._minutes + _minutes + seconds/60);
+        seconds %= 60;
+        int hours = time._hours + _hours + minutes/60;
+        minutes %= 60;
+        return new Time(hours, minutes, seconds);
     }
 }

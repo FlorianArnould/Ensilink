@@ -1,24 +1,25 @@
 package fr.ensicaen.lbssc.ensilink.storage;
 
+import android.content.Context;
 
-//TODO get the days from strings.xml
+import fr.ensicaen.lbssc.ensilink.R;
 
 /**
  * @author Florian Arnould
  * @version 1.0
  */
 
+
 /**
  * The class that represent a club of the school
  */
-public class Club extends Association{
+public final class Club extends Association{
 
-    private int _day;
-    private Date _date;
-    private Time _time;
-    private Time _duration;
-    private String _place;
-    private static String[] _daysOfWeek = {"Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"};
+    private final int _day;
+    private final Date _date;
+    private final Time _time;
+    private final Time _duration;
+    private final String _place;
 
     /**
      * The constructor
@@ -28,9 +29,11 @@ public class Club extends Association{
      * @param time the time of the club
      * @param duration the duration of the club
      * @param place the place where it is
+     * @param logo the logo image
+     * @param photo the photo image
      */
-    Club(String name, int day, Date date, Time time, Time duration, String place){
-        super(name);
+    public Club(String name, int day, Date date, Time time, Time duration, String place, Image logo, Image photo){
+        super(name, logo, photo);
         _day = day;
         _date = date;
         _time = time;
@@ -39,19 +42,37 @@ public class Club extends Association{
     }
 
     /**
-     *
-     * @return a string with the day of week
+     * @return a string with the day of the week of the meeting
      */
-    private String getDayOfWeek(){
-        return _daysOfWeek[_day-1];
+    public String getDayOfWeek(Context context){
+        return context.getResources().getStringArray(R.array.days)[_day-1];
     }
 
     /**
-     *
-     * @return a string that sum up the club information
+     * @return the name of the place
      */
-    public String toString(){
-        return getDayOfWeek() + " " + _time.toString() + " " + _duration.toString() + " " + _place;
+    public String getPlace(){
+        return _place;
     }
 
+    /**
+     * @return the schedule time of the club
+     */
+    public Time getTime(){
+        return _time;
+    }
+
+    /**
+     * @return the duration of the meeting of the club
+     */
+    public Time getDuration(){
+        return _duration;
+    }
+
+    /**
+     * @return return the date of the meeting of the club if it hasn't weekly event
+     */
+    public Date getDate(){
+        return _date;
+    }
 }
