@@ -9,7 +9,10 @@ import android.util.Log;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import fr.ensicaen.lbssc.ensilink.storage.Club;
 import fr.ensicaen.lbssc.ensilink.storage.Date;
@@ -90,16 +93,13 @@ final public class DataLoader extends Thread{
     }
 
     /**
-     * clones the database with an instance of DatabaseCloner and download images if it is necessary
+     * clones the database with an instance of DatabaseCloner and download images
      * @return true if the database was cloned successfully
      */
     private boolean cloneDatabaseAndDownloadFiles(){
         DatabaseCloner cloner = new DatabaseCloner(_db);
         cloner.cloneDatabase();
-        indexImages();
-        if(_fileDir.list().length == 0 || cloner.lastUpdateOfImageFolder() > _fileDir.lastModified()/1000){
-            updateImages();
-        }
+        updateImages(cloner.lastUpdateImages());
         return cloner.succeed();
     }
 
@@ -254,19 +254,23 @@ final public class DataLoader extends Thread{
     }
 
     /**
-     * Download All images from network and remove the unused files
+     * Download new images from network and remove the unused files
      */
-    private void updateImages(){
-        Cursor cursor = _db.query("images", null, null, null, null, null, null);
+    private void updateImages(Map<String, Long> timestamps){
         List<String> list = new ArrayList<>();
-        if(cursor.moveToFirst()) {
-            do {
-                list.add(cursor.getString(1));
-            } while (cursor.moveToNext());
+        List<String> localFiles = Arrays.asList(_fileDir.list());
+        for(Map.Entry<String, Long> entry : timestamps.entrySet()){
+            if(localFiles.contains(entry.getKey())){
+                File file = new File(_fileDir, entry.getKey());
+                if(file.lastModified()/1000 < entry.getValue()){
+                    list.add(entry.getKey());
+                }
+            }else{
+                list.add(entry.getKey());
+            }
         }
-        cursor.close();
         _downloader.downloadImages(list);
-        removeUnusedFiles(list);
+        removeUnusedFiles(timestamps.keySet());
     }
 
     /**
@@ -287,27 +291,14 @@ final public class DataLoader extends Thread{
      * Remove the unused files to free some memory
      * @param filesUsed list of the files really used in the application
      */
-    private void removeUnusedFiles(List<String> filesUsed){
+    private void removeUnusedFiles(Set<String> filesUsed){
         for (String file : _fileDir.list()){
             if(!filesUsed.contains(file)){
                 if(! new File(file).delete()){
-                    Log.d("Error", "Unused file wasn't deleted");
+                    Log.d("Error", "Unused file " + file + " wasn't deleted");
                 }
             }
         }
-    }
-
-    /**
-     * Fill the list of images
-     */
-    private void indexImages(){
-        Cursor cursor = _db.query("images", null, null, null, null, null, null);
-        if(cursor.moveToFirst()) {
-            do {
-                _images.add(new Image(new File(_fileDir, cursor.getString(1)), cursor.getString(2)));
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
     }
 }
 

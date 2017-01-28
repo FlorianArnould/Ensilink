@@ -18,6 +18,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -35,7 +37,7 @@ final class DatabaseCloner{
 
     private boolean _success;
     private final SQLiteDatabase _db;
-    private long _lastUpdateOfImageFolder;
+    private final Map<String, Long> _imagesTimestamp;
 
     /**
      * @param db the database instance
@@ -43,7 +45,7 @@ final class DatabaseCloner{
     DatabaseCloner(SQLiteDatabase db){
         _success = false;
         _db = db;
-        _lastUpdateOfImageFolder = 0;
+        _imagesTimestamp = new HashMap<>();
     }
 
     /**
@@ -130,7 +132,12 @@ final class DatabaseCloner{
      * @return true if the local database is updated
      */
     private boolean updateDatabase(Document doc){
-        _lastUpdateOfImageFolder = Long.valueOf(doc.getElementsByTagName("last_update_image_folder").item(0).getAttributes().item(0).getNodeValue());
+        NodeList timestamps = doc.getElementsByTagName("last_update_image_file");
+        for(int i=0;i<timestamps.getLength();i++){
+            Node node = timestamps.item(i);
+            NamedNodeMap att = node.getAttributes();
+            _imagesTimestamp.put(att.getNamedItem("file").getNodeValue(), Long.valueOf(att.getNamedItem("timestamp").getNodeValue()));
+        }
         clearDatabase();
         String[] tableList = LocalDatabaseManager.getTables();
         _db.beginTransaction();
@@ -168,9 +175,9 @@ final class DatabaseCloner{
     }
 
     /**
-     * @return the timestamp of the last update
+     * @return the timestamp of the last update of each image file
      */
-    long lastUpdateOfImageFolder(){
-        return _lastUpdateOfImageFolder;
+    Map<String, Long> lastUpdateImages(){
+        return _imagesTimestamp;
     }
 }
