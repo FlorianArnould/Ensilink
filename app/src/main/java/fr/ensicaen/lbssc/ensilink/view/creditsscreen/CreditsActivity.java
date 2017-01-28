@@ -31,8 +31,6 @@ import fr.ensicaen.lbssc.ensilink.storage.School;
  */
 public final class CreditsActivity extends AppCompatActivity {
 
-    private CreditsAdapter _creditAdapter;
-
     @Override
     @SuppressWarnings("deprecation") //For retro compatibility
     protected void onCreate(Bundle savedStateInstance){
@@ -48,8 +46,7 @@ public final class CreditsActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         ListView list = (ListView) findViewById(R.id.list);
-        _creditAdapter = new CreditsAdapter();
-        list.setAdapter(_creditAdapter);
+        list.setAdapter(new CreditsAdapter());
     }
 
     @Override
@@ -67,7 +64,7 @@ public final class CreditsActivity extends AppCompatActivity {
      */
     private final class CreditsAdapter extends BaseAdapter {
 
-        private List<Object> _rowContent;
+        private final List<Object> _rowContent;
 
         CreditsAdapter(){
             _rowContent = new ArrayList<>();
