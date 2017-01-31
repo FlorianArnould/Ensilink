@@ -3,8 +3,8 @@ package fr.ensicaen.lbssc.ensilink.view.creditsscreen;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -75,9 +75,9 @@ public final class CreditsActivity extends AppCompatActivity {
                 _rowContent.add(new Developer(R.drawable.ic_developer, getString(R.string.developer), team[i]));
             }
             _rowContent.add(getString(R.string.attributions));
-            _rowContent.add(new Artist(getDrawable(R.mipmap.ic_launcher), getString(R.string.application_icon)));
-            _rowContent.add(new Artist(getDrawable(R.drawable.ic_manager), getString(R.string.manager_icon)));
-            _rowContent.add(new Artist(getDrawable(R.drawable.ic_developer), getString(R.string.developer_icon)));
+            _rowContent.add(new Artist(ContextCompat.getDrawable(getApplicationContext(), R.mipmap.ic_launcher), getString(R.string.application_icon)));
+            _rowContent.add(new Artist(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_manager), getString(R.string.manager_icon)));
+            _rowContent.add(new Artist(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_developer), getString(R.string.developer_icon)));
             for(Image image : School.getInstance().getImages()){
                 if(image.needsAttribution()){
                     _rowContent.add(new Artist(image));
@@ -102,7 +102,6 @@ public final class CreditsActivity extends AppCompatActivity {
 
         @Override
         public int getItemViewType(int position){
-            Log.d("Debug", String.valueOf(position));
             if(position == 0){
                 return 0;
             }else if(position > 0 && position < 4){
@@ -124,7 +123,6 @@ public final class CreditsActivity extends AppCompatActivity {
             LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             TextView text;
             ImageView image;
-            Log.d("Debug", String.valueOf(getItemViewType(i)));
             switch (getItemViewType(i)){
                 case 0:
                     view = inflater.inflate(R.layout.credits_title_row, parent, false);

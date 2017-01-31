@@ -72,6 +72,7 @@ final public class DataLoader extends Thread{
                 _listener.OnLoadingFinish(this);
             }
         }
+        getAllImagesAttribution();
         _db.close();
     }
 
@@ -268,6 +269,7 @@ final public class DataLoader extends Thread{
             }else{
                 list.add(entry.getKey());
             }
+
         }
         _downloader.downloadImages(list);
         removeUnusedFiles(timestamps.keySet());
@@ -300,5 +302,19 @@ final public class DataLoader extends Thread{
             }
         }
     }
-}
 
+    /**
+     * Set all images which need an attribution in credits
+     */
+    private void getAllImagesAttribution(){
+        Cursor cursor = _db.query("images", null, null, null, null, null, null);
+        if(cursor.moveToFirst()) {
+            do {
+                if(!cursor.getString(2).isEmpty()) {
+                    _images.add(new Image(new File(_fileDir, cursor.getString(1)), cursor.getString(2)));
+                }
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+    }
+}
