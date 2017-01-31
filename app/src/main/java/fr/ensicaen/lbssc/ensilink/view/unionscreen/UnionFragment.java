@@ -75,7 +75,6 @@ public class UnionFragment extends Fragment implements Updatable {
 
             ViewPager viewPager = (ViewPager) _view.findViewById(R.id.viewpager);
             setupViewPager(viewPager);
-
             _tabLayout = (TabLayout) _view.findViewById(R.id.tabs);
             _tabLayout.setupWithViewPager(viewPager);
             _tabLayout.setBackgroundColor(_color);
