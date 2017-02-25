@@ -22,6 +22,7 @@ public final class School {
     private static List<Event> _events;
     private static List<Image> _images;
     private static boolean _neverUpdated;
+    private static DataLoader _loader;
 
     /**
      * @return the school instance
@@ -35,6 +36,7 @@ public final class School {
      */
     private School() {
         _neverUpdated = true;
+        _loader = null;
     }
 
     /**
@@ -43,8 +45,8 @@ public final class School {
      * @param listener a listener to get when the school will be updated
      */
     public void refreshData(Context context, final OnSchoolDataListener listener){
-        DataLoader loader = new DataLoader(context, _neverUpdated);
-        loader.setOnLoadingFinishListener(new OnLoadingFinishListener() {
+        _loader = new DataLoader(context, _neverUpdated);
+        _loader.setOnLoadingFinishListener(new OnLoadingFinishListener() {
             @Override
             public void OnLoadingFinish(DataLoader loader) {
                 _unions = loader.getUnions();
@@ -56,7 +58,7 @@ public final class School {
                 _neverUpdated = false;
             }
         });
-        loader.start();
+        _loader.start();
     }
 
     /**
@@ -94,5 +96,25 @@ public final class School {
      */
     public List<Image> getImages(){
         return _images;
+    }
+
+    /**
+     * @return the progress of the current update
+     */
+    public int getProgress(){
+        if(_loader != null){
+            return _loader.getProgress();
+        }
+        return 0;
+    }
+
+    /**
+     * @return the max value of the progress of the current update
+     */
+    public int getMaxProgress(){
+        if(_loader != null){
+            return _loader.getMaxProgress();
+        }
+        return 0;
     }
 }

@@ -36,23 +36,10 @@ final class FileDownloader {
 
 
     /**
-     * @param imageNames a list of the name of the images
-     */
-    void downloadImages(List<String> imageNames){
-        try{
-            for (String imageName : imageNames){
-                download(imageName);
-            }
-        } catch (IOException e) {
-            Log.d("D", "io error : " + e.getMessage());
-        }
-    }
-
-    /**
      * Download one image from the network
      * @param imageName the image name
      */
-    private void download(String imageName) throws IOException{
+    void download(String imageName) throws IOException{
         try {
             URL url = new URL("http://www.ecole.ensicaen.fr/~arnould/others/test/images/" + imageName);
             InputStream in = url.openStream();

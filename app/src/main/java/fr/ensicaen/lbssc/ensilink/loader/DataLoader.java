@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.util.Log;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -41,6 +42,8 @@ final public class DataLoader extends Thread{
     private final FileDownloader _downloader;
     private final File _fileDir;
     private final boolean _preload;
+    private int _progress;
+    private int _maxProgress;
 
     /**
      * @param context an activity context needed to open the local database with the database manager
@@ -53,6 +56,8 @@ final public class DataLoader extends Thread{
         _fileDir = context.getFilesDir();
         _preload = preload;
         _images = new ArrayList<>();
+        _progress = 0;
+        _maxProgress = 100;
     }
 
     /**
@@ -100,6 +105,7 @@ final public class DataLoader extends Thread{
     private boolean cloneDatabaseAndDownloadFiles(){
         DatabaseCloner cloner = new DatabaseCloner(_db);
         cloner.cloneDatabase();
+        _progress++;
         updateImages(cloner.lastUpdateImages());
         return cloner.succeed();
     }
@@ -271,7 +277,15 @@ final public class DataLoader extends Thread{
             }
 
         }
-        _downloader.downloadImages(list);
+        _maxProgress = list.size()+1;
+        try{
+            for (String imageName : list){
+                _downloader.download(imageName);
+                _progress++;
+            }
+        } catch (IOException e) {
+            Log.d("D", "io error : " + e.getMessage());
+        }
         removeUnusedFiles(timestamps.keySet());
     }
 
@@ -316,5 +330,19 @@ final public class DataLoader extends Thread{
             } while (cursor.moveToNext());
         }
         cursor.close();
+    }
+
+    /**
+     * @return the progress of the current update
+     */
+    public int getProgress(){
+        return _progress;
+    }
+
+    /**
+     * @return the max value of the progress of the current update
+     */
+    public int getMaxProgress(){
+        return _maxProgress;
     }
 }
