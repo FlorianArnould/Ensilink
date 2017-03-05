@@ -4,19 +4,12 @@
     android:layout_height="match_parent"
     tools:context=".view.EmailsFragment">
 
-    <!--TextView will disappear in next release-->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/emails_placeholder"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_centerInParent="true"/>
-
     <ListView
         android:id="@id/android:list"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:dividerHeight="2dp"
+        android:divider="#e3e4e6">
     </ListView>
 
 </RelativeLayout>

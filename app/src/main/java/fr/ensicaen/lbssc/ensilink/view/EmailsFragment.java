@@ -4,6 +4,7 @@ package fr.ensicaen.lbssc.ensilink.view;
 
 //TODO feature will be implemented in the next released
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,7 +44,11 @@ public class EmailsFragment extends AssociationFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.mails_union, container, false);
+        View view = inflater.inflate(R.layout.mails_union, container, false);
+        MainActivity activity = (MainActivity) getActivity();
+        activity.setActionBarTitle("Mails");
+        return view;
+
     }
 
     @Override
