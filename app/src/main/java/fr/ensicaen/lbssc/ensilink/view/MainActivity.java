@@ -96,8 +96,10 @@ public final class MainActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            /*case R.id.action_settings:
-                return true;*/
+            case R.id.action_settings:
+                Intent intent_settings = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent_settings);
+                return true;
             case R.id.action_refresh:
                 _refresher.setRefreshing(true);
                 refresh();

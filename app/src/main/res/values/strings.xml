@@ -52,4 +52,6 @@
     <string name="manager_icon"><i>management</i> by Gregor Črešnar</string>
     <string name="developer_icon"><i>Mobile Development</i> by ProSymbols</string>
 
+    <string name="introduction_parameters">Veuillez cocher les cases pour lesquelles vous souhaitez recevoir des notifications</string>
+    <string name="parameters">Paramètres</string>
 </resources>
