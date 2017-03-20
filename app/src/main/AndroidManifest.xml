@@ -44,6 +44,11 @@
             android:name=".view.creditsscreen.CreditsActivity"
             android:screenOrientation="portrait">
         </activity>
+        <service
+            android:enabled="true"
+            android:exported="true"
+            android:name=".loader.UpdateService"
+            />
     </application>
 
 </manifest>

@@ -1,10 +1,14 @@
 package fr.ensicaen.lbssc.ensilink.loader;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.graphics.Color;
+import android.os.IBinder;
 import android.util.Log;
 
 import java.io.File;
@@ -44,6 +48,7 @@ final public class DataLoader extends Thread{
     private final boolean _preload;
     private int _progress;
     private int _maxProgress;
+    private Context _context;
 
     /**
      * @param context an activity context needed to open the local database with the database manager
@@ -58,6 +63,7 @@ final public class DataLoader extends Thread{
         _images = new ArrayList<>();
         _progress = 0;
         _maxProgress = 100;
+        _context = context;
     }
 
     /**
@@ -71,14 +77,40 @@ final public class DataLoader extends Thread{
                 _listener.OnLoadingFinish(this);
             }
         }
-        if(cloneDatabaseAndDownloadFiles()) {
-            loadUnionsFromDatabase();
-            if (_listener != null) {
-                _listener.OnLoadingFinish(this);
+        Intent serviceIntent = new Intent(_context, UpdateService.class);
+        final ServiceConnection connection = new ServiceConnection() {
+
+            UpdateService service;
+
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder iBinder) {
+                UpdateService.ServiceBinder binder = (UpdateService.ServiceBinder) iBinder;
+                service = binder.getServiceInstance();
+                service.setListener(new OnServiceFinishedListener() {
+                    @Override
+                    public void onServiceFinished(boolean succeed, Map<String, Long> images) {
+                        if(succeed) {
+                            downloadFiles(images);
+                            loadUnionsFromDatabase();
+                            if (_listener != null) {
+                                _listener.OnLoadingFinish(DataLoader.this);
+                            }
+                        }
+                        getAllImagesAttribution();
+                        _db.close();
+                    }
+                });
+                _context.startService(new Intent(_context, UpdateService.class));
             }
-        }
-        getAllImagesAttribution();
-        _db.close();
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+                if(service != null) {
+                    service.removeListener();
+                }
+            }
+        };
+        _context.bindService(serviceIntent, connection, Context.BIND_AUTO_CREATE);
     }
 
     /**
@@ -99,15 +131,12 @@ final public class DataLoader extends Thread{
     }
 
     /**
-     * clones the database with an instance of DatabaseCloner and download images
-     * @return true if the database was cloned successfully
+     * Download the images
+     * @param images map containing the images to download
      */
-    private boolean cloneDatabaseAndDownloadFiles(){
-        DatabaseCloner cloner = new DatabaseCloner(_db);
-        cloner.cloneDatabase();
+    private void downloadFiles(Map<String, Long> images){
         _progress++;
-        updateImages(cloner.lastUpdateImages());
-        return cloner.succeed();
+        updateImages(images);
     }
 
     /**
