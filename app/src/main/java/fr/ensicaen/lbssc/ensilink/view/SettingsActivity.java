@@ -1,27 +1,24 @@
 package fr.ensicaen.lbssc.ensilink.view;
 
 
-import android.content.Context;
 
+
+import android.os.Build;
 import android.os.Bundle;
 
-import android.support.v7.app.AppCompatActivity;
+import android.preference.Preference;
+import android.preference.PreferenceActivity;
+import android.preference.PreferenceCategory;
+
+import android.preference.PreferenceFragment;
+import android.preference.PreferenceScreen;
+import android.preference.SwitchPreference;
+
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-
-import android.widget.ListView;
-import android.widget.TextView;
-
-
-
-import java.util.ArrayList;
-import java.util.List;
+import android.view.MenuItem;
 
 import fr.ensicaen.lbssc.ensilink.R;
-import fr.ensicaen.lbssc.ensilink.storage.Association;
+
 import fr.ensicaen.lbssc.ensilink.storage.Club;
 import fr.ensicaen.lbssc.ensilink.storage.School;
 import fr.ensicaen.lbssc.ensilink.storage.Union;
@@ -31,86 +28,74 @@ import fr.ensicaen.lbssc.ensilink.storage.Union;
  * Created by marsel on 05/03/17.
  */
 
-public final class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends PreferenceActivity {
 
     @Override
-    protected void onCreate(Bundle savedStateInstance){
+    protected void onCreate(Bundle savedStateInstance) {
         super.onCreate(savedStateInstance);
-        setContentView(R.layout.settings_activity);
-
-        if(getSupportActionBar() != null){
-            getSupportActionBar().setTitle(getString(R.string.credits));
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (Build.VERSION.SDK_INT >= 23) {
+            getWindow().setStatusBarColor(getColor(R.color.colorPrimaryDark));
+        } else if (Build.VERSION.SDK_INT >= 21) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
         }
-        ListView list = (ListView) findViewById(R.id.list_parameters);
-        list.setAdapter(new ClubsParametersAdapter());
+
+        getFragmentManager().beginTransaction()
+                .replace(android.R.id.content, new PrefsFragment()).commit();
+
     }
 
+        public static class PrefsFragment extends PreferenceFragment {
 
-    final private class ClubsParametersAdapter extends BaseAdapter {
+            @Override
+            public void onCreate(Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
+                addPreferencesFromResource(R.xml.settings_activity);
 
-        private final List<Association> _rowContent;
-        private final List<Integer> _positionUnion;
-        ClubsParametersAdapter(){
-            _rowContent = new ArrayList<>();
-            _positionUnion=new ArrayList<>();
-            int _position;
-            _position=0;
 
-            for(Union union : School.getInstance().getUnions()){
+                final PreferenceScreen screen = this.getPreferenceScreen();
 
-                _rowContent.add(union);
-                _positionUnion.add(_position);
-                Log.d("Debug", String.valueOf(_position));
-                _position++;
-                Log.d("Debug", union.getName()+" "+union.getClubs().size());
-                for(Club club : union.getClubs()){
-                    _rowContent.add(club);
-                    _position++;
+                PreferenceCategory cat = new PreferenceCategory(screen.getContext());
+                cat.setTitle("Notifications");
+                screen.addPreference(cat);
+
+                for (final Union union : School.getInstance().getUnions()) {
+                    final Preference pref = new Preference(screen.getContext());
+                    pref.setTitle(union.getName());
+                    cat.addPreference(pref);
+                    pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                        public boolean onPreferenceClick(Preference preference) {
+                            Log.d("aaa","avant get preferenceScreen");
+                            PreferenceScreen screenClub = getPreferenceManager().createPreferenceScreen(screen.getContext());
+                            Log.d("aaa","apres get preferenceScreen");
+                            final PreferenceCategory cate = new PreferenceCategory(screenClub.getContext());
+                            Log.d("aaa",union.getName());
+                            cate.setTitle(union.getName());
+                            screenClub.addPreference(cate);
+
+
+                            for (Club club : union.getClubs()) {
+                                Log.d("ddd","dans le for");
+                                Log.d("ddd",club.getName());
+                                final SwitchPreference prefClub = new SwitchPreference(screenClub.getContext());
+                                prefClub.setTitle(club.getName());
+                                cate.addPreference(prefClub);
+
+                            }
+                            return true;
+                        }
+                    });
                 }
+
             }
         }
-
-        @Override
-        public Object getItem(int i) {
-            return _rowContent.get(i);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case android.R.id.home:
+                this.finish();
+                break;
         }
-
-        @Override
-        public long getItemId(int i) {
-            return 0;
-        }
-
-        @Override
-        public int getCount() {
-            return _rowContent.size();
-        }
-
-        @Override
-        public int getItemViewType(int position){
-            if(_positionUnion.contains(position)){
-                return 1;
-            }else
-                return 2;
-            }
-
-
-        public View getView(int i, View view, ViewGroup parent) {
-            TextView text;
-            LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            Log.d("Debug", String.valueOf(i));
-            switch (getItemViewType(i)) {
-                case 1:
-                    view = inflater.inflate(R.layout.settings_club_row, parent, false);
-                    break;
-                case 2:
-                    view = inflater.inflate(R.layout.settings_club_row, parent, false);
-                    break;
-            }
-            text = (TextView) view.findViewById(R.id.list_parameters_club);
-            text.setText(_rowContent.get(i).getName());
-            return view;
-        }
+        return super.onOptionsItemSelected(item);
+    }
 
     }
-}
