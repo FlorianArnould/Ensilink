@@ -14,6 +14,8 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
 
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -29,6 +31,7 @@ import fr.ensicaen.lbssc.ensilink.storage.Union;
  */
 
 public class SettingsActivity extends PreferenceActivity {
+    private AppCompatDelegate mDelegate;
 
     @Override
     protected void onCreate(Bundle savedStateInstance) {
@@ -38,64 +41,71 @@ public class SettingsActivity extends PreferenceActivity {
         } else if (Build.VERSION.SDK_INT >= 21) {
             getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
         }
+        getSupportActionBar().setTitle("Paramètres");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         getFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new PrefsFragment()).commit();
-
     }
 
-        public static class PrefsFragment extends PreferenceFragment {
+    public static class PrefsFragment extends PreferenceFragment {
 
-            @Override
-            public void onCreate(Bundle savedInstanceState) {
-                super.onCreate(savedInstanceState);
-                addPreferencesFromResource(R.xml.settings_activity);
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.settings_activity);
 
-
-                final PreferenceScreen screen = this.getPreferenceScreen();
-
-                PreferenceCategory cat = new PreferenceCategory(screen.getContext());
-                cat.setTitle("Notifications");
-                screen.addPreference(cat);
-
-                for (final Union union : School.getInstance().getUnions()) {
-                    final Preference pref = new Preference(screen.getContext());
-                    pref.setTitle(union.getName());
-                    cat.addPreference(pref);
-                    pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                        public boolean onPreferenceClick(Preference preference) {
-                            Log.d("aaa","avant get preferenceScreen");
-                            PreferenceScreen screenClub = getPreferenceManager().createPreferenceScreen(screen.getContext());
-                            Log.d("aaa","apres get preferenceScreen");
-                            final PreferenceCategory cate = new PreferenceCategory(screenClub.getContext());
-                            Log.d("aaa",union.getName());
-                            cate.setTitle(union.getName());
-                            screenClub.addPreference(cate);
+            final PreferenceScreen screen = this.getPreferenceScreen();
+            PreferenceCategory cat = (PreferenceCategory) findPreference("Notifs");
+            screen.addPreference(cat);
+            for (final Union union : School.getInstance().getUnions()) {
+                final Preference pref = new Preference(screen.getContext());
+                pref.setTitle(union.getName());
+                cat.addPreference(pref);
 
 
-                            for (Club club : union.getClubs()) {
-                                Log.d("ddd","dans le for");
-                                Log.d("ddd",club.getName());
-                                final SwitchPreference prefClub = new SwitchPreference(screenClub.getContext());
-                                prefClub.setTitle(club.getName());
-                                cate.addPreference(prefClub);
 
-                            }
-                            return true;
+                pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    public boolean onPreferenceClick(Preference preference) {
+                        PreferenceScreen screenClub = getPreferenceManager().createPreferenceScreen(getActivity());
+                        setPreferenceScreen(screenClub);
+                        final PreferenceCategory cate = new PreferenceCategory(screenClub.getContext());
+                        cate.setTitle(union.getName());
+                        screenClub.addPreference(cate);
+
+                        for (Club club : union.getClubs()) {
+
+                            final SwitchPreference prefClub = new SwitchPreference(screenClub.getContext());
+                            prefClub.setTitle(club.getName());
+                            cate.addPreference(prefClub);
+
+
                         }
-                    });
-                }
-
+                        return true;
+                    }
+                });
             }
+
         }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
-            case android.R.id.home:
-                this.finish();
-                break;
+
+
+
+
         }
-        return super.onOptionsItemSelected(item);
+
+
+
+    public ActionBar getSupportActionBar() {
+        return getDelegate().getSupportActionBar();
     }
 
+    private AppCompatDelegate getDelegate() {
+        if (mDelegate == null) {
+            mDelegate = AppCompatDelegate.create(this, null);
+        }
+        return mDelegate;
     }
+}
+
+
+
