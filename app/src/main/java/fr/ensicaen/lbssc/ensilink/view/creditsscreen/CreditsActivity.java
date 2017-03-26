@@ -1,6 +1,10 @@
 package fr.ensicaen.lbssc.ensilink.view.creditsscreen;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -45,8 +49,21 @@ public final class CreditsActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(getString(R.string.credits));
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        ListView list = (ListView) findViewById(R.id.list);
-        list.setAdapter(new CreditsAdapter());
+        final ListView list = (ListView) findViewById(R.id.list);
+        new AsyncTask<Void, Void, Void>(){
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                final CreditsAdapter adapter = new CreditsAdapter();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        list.setAdapter(adapter);
+                    }
+                });
+                return null;
+            }
+        }.execute();
     }
 
     @Override
@@ -74,8 +91,10 @@ public final class CreditsActivity extends AppCompatActivity {
             for(int i=1;i<team.length;i++){
                 _rowContent.add(new Developer(R.drawable.ic_developer, getString(R.string.developer), team[i]));
             }
+            Drawable kangaroo = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_kangaroo);
+            kangaroo.setColorFilter(Color.BLACK, PorterDuff.Mode.MULTIPLY);
             _rowContent.add(getString(R.string.attributions));
-            _rowContent.add(new Artist(ContextCompat.getDrawable(getApplicationContext(), R.mipmap.ic_launcher), getString(R.string.application_icon)));
+            _rowContent.add(new Artist(kangaroo, getString(R.string.application_icon)));
             _rowContent.add(new Artist(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_manager), getString(R.string.manager_icon)));
             _rowContent.add(new Artist(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_developer), getString(R.string.developer_icon)));
             for(Image image : School.getInstance().getImages()){

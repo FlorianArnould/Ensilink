@@ -52,4 +52,11 @@
     <string name="manager_icon"><i>management</i> by Gregor Črešnar</string>
     <string name="developer_icon"><i>Mobile Development</i> by ProSymbols</string>
 
+    <string name="login">Connexion</string>
+    <string name="logout">Deconnexion</string>
+    <string name="email">Email</string>
+    <string name="password">Mot de passe</string>
+    <string name="settings">Paramètres</string>
+    <string name="help">Aide</string>
+
 </resources>

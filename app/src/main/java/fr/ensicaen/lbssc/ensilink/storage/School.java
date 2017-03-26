@@ -23,6 +23,7 @@ public final class School {
     private static List<Image> _images;
     private static boolean _neverUpdated;
     private static DataLoader _loader;
+    private static boolean _isConnected;
 
     /**
      * @return the school instance
@@ -37,6 +38,7 @@ public final class School {
     private School() {
         _neverUpdated = true;
         _loader = null;
+        _isConnected = false;
     }
 
     /**
@@ -116,5 +118,19 @@ public final class School {
             return _loader.getMaxProgress();
         }
         return 0;
+    }
+
+    /**
+     * @return if the user is connected with an Ensicaen email account
+     */
+    public boolean isConnected(){
+        return _isConnected;
+    }
+
+    /**
+     * logout from the Ensicaen email account
+     */
+    public void logout(){
+        //TODO logout method
     }
 }

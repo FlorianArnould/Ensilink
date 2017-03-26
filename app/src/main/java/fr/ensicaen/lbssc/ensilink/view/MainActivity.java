@@ -1,12 +1,16 @@
 package fr.ensicaen.lbssc.ensilink.view;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,10 +18,13 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -116,13 +123,36 @@ public final class MainActivity extends AppCompatActivity
     private void refreshDrawer(){
         final Menu menu = ((NavigationView)findViewById(R.id.nav_view)).getMenu();
         menu.clear();
-        menu.add(getString(R.string.news)).setCheckable(true);
+        Drawable drawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_kangaroo);
+        drawable.mutate().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+        menu.add(getString(R.string.news)).setCheckable(true).setIcon(drawable);
         List<Union> list = School.getInstance().getUnions();
         for(Union u : list){
             MenuItem item = menu.add(u.getName());
             item.setIcon(u.getLogo());
             item.setCheckable(true);
         }
+        MenuItem item;
+        if(School.getInstance().isConnected()){
+            item = menu.add(1, Menu.NONE, Menu.NONE, getString(R.string.logout));
+        }else{
+            item = menu.add(1, Menu.NONE, Menu.NONE, getString(R.string.login));
+        }
+        drawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_beach_access);
+        drawable.mutate().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+        item.setIcon(drawable);
+        item = menu.add(1, Menu.NONE, Menu.NONE, getString(R.string.settings));
+        drawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_settings);
+        drawable.mutate().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+        item.setIcon(drawable);
+        item = menu.add(1, Menu.NONE, Menu.NONE, getString(R.string.credits));
+        drawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_library_books);
+        drawable.mutate().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+        item.setIcon(drawable);
+        item = menu.add(1, Menu.NONE, Menu.NONE, getString(R.string.help));
+        drawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_help);
+        drawable.mutate().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+        item.setIcon(drawable);
     }
 
     @Override
@@ -132,7 +162,19 @@ public final class MainActivity extends AppCompatActivity
         }
         if(item.getTitle().equals(getString(R.string.news))){
             changeFragment(new EventFragment());
-        }else {
+        }else if(item.getTitle().equals(getString(R.string.login))) {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+        }else if(item.getTitle().equals(getString(R.string.logout))) {
+            School.getInstance().logout();
+        }else if(item.getTitle().equals(getString(R.string.settings))) {
+            //TODO launch the parameter activity
+        }else if(item.getTitle().equals(getString(R.string.credits))) {
+            Intent intent = new Intent(MainActivity.this, CreditsActivity.class);
+            startActivity(intent);
+        }else if(item.getTitle().equals("Aide")) {
+            //TODO launch the help activity
+        }else{
             List<Union> list = School.getInstance().getUnions();
             for (int i = 0; i < list.size(); i++) {
                 if (item.toString().equals(list.get(i).getName())) {
