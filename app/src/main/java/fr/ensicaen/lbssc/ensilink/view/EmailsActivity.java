@@ -3,9 +3,8 @@ package fr.ensicaen.lbssc.ensilink.view;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import fr.ensicaen.lbssc.ensilink.R;
 import fr.ensicaen.lbssc.ensilink.storage.Mail;
@@ -46,6 +45,17 @@ public class EmailsActivity extends AppCompatActivity {
         mailTransmitter.setText(mail.getTransmitter());
         TextView mailText = (TextView) findViewById(R.id.mailText);
         mailText.setText(mail.getText());
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+
     }
 
 }
