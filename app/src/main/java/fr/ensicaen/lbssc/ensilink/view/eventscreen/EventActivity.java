@@ -53,6 +53,4 @@ public class EventActivity extends AppCompatActivity{
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 }

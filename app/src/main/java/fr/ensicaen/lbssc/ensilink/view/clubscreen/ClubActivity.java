@@ -10,7 +10,7 @@ import android.view.MenuItem;
 
 import fr.ensicaen.lbssc.ensilink.utils.ColorCreator;
 import fr.ensicaen.lbssc.ensilink.R;
-import fr.ensicaen.lbssc.ensilink.view.EmailsFragment;
+import fr.ensicaen.lbssc.ensilink.view.MailsFragment;
 import fr.ensicaen.lbssc.ensilink.view.ViewPagerAdapter;
 import fr.ensicaen.lbssc.ensilink.storage.School;
 import fr.ensicaen.lbssc.ensilink.storage.Union;
@@ -60,7 +60,7 @@ public class ClubActivity extends AppCompatActivity {
      */
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        EmailsFragment emailsFragment = EmailsFragment.newInstance(_unionId);
+        MailsFragment emailsFragment = MailsFragment.newInstance(_unionId);
         InformationFragment info = InformationFragment.newInstance(_unionId, _clubId);
         adapter.addFragment(info, getString(R.string.information));
         adapter.addFragment(emailsFragment, getString(R.string.emails));

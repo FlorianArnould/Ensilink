@@ -1,11 +1,6 @@
 package fr.ensicaen.lbssc.ensilink.view;
 
-
-
-//TODO feature will be implemented in the next released
-
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +23,7 @@ import fr.ensicaen.lbssc.ensilink.storage.Mail;
  * Class which display the screen of a the mails of an union
  * The real implementation will come in the second version
  */
-public class EmailsFragment extends AssociationFragment {
+public class MailsFragment extends AssociationFragment implements  Updatable {
 
     private MailAdapter _adapter;
 
@@ -36,8 +31,8 @@ public class EmailsFragment extends AssociationFragment {
      * create an instance of InformationFragment
      * @return return the list of the mails
      */
-    public static EmailsFragment newInstance(int unionId) {
-        EmailsFragment mails = new EmailsFragment();
+    public static MailsFragment newInstance(int unionId) {
+        MailsFragment mails = new MailsFragment();
         AssociationFragment.newInstance(unionId, mails);
         return mails;
     }
@@ -45,18 +40,17 @@ public class EmailsFragment extends AssociationFragment {
     /**
      * Required empty public constructor
      */
-    public EmailsFragment() {
+    public MailsFragment() {
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.mails_union, container, false);
+        View view = inflater.inflate(R.layout.emails_union, container, false);
         MainActivity activity = (MainActivity) getActivity();
         activity.setActionBarTitle("Mails");
         return view;
-
     }
 
     @Override
@@ -96,8 +90,8 @@ public class EmailsFragment extends AssociationFragment {
         @Override
         public View getView(int i, View view, ViewGroup parent) {
             if(view == null){
-                LayoutInflater inflater = (LayoutInflater) EmailsFragment.this.getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                view = inflater.inflate(R.layout.mails_union,parent,false);
+                LayoutInflater inflater = (LayoutInflater) MailsFragment.this.getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                view = inflater.inflate(R.layout.emails_union,parent,false);
             }
             return view;
         }

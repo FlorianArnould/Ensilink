@@ -21,6 +21,7 @@ public final class School {
     private static List<Union> _unions;
     private static List<Event> _events;
     private static List<Image> _images;
+    private static List<Mail> _mails;
     private static boolean _neverUpdated;
     private static DataLoader _loader;
 
@@ -96,6 +97,20 @@ public final class School {
      */
     public List<Image> getImages(){
         return _images;
+    }
+
+    /**
+     * @param i the union index
+     * @return the corresponding email
+     */
+    public List<Mail> getMails(int i) { return _mails; }
+
+    /**
+     * @param i the union index
+     * @return the corresponding event
+     */
+    public Mail getMail(int i) {
+        return _mails.get(i);
     }
 
     /**

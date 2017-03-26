@@ -8,7 +8,7 @@ package fr.ensicaen.lbssc.ensilink.storage;
 /**
  * The class that stores all the useful informations regarding the mails
  */
-public class Mail {
+public final class Mail {
 
     private final String _transmitter;
     private final String _subject;
@@ -32,21 +32,21 @@ public class Mail {
     /**
      * @return the name of the transmitter of the mail
      */
-    public String get_transmitter() { return _transmitter; }
+    public String getTransmitter() { return _transmitter; }
 
     /**
      * @return the subject of the mail which will be used to put them at the right place
      */
-    public String get_subject() { return _subject; }
+    public String getSubject() { return _subject; }
 
     /**
      * @return the text of the email which contains informations on an union or a club
      */
-    public String get_text() { return _text; }
+    public String getText() { return _text; }
 
     /**
      * @return the date of the email which will be used to select the recent ones
      */
-    public String get_date() { return _date; }
+    public String getDate() { return _date; }
 
 }
