@@ -19,6 +19,8 @@ import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 import android.view.MenuItem;
 
+import java.util.List;
+
 import fr.ensicaen.lbssc.ensilink.R;
 
 import fr.ensicaen.lbssc.ensilink.storage.Club;
@@ -32,6 +34,7 @@ import fr.ensicaen.lbssc.ensilink.storage.Union;
 
 public class SettingsActivity extends PreferenceActivity {
     private AppCompatDelegate mDelegate;
+    private PrefsFragment fragment;
 
     @Override
     protected void onCreate(Bundle savedStateInstance) {
@@ -43,28 +46,46 @@ public class SettingsActivity extends PreferenceActivity {
         }
         getSupportActionBar().setTitle("Paramètres");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        fragment = new PrefsFragment();
+        getFragmentManager().beginTransaction().replace(android.R.id.content, fragment).commit();
+    }
 
-        getFragmentManager().beginTransaction()
-                .replace(android.R.id.content, new PrefsFragment()).commit();
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed(){
+        if(fragment.isOnClubs()){
+            fragment.setOnUnion();
+        }else{
+            finish();
+        }
     }
 
     public static class PrefsFragment extends PreferenceFragment {
+
+        private PreferenceScreen unionPreference;
+        private boolean isOnClubs;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.settings_activity);
-
-            final PreferenceScreen screen = this.getPreferenceScreen();
+            isOnClubs = false;
+            unionPreference = this.getPreferenceScreen();
             PreferenceCategory cat = (PreferenceCategory) findPreference("Notifs");
-            screen.addPreference(cat);
+            unionPreference.addPreference(cat);
             for (final Union union : School.getInstance().getUnions()) {
-                final Preference pref = new Preference(screen.getContext());
+                final Preference pref = new Preference(unionPreference.getContext());
                 pref.setTitle(union.getName());
                 cat.addPreference(pref);
-
-
-
                 pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     public boolean onPreferenceClick(Preference preference) {
                         PreferenceScreen screenClub = getPreferenceManager().createPreferenceScreen(getActivity());
@@ -72,26 +93,27 @@ public class SettingsActivity extends PreferenceActivity {
                         final PreferenceCategory cate = new PreferenceCategory(screenClub.getContext());
                         cate.setTitle(union.getName());
                         screenClub.addPreference(cate);
-
                         for (Club club : union.getClubs()) {
-
                             final SwitchPreference prefClub = new SwitchPreference(screenClub.getContext());
                             prefClub.setTitle(club.getName());
                             cate.addPreference(prefClub);
-
-
                         }
+                        isOnClubs = true;
                         return true;
                     }
                 });
             }
-
         }
 
-
-
-
+        boolean isOnClubs(){
+            return isOnClubs;
         }
+
+        void setOnUnion(){
+            setPreferenceScreen(unionPreference);
+            isOnClubs = false;
+        }
+    }
 
 
 
