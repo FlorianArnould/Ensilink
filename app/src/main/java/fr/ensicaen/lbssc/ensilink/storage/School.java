@@ -23,7 +23,7 @@ public final class School {
     private static List<Image> _images;
     private static List<Mail> _mails;
     private static boolean _neverUpdated;
-    private static DataLoader _loader;
+    private DataLoader _loader;
     private static boolean _isConnected;
 
     /**

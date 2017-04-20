@@ -13,7 +13,7 @@
     <string name="attribution_logo">Logo creative commons</string>
     <string name="position_logo">Logo de pour le développeur</string>
 
-    <string name="ensicaen_logo_description">Logo de l\'ENSICAEN</string>
+    <string name="logo_description">Logo de l\'application</string>
 
     <string name="drawer_student_name">Nom de l\'élève</string>
     <string name="drawer_student_email">nom@ecole.ensicaen.fr</string>
@@ -30,7 +30,6 @@
 
     <string name="unknown">NC</string>
 
-    <string name="emails_placeholder">Fonctionnalité à venir</string>
     <string name="members">Membres</string>
     <string name="clubs">Clubs</string>
     <string name="emails">Mails</string>
