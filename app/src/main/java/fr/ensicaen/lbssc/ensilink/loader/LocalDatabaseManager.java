@@ -43,7 +43,10 @@ final class LocalDatabaseManager extends SQLiteOpenHelper {
                 "name VARCHAR(50)," +
                 "idlogo INTEGER NOT NULL REFERENCES images (id)," +
                 "idphoto INTEGER NOT NULL REFERENCES images (id)," +
-                "idcolor INTEGER NOT NULL REFERENCES colors (id));");
+                "idcolor INTEGER NOT NULL REFERENCES colors (id)," +
+                "email VARCHAR(50)," +
+                "tags VARCHAR(100)," +
+                "facebook VARCHAR(100));");
 
         db.execSQL("CREATE TABLE students(" +
                 "id INTEGER NOT NULL PRIMARY KEY," +
