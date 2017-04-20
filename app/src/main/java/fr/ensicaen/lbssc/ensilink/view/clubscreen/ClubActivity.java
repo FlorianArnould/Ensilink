@@ -23,7 +23,7 @@ import fr.ensicaen.lbssc.ensilink.storage.Union;
 /**
  * Class which manage the screen of a club with all of the informations related to the club
  */
-public class ClubActivity extends AppCompatActivity {
+public class ClubActivity extends AppCompatActivity{
 
     private int _unionId;
     private int _clubId;

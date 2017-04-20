@@ -47,10 +47,7 @@ public class MailsFragment extends AssociationFragment implements  Updatable {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.emails_union, container, false);
-        MainActivity activity = (MainActivity) getActivity();
-        activity.setActionBarTitle("Mails");
-        return view;
+        return inflater.inflate(R.layout.emails_union, container, false);
     }
 
     @Override
