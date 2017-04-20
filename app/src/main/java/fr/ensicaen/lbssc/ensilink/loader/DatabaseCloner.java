@@ -1,6 +1,7 @@
 package fr.ensicaen.lbssc.ensilink.loader;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.util.Log;
@@ -18,12 +19,21 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+
+import fr.ensicaen.lbssc.ensilink.loader.news.DateNews;
+import fr.ensicaen.lbssc.ensilink.loader.news.DayNews;
+import fr.ensicaen.lbssc.ensilink.loader.news.HourNews;
+import fr.ensicaen.lbssc.ensilink.loader.news.News;
+import fr.ensicaen.lbssc.ensilink.loader.news.PlaceNews;
+import fr.ensicaen.lbssc.ensilink.storage.Date;
 
 /**
  * @author Florian Arnould
@@ -38,6 +48,7 @@ final class DatabaseCloner{
     private boolean _success;
     private final SQLiteDatabase _db;
     private final Map<String, Long> _imagesTimestamp;
+    private final List<News> _news;
 
     /**
      * @param db the database instance
@@ -46,6 +57,7 @@ final class DatabaseCloner{
         _success = false;
         _db = db;
         _imagesTimestamp = new HashMap<>();
+        _news = new ArrayList<>();
     }
 
     /**
@@ -138,6 +150,7 @@ final class DatabaseCloner{
             NamedNodeMap att = node.getAttributes();
             _imagesTimestamp.put(att.getNamedItem("file").getNodeValue(), Long.valueOf(att.getNamedItem("timestamp").getNodeValue()));
         }
+        checkClubNews(doc);
         clearDatabase();
         String[] tableList = LocalDatabaseManager.getTables();
         _db.beginTransaction();
@@ -179,5 +192,41 @@ final class DatabaseCloner{
      */
     Map<String, Long> lastUpdateImages(){
         return _imagesTimestamp;
+    }
+
+    /**
+     * Create the private list which contains the news which needs a notification
+     * @param doc DOM document which represent the XML file
+     */
+    private void checkClubNews(Document doc){
+        NodeList clubs = doc.getElementsByTagName("clubs");
+        for(int i=0;i<clubs.getLength();i++){
+            Node club = clubs.item(i);
+            NamedNodeMap attributes = club.getAttributes();
+            Cursor cursor = _db.query("clubs", new String[]{"day", "date", "start_hour", "place"}, "id=?", new String[]{attributes.getNamedItem("id").getNodeValue()}, null, null, null, null);
+            if(cursor.moveToFirst()){
+                if(!cursor.getString(0).equals(attributes.getNamedItem("day").getNodeValue())){
+                    _news.add(new DayNews(attributes.getNamedItem("name").getNodeValue(),  Integer.valueOf(attributes.getNamedItem("day").getNodeValue())));
+                }
+                if(!cursor.getString(1).equals(attributes.getNamedItem("date").getNodeValue())){
+                    _news.add(new DateNews(attributes.getNamedItem("name").getNodeValue(), new Date(attributes.getNamedItem("date").getNodeValue())));
+                }
+                if(!cursor.getString(2).equals(attributes.getNamedItem("start_hour").getNodeValue())){
+                    _news.add(new HourNews(attributes.getNamedItem("name").getNodeValue(), attributes.getNamedItem("start_hour").getNodeValue()));
+                }
+                if(!cursor.getString(3).equals(attributes.getNamedItem("place").getNodeValue())){
+                    _news.add(new PlaceNews(attributes.getNamedItem("name").getNodeValue(), attributes.getNamedItem("place").getNodeValue()));
+                }
+            }
+            cursor.close();
+        }
+    }
+
+    /**
+     * Give the modifications of the database
+     * @return a list of News for notifications
+     */
+    List<News> getModifications(){
+        return _news;
     }
 }
