@@ -19,15 +19,10 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
-import android.widget.TextView;
 
 import java.util.List;
 
@@ -217,6 +212,11 @@ public final class MainActivity extends AppCompatActivity
         if(_drawer != null) {
             _drawer.setStatusBarBackgroundColor(ColorCreator.darkerColor(color));
         }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(color);
+        }
+        NavigationView nav = (NavigationView)findViewById(R.id.nav_view);
+        nav.getHeaderView(0).findViewById(R.id.drawer_header).setBackgroundColor(color);
     }
 
     /**
