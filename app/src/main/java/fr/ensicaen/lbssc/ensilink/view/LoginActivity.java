@@ -8,10 +8,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.Toast;
+
+
 import javax.mail.*;
 import java.util.*;
 
 import fr.ensicaen.lbssc.ensilink.R;
+
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -26,9 +31,9 @@ public class LoginActivity extends AppCompatActivity {
          * Constructor of the class which initializes three private class parameters
          */
         public LoginActivity() {
-            this._session = null;
+            /*this._session = null;
             this._store = null;
-            this._folder = null;
+            this._folder = null;*/
         }
 
         @Override
@@ -42,8 +47,9 @@ public class LoginActivity extends AppCompatActivity {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v){
-                    login();
-                    Log.d("onCreate", "LOGIN");
+                    Log.d("test","onClick");
+                    connection test = new connection();
+                    test.execute();
                 }
             });
         }
@@ -55,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
          * @throws Exception
          */
         public void connect() throws Exception {
+
             Properties pop3Properties = new Properties();
             pop3Properties.setProperty("mail.pop3.ssl.enable", "true");
             pop3Properties.setProperty("mail.pop3.starttls.enable", "true");
@@ -111,19 +118,41 @@ public class LoginActivity extends AppCompatActivity {
 
         private class connection extends AsyncTask<Void, Void, Void> {
 
+            /**
+             * Method that displays the status of the connection as soon as we click on the
+             * connection button
+             */
+            @Override
+            protected void onPreExecute(){
+                super.onPreExecute();
+                Toast.makeText(getApplicationContext(), "Connexion en cours", Toast.LENGTH_LONG).show();
+            }
+
+            /**
+             * Method that handles the connection to zimbra in the AsyncTask once we entered our
+             * user mail adress and our password
+             * @param params
+             * @return
+             */
             @Override
             protected Void doInBackground(Void... params) {
-                LoginActivity zimbra = new LoginActivity();
                 try {
+                    LoginActivity zimbra = new LoginActivity();
                     zimbra.connect();
-                    zimbra.openFolder("INBOX");
+                    Log.d();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    System.out.println("Erreur dans l'AsyncTask");
                 }
                 return null;
             }
+
+            @Override
+            protected void onPostExecute(Void result) {
+                Toast.makeText(getApplicationContext(), "Connexion réussie", Toast.LENGTH_LONG).show();
+            }
         }
     }
+
 
 
 
