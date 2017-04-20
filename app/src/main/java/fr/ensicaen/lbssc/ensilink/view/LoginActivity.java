@@ -8,8 +8,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
 
 import javax.mail.*;
@@ -18,12 +16,12 @@ import java.util.*;
 import fr.ensicaen.lbssc.ensilink.R;
 
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity
+{
 
         private EditText _email;
         private EditText _password;
         private Session _session;
-        private Folder _folder;
         private Store _store;
         private static final String POP_SERVER3 = "zimbra.ensicaen.fr";
 
@@ -31,9 +29,8 @@ public class LoginActivity extends AppCompatActivity {
          * Constructor of the class which initializes three private class parameters
          */
         public LoginActivity() {
-            /*this._session = null;
+            this._session = null;
             this._store = null;
-            this._folder = null;*/
         }
 
         @Override
@@ -46,10 +43,11 @@ public class LoginActivity extends AppCompatActivity {
             Button button = (Button) findViewById(R.id.login_btn);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v){
-                    Log.d("test","onClick");
-                    connection test = new connection();
-                    test.execute();
+                public void onClick(View v) {
+                    if (validate()) {
+                        connection test = new connection();
+                        test.execute();
+                    }
                 }
             });
         }
@@ -69,88 +67,78 @@ public class LoginActivity extends AppCompatActivity {
             pop3Properties.setProperty("mail.pop3.port", "995");
             pop3Properties.setProperty("mail.pop3.socketFactory.port", "995");
 
-            String email = "filipozzi@ecole.ensicaen.fr";//_email.getText().toString();
-            String password = "JF070794jf";//_password.getText().toString();
+            String email = _email.getText().toString();
+            String password = _password.getText().toString();
 
             _session = Session.getInstance(pop3Properties);
             _store = _session.getStore(new URLName("pop3://" + POP_SERVER3));
             _store.connect(email, password);
         }
 
-        public void openFolder(String folderName) throws Exception {
-            _folder = _store.getDefaultFolder();
-            _folder = _folder.getFolder(folderName);
-
-            if (_folder == null) {
-                throw new Exception("Invalid Folder");
-            }
-            try {
-                _folder.open(Folder.READ_WRITE);
-            } catch (MessagingException e) {
-                _folder.open(Folder.READ_ONLY);
-            }
-        }
-
-        private void login(){
-            if(validate()) {
-                final ProgressDialog progressDialog = new ProgressDialog(this,
-                        R.style.AppTheme_Dark_Dialog);
-                progressDialog.setIndeterminate(true);
-                progressDialog.setMessage("Authentification ...");
-                progressDialog.show();
-                progressDialog.cancel();
-            }
-        }
-
+        /**
+         * Method that allows the application to make sure that the email address entered has the
+         * right format for the connection to zimbra
+         * @return boolean valid that allows the connection to proceed
+         */
         private boolean validate(){
-            boolean valid = true;
-            String email = _email.getText().toString();
-            String password = _password.getText().toString();
-            if(email.isEmpty() || !email.contains("@ecole.ensicaen.fr")){
-                _email.setError("Email de l'ensicaen");
-                valid = false;
+                boolean valid = true;
+                String email = _email.getText().toString();
+                String password = _password.getText().toString();
+                if(email.isEmpty() || !email.contains("@ecole.ensicaen.fr")){
+                    _email.setError("Email de l'ensicaen");
+                    valid = false;
+                }
+                if(password.isEmpty()){
+                    valid = false;
+                }
+                return valid;
             }
-            if(password.isEmpty()){
-                valid = false;
-            }
-            return valid;
-        }
 
+        /**
+         * This class was created because on Android we cannot handle network related actions in the
+         * UI thread
+         */
         private class connection extends AsyncTask<Void, Void, Void> {
 
-            /**
-             * Method that displays the status of the connection as soon as we click on the
-             * connection button
-             */
-            @Override
-            protected void onPreExecute(){
-                super.onPreExecute();
-                Toast.makeText(getApplicationContext(), "Connexion en cours", Toast.LENGTH_LONG).show();
-            }
+                    ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
+                            R.style.AppTheme_Dark_Dialog);
+                    /**
+                     * Method that displays the status of the connection as soon as we click on the
+                     * connection button
+                     */
+                    @Override
+                    protected void onPreExecute(){
+                        super.onPreExecute();
+                        progressDialog.setIndeterminate(true);
+                        progressDialog.setMessage("Authentification ...");
+                        progressDialog.show();
+                    }
 
-            /**
-             * Method that handles the connection to zimbra in the AsyncTask once we entered our
-             * user mail adress and our password
-             * @param params
-             * @return
-             */
-            @Override
-            protected Void doInBackground(Void... params) {
-                try {
-                    LoginActivity zimbra = new LoginActivity();
-                    zimbra.connect();
-                } catch (Exception e) {
-                    System.out.println("Erreur dans l'AsyncTask");
+                    /**
+                     * Method that handles the connection to zimbra in the AsyncTask once we entered our
+                     * user mail adress and our password
+                     * @param params
+                     * @return
+                     */
+                    @Override
+                    protected Void doInBackground(Void... params) {
+                        try {
+                            LoginActivity.this.connect();
+                        } catch (Exception e) {
+                            Log.d("DEBUG","Erreur dans l'AsyncTask :" + e.getMessage());
+                        }
+                        return null;
+                    }
+
+                    /**
+                     * Method that cancels the progressDialog at the end of the connection to zimbra
+                     */
+                    @Override
+                    protected void onPostExecute(Void result) {
+                        progressDialog.cancel();
+                    }
                 }
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void result) {
-                Toast.makeText(getApplicationContext(), "Connexion réussie", Toast.LENGTH_LONG).show();
-            }
-        }
-    }
+}
 
 
 
