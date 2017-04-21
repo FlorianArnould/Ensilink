@@ -4,7 +4,7 @@
     android:id="@+id/activity_credits"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.settingsscreen.SettingsActivity">
+    tools:context=".view.settingsscreen.SettingsClubActivity">
 
     <ListView
         android:id="@+id/list"

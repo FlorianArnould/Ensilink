@@ -1,15 +1,15 @@
-package fr.ensicaen.lbssc.ensilink.view;
+package fr.ensicaen.lbssc.ensilink.view.settingsscreen;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,6 +21,14 @@ import fr.ensicaen.lbssc.ensilink.R;
 import fr.ensicaen.lbssc.ensilink.storage.School;
 import fr.ensicaen.lbssc.ensilink.storage.Union;
 
+/**
+ * @author Florian Arnould
+ * @version 1.0
+ */
+
+/**
+ * Screen which display all unions to access to their clubs preferences
+ */
 public class SettingsActivity extends AppCompatActivity {
 
     @Override
@@ -34,8 +42,29 @@ public class SettingsActivity extends AppCompatActivity {
         }
         ListView list = (ListView)findViewById(R.id.list);
         list.setAdapter(new UnionsAdapter());
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(SettingsActivity.this, SettingsClubActivity.class);
+                intent.putExtra("UNION_POSITION", position);
+                startActivity(intent);
+            }
+        });
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case android.R.id.home:
+                this.finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Adapter to show unions' name
+     */
     private class UnionsAdapter extends BaseAdapter{
 
         private List<String> _unions;

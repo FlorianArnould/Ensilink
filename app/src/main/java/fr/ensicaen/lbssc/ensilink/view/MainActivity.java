@@ -22,6 +22,7 @@ import android.widget.AbsListView.OnScrollListener;
 import java.util.List;
 
 import fr.ensicaen.lbssc.ensilink.R;
+import fr.ensicaen.lbssc.ensilink.view.settingsscreen.SettingsActivity;
 import fr.ensicaen.lbssc.ensilink.view.unionscreen.UnionFragment;
 import fr.ensicaen.lbssc.ensilink.view.creditsscreen.CreditsActivity;
 import fr.ensicaen.lbssc.ensilink.storage.OnSchoolDataListener;
