@@ -1,10 +1,15 @@
 package fr.ensicaen.lbssc.ensilink.view;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.List;
@@ -65,13 +70,38 @@ public final class StudentAdapter extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.members_fragment_row, parent, false);
         }
-        Student student = _students.get(i);
+        final Student student = _students.get(i);
         TextView text = (TextView) view.findViewById(R.id.listview_union_membre_role);
         text.setText(student.getPosition());
         text = (TextView) view.findViewById(R.id.listview_union_membre_nom);
         text.setText(student.getName() + " \"" + student.getNickname() + "\" " + student.getLastName());
         text = (TextView) view.findViewById(R.id.listview_union_membre_mail);
         text.setText(student.getEmail());
+
+
+        ImageButton button=(ImageButton) view.findViewById(R.id.image_mail);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String email = student.getEmail();
+                String[] emailaddress= new String[] {email};
+
+
+            Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+                emailIntent.setData(Uri.parse("mailto:"));
+                emailIntent.putExtra(Intent.EXTRA_EMAIL  , emailaddress);
+
+
+                _context.startActivity(Intent.createChooser((emailIntent),"Envoyer un email"));
+
+            }
+        });
         return view;
     }
-}
+
+
+
+
+
+    }

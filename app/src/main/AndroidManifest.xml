@@ -27,7 +27,7 @@
         <activity
             android:name=".view.MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".view.eventscreen.EventActivity"
             android:screenOrientation="portrait">
@@ -37,7 +37,7 @@
         </activity>
         <activity
             android:name=".view.clubscreen.ClubActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.creditsscreen.CreditsActivity"
             android:screenOrientation="portrait"></activity>
@@ -49,6 +49,16 @@
             android:exported="true"
             android:name=".loader.UpdateService"
             />
+        <activity
+            android:name=".view.settingsscreen.SettingsActivity"
+            android:label="@string/parameters"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.creditsscreen.CreditsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.settingsscreen.SettingsClubActivity"
+            android:label="@string/parameters"></activity>
     </application>
 
 </manifest>

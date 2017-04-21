@@ -27,6 +27,7 @@ import android.widget.AbsListView.OnScrollListener;
 import java.util.List;
 
 import fr.ensicaen.lbssc.ensilink.R;
+import fr.ensicaen.lbssc.ensilink.view.settingsscreen.SettingsActivity;
 import fr.ensicaen.lbssc.ensilink.view.unionscreen.UnionFragment;
 import fr.ensicaen.lbssc.ensilink.view.creditsscreen.CreditsActivity;
 import fr.ensicaen.lbssc.ensilink.storage.OnSchoolDataListener;
@@ -101,8 +102,10 @@ public final class MainActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            /*case R.id.action_settings:
-                return true;*/
+            case R.id.action_settings:
+                Intent intent_settings = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent_settings);
+                return true;
             case R.id.action_refresh:
                 _refresher.setRefreshing(true);
                 refresh();

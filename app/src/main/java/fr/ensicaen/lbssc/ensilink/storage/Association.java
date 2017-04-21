@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Abstract class that represent a student association
  */
-abstract class Association {
+public abstract class Association {
 
     private final String _name;
     private final Image _logo;
