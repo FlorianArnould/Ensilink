@@ -22,6 +22,7 @@ public class LoginActivity extends AppCompatActivity
         private EditText _email;
         private EditText _password;
         private Session _session;
+        private Folder _folder;
         private Store _store;
         private static final String POP_SERVER3 = "zimbra.ensicaen.fr";
 
@@ -94,6 +95,20 @@ public class LoginActivity extends AppCompatActivity
                 return valid;
             }
 
+        public void openFolder(String folderName) throws Exception {
+            _folder = _store.getDefaultFolder();
+            _folder = _folder.getFolder(folderName);
+
+            if (_folder == null) {
+                throw new Exception("Invalide Folder");
+            }
+            try {
+                _folder.open(Folder.READ_WRITE);
+            } catch (MessagingException e) {
+                _folder.open(Folder.READ_ONLY);
+            }
+        }
+
         /**
          * This class was created because on Android we cannot handle network related actions in the
          * UI thread
@@ -124,6 +139,7 @@ public class LoginActivity extends AppCompatActivity
                     protected Void doInBackground(Void... params) {
                         try {
                             LoginActivity.this.connect();
+                            LoginActivity.this.openFolder("INBOX");
                         } catch (Exception e) {
                             Log.d("DEBUG","Erreur dans l'AsyncTask :" + e.getMessage());
                         }
