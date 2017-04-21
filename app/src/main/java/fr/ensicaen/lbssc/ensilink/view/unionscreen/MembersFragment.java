@@ -1,13 +1,19 @@
 package fr.ensicaen.lbssc.ensilink.view.unionscreen;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import fr.ensicaen.lbssc.ensilink.storage.School;
+import fr.ensicaen.lbssc.ensilink.storage.Union;
 import fr.ensicaen.lbssc.ensilink.view.MainActivity;
 import fr.ensicaen.lbssc.ensilink.R;
 import fr.ensicaen.lbssc.ensilink.view.AssociationFragment;
@@ -54,6 +60,8 @@ public class MembersFragment extends AssociationFragment {
         if(_adapter != null) {
             _adapter.update(getUnion().getStudents());
         }
+        final String link=getUnion().getFacebookUrl();
+        Log.d("maison",link);
         if(_view != null){
             final ImageView imageView = (ImageView) _view.findViewById(R.id.photo);
             getUnion().loadPhoto(new OnImageLoadedListener() {
@@ -65,6 +73,14 @@ public class MembersFragment extends AssociationFragment {
                             imageView.setImageDrawable(image);
                         }
                     });
+                }
+            });
+            FloatingActionButton _fab = (FloatingActionButton) _view.findViewById(R.id.facebook);
+            _fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
+                    startActivity(browserIntent);
                 }
             });
         }
