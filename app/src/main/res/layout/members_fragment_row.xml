@@ -49,8 +49,6 @@
         android:src="@drawable/ic_email"
         android:layout_gravity="center"
         android:paddingRight="10dp"
-        android:onClick="myClickHandler"
-
-
-        />
+        android:background="@android:color/transparent"
+        android:onClick="myClickHandler" />
 </LinearLayout>
