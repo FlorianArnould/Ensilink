@@ -70,7 +70,7 @@ public class MailsFragment extends AssociationFragment implements  Updatable {
         public void onActivityCreated(Bundle savedStateInstance){
             super.onActivityCreated(savedStateInstance);
             ListView list = getListView();
-            //list.setAdapter(_adapter);
+            list.setAdapter(_adapter);
             list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent myIntent = new Intent(view.getContext(), LoginActivity.class);
@@ -98,7 +98,6 @@ public class MailsFragment extends AssociationFragment implements  Updatable {
              * @param mails a list of mails
              */
             MailAdapter(List<Message> mails){
-                super();
                 update(mails);
             }
 

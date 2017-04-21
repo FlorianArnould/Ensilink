@@ -30,8 +30,8 @@ public class LoginActivity extends AppCompatActivity
          * Constructor of the class which initializes three private class parameters
          */
         public LoginActivity() {
-            this._session = null;
-            this._store = null;
+            _session = null;
+            _store = null;
         }
 
         @Override

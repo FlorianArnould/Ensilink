@@ -45,6 +45,8 @@ public final class School {
         _neverUpdated = true;
         _loader = null;
         _isConnected = false;
+        //TODO remove the definition of _mails
+        _mails = new ArrayList<>();
     }
 
     /**
@@ -107,8 +109,8 @@ public final class School {
     }
 
     /**
-     * @param i the union index
-     * @return the corresponding email
+     *
+     * @return emails
      */
     public List<Message> getMails() { return _mails; }
 
