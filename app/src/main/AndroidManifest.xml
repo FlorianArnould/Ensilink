@@ -16,8 +16,8 @@
         <activity
             android:name=".view.SplashActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.Splash"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Splash">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
 
@@ -26,9 +26,8 @@
         </activity>
         <activity
             android:name=".view.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".view.eventscreen.EventActivity"
             android:screenOrientation="portrait">
@@ -38,16 +37,14 @@
         </activity>
         <activity
             android:name=".view.clubscreen.ClubActivity"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
-        android:name=".view.SettingsActivity"
-        android:screenOrientation="portrait">
-    </activity>
+            android:name=".view.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".view.creditsscreen.CreditsActivity"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

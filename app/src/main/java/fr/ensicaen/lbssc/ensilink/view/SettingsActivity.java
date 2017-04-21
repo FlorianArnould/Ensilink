@@ -1,181 +1,76 @@
 package fr.ensicaen.lbssc.ensilink.view;
 
-
-
-
-import android.app.Activity;
-import android.content.SharedPreferences;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-
-
-import android.preference.MultiSelectListPreference;
-
-import android.preference.PreferenceActivity;
-import android.preference.PreferenceCategory;
-
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
-import android.preference.PreferenceScreen;
-
-
-import android.support.v7.app.ActionBar;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
-import android.util.Log;
-import android.view.MenuItem;
-
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.ensicaen.lbssc.ensilink.R;
-
-import fr.ensicaen.lbssc.ensilink.storage.Club;
 import fr.ensicaen.lbssc.ensilink.storage.School;
 import fr.ensicaen.lbssc.ensilink.storage.Union;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-
-
-/**
- * Created by marsel on 05/03/17.
- */
 
 public class SettingsActivity extends AppCompatActivity {
-    private AppCompatDelegate mDelegate;
-    private PrefsFragment fragment;
 
     @Override
-    protected void onCreate(Bundle savedStateInstance) {
-        super.onCreate(savedStateInstance);
-        if (Build.VERSION.SDK_INT >= 23) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.settings_activity);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             getWindow().setStatusBarColor(getColor(R.color.colorPrimaryDark));
-        } else if (Build.VERSION.SDK_INT >= 21) {
+        }else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
             getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
         }
-        getSupportActionBar().setTitle("Paramètres");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        fragment = new PrefsFragment();
-        getFragmentManager().beginTransaction().replace(android.R.id.content, fragment).commit();
+        ListView list = (ListView)findViewById(R.id.list);
+        list.setAdapter(new UnionsAdapter());
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+    private class UnionsAdapter extends BaseAdapter{
 
-    @Override
-    public void onBackPressed(){
-        if(fragment.isOnClubs()){
-            fragment.setOnUnion();
-        }else{
-            finish();
-        }
-    }
+        private List<String> _unions;
 
-    public static class PrefsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
-
-        private PreferenceScreen unionPreference;
-        private boolean isOnClubs;
-
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.settings_activity);
-
-            final PreferenceScreen screen = this.getPreferenceScreen();
-            PreferenceCategory cat = (PreferenceCategory) findPreference("Notifs");
-            screen.addPreference(cat);
-
-            for (final Union union : School.getInstance().getUnions()) {
-
-                final MultiSelectListPreference pref = new MultiSelectListPreference(screen.getContext());
-            isOnClubs = false;
-            unionPreference = this.getPreferenceScreen();
-            PreferenceCategory cat = (PreferenceCategory) findPreference("Notifs");
-            unionPreference.addPreference(cat);
-            for (final Union union : School.getInstance().getUnions()) {
-                final Preference pref = new Preference(unionPreference.getContext());
-                pref.setTitle(union.getName());
-                pref.setDialogTitle(union.getName());
-
-                int i=0;
-                String entries[] = new String[union.getClubs().size()];
-                CharSequence entryValues[] = new String[union.getClubs().size()];
-
-                for (Club club : union.getClubs()) {
-                    entries[i] = club.getName();
-                    entryValues[i] = Integer.toString(i);
-                    i++;
-                }
-                pref.setEntries(entries);
-                pref.setEntryValues(entryValues);
-                cat.addPreference(pref);
-                pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                    public boolean onPreferenceClick(Preference preference) {
-                        PreferenceScreen screenClub = getPreferenceManager().createPreferenceScreen(getActivity());
-                        setPreferenceScreen(screenClub);
-                        final PreferenceCategory cate = new PreferenceCategory(screenClub.getContext());
-                        cate.setTitle(union.getName());
-                        screenClub.addPreference(cate);
-                        for (Club club : union.getClubs()) {
-                            final SwitchPreference prefClub = new SwitchPreference(screenClub.getContext());
-                            prefClub.setTitle(club.getName());
-                            cate.addPreference(prefClub);
-                        }
-                        isOnClubs = true;
-                        return true;
-                    }
-                });
+        UnionsAdapter(){
+            _unions = new ArrayList<>();
+            for(Union union : School.getInstance().getUnions()){
+                _unions.add(union.getName());
             }
         }
 
-        boolean isOnClubs(){
-            return isOnClubs;
+        @Override
+        public int getCount() {
+            return _unions.size();
         }
 
         @Override
-        public void onResume() {
-            super.onResume();
-            getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        public Object getItem(int position) {
+            return _unions.get(position);
         }
 
         @Override
-        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-
+        public long getItemId(int position) {
+            return 0;
         }
-    }
 
-        void setOnUnion(){
-            setPreferenceScreen(unionPreference);
-            isOnClubs = false;
+        @Override
+        public View getView(int position, View view, ViewGroup parent) {
+            if(view == null) {
+                LayoutInflater inflater = (LayoutInflater) SettingsActivity.this.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                view = inflater.inflate(R.layout.settings_union_row, parent, false);
+            }
+            TextView text = (TextView) view.findViewById(R.id.union_name);
+            text.setText(_unions.get(position));
+            return view;
         }
-    }
-
-    public ActionBar getSupportActionBar() {
-        return getDelegate().getSupportActionBar();
-    }
-
-    public AppCompatDelegate getDelegate() {
-        if (mDelegate == null) {
-            mDelegate = AppCompatDelegate.create(this, null);
-        }
-        return mDelegate;
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
-            case android.R.id.home:
-                this.finish();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }
-
-
-

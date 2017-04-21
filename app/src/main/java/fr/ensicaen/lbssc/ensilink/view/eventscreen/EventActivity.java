@@ -27,9 +27,9 @@ public class EventActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_activity);
-        if(Build.VERSION.SDK_INT >= 23){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             getWindow().setStatusBarColor(getColor(R.color.colorPrimaryDark));
-        }else if(Build.VERSION.SDK_INT >= 21){
+        }else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
             getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
         }
         if(getSupportActionBar() != null) {
