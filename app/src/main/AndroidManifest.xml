@@ -40,10 +40,11 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.creditsscreen.CreditsActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".view.LoginActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".view.LoginActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Login"></activity>
+            android:theme="@style/AppTheme.Login"/>
         <service
             android:enabled="true"
             android:exported="true"
@@ -54,11 +55,9 @@
             android:label="@string/parameters"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.creditsscreen.CreditsActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".view.settingsscreen.SettingsClubActivity"
-            android:label="@string/parameters"></activity>
+            android:screenOrientation="portrait"
+            android:label="@string/parameters"/>
     </application>
 
 </manifest>

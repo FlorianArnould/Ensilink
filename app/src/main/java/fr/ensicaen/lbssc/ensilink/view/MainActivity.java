@@ -84,12 +84,6 @@ public final class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -97,25 +91,6 @@ public final class MainActivity extends AppCompatActivity
         } else {
             moveTaskToBack(true);
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.action_settings:
-                Intent intent_settings = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(intent_settings);
-                return true;
-            case R.id.action_refresh:
-                _refresher.setRefreshing(true);
-                refresh();
-                return true;
-            case R.id.action_credits:
-                Intent intent = new Intent(MainActivity.this, CreditsActivity.class);
-                startActivity(intent);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -169,7 +144,8 @@ public final class MainActivity extends AppCompatActivity
         }else if(item.getTitle().equals(getString(R.string.logout))) {
             School.getInstance().logout();
         }else if(item.getTitle().equals(getString(R.string.settings))) {
-            //TODO launch the parameter activity
+            Intent intent_settings = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent_settings);
         }else if(item.getTitle().equals(getString(R.string.credits))) {
             Intent intent = new Intent(MainActivity.this, CreditsActivity.class);
             startActivity(intent);

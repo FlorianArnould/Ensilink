@@ -40,6 +40,9 @@ public class SettingsActivity extends AppCompatActivity {
         }else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
             getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
         }
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         ListView list = (ListView)findViewById(R.id.list);
         list.setAdapter(new UnionsAdapter());
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {

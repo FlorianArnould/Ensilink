@@ -55,4 +55,8 @@
         <item name="android:textColorSecondaryInverse">@color/colorAccent</item>
     </style>
 
+    <style name="UnionSettingTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:colorBackground">@color/colorPrimary</item>
+    </style>
+
 </resources>
