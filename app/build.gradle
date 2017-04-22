@@ -18,6 +18,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        exclude 'META-INF/mailcap'
+    }
 }
 
 dependencies {
@@ -29,4 +32,7 @@ dependencies {
     compile 'com.android.support:design:25.3.0'
     testCompile 'junit:junit:4.12'
     compile files('libs/javax.mail.jar')
+    compile files('libs/javax.activation.jar')
 }
+
+

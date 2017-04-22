@@ -19,6 +19,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import javax.mail.MessagingException;
+
 import fr.ensicaen.lbssc.ensilink.R;
 import fr.ensicaen.lbssc.ensilink.loader.news.DayNews;
 import fr.ensicaen.lbssc.ensilink.loader.news.News;
@@ -100,7 +102,15 @@ public class UpdateService extends Service {
             if(db != null) {
                 DatabaseCloner cloner = new DatabaseCloner(db);
                 cloner.cloneDatabase();
-                //and mails
+                ZimbraConnection zimbra = new ZimbraConnection();
+                try {
+                    zimbra.connect(getBaseContext());
+                    Log.d("DEBUG", "coucou");
+                    zimbra.updateDatabase(db);
+                    zimbra.close();
+                } catch(MessagingException ex) {
+                    Log.e("ERROR", "Connection to the zimbra server is not possible : "+ ex.getMessage());
+                }
                 if(_listener != null) {
                     _listener.onServiceFinished(cloner.succeed(), cloner.lastUpdateImages());
                     _listener = null;
@@ -109,7 +119,7 @@ public class UpdateService extends Service {
                 createNotification(cloner.getModifications());
             }
         }catch (SQLiteException e){
-            Log.d("D", "Error when tried to open SQLite database : " + e.getMessage());
+            Log.e("ERROR", "Error when tried to open SQLite database : " + e.getMessage());
         }
     }
 

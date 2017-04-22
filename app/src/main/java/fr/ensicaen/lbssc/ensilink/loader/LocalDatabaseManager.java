@@ -87,6 +87,13 @@ final class LocalDatabaseManager extends SQLiteOpenHelper {
                 "idimage INTEGER REFERENCES images (id)," +
                 "title VARCHAR(100) NOT NULL," +
                 "text VARCHAR(1000) NOT NULL);");
+
+        db.execSQL("CREATE TABLE mails(" +
+                "subject VARCHAR(100)," +
+                "message VARCHAR(1000)," +
+                "sender VARCHAR(100)," +
+                "date DATETIME," +
+                "PRIMARY KEY(sender, date, subject));");
     }
 
     @Override
