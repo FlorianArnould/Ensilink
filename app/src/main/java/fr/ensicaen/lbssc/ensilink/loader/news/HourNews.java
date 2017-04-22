@@ -19,6 +19,6 @@ public class HourNews extends News {
 
     @Override
     public String toNotificationString() {
-        return "Le club " + getClubName() + "aura maintenant lieu à " + _newHour;
+        return "Le club " + getClubName() + " aura maintenant lieu à " + _newHour;
     }
 }
