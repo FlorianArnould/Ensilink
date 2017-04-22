@@ -89,11 +89,18 @@ final class LocalDatabaseManager extends SQLiteOpenHelper {
                 "text VARCHAR(1000) NOT NULL);");
 
         db.execSQL("CREATE TABLE mails(" +
-                "subject VARCHAR(100)," +
-                "message VARCHAR(1000)," +
-                "sender VARCHAR(100)," +
-                "date DATETIME," +
-                "PRIMARY KEY(sender, date, subject));");
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "date DATETIME);");
+
+        db.execSQL("CREATE TABLE club_mails(" +
+                "idclub INTEGER NOT NULL REFERENCES clubs (id)," +
+                "idmail INTEGER NOT NULL REFERENCES mails (id)," +
+                "PRIMARY KEY(idclub, idmail));");
+
+        db.execSQL("CREATE TABLE union_mails(" +
+                "idunion INTEGER NOT NULL REFERENCES unions (id)," +
+                "idmail INTEGER NOT NULL REFERENCES mails (id)," +
+                "PRIMARY KEY(idunion, idmail));");
     }
 
     @Override

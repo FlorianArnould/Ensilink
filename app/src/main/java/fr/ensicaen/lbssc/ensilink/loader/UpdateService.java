@@ -14,6 +14,7 @@ import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -106,10 +107,12 @@ public class UpdateService extends Service {
                 try {
                     zimbra.connect(getBaseContext());
                     Log.d("DEBUG", "coucou");
-                    zimbra.updateDatabase(db);
+                    zimbra.updateDatabase(db, getBaseContext());
                     zimbra.close();
                 } catch(MessagingException ex) {
                     Log.e("ERROR", "Connection to the zimbra server is not possible : "+ ex.getMessage());
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
                 if(_listener != null) {
                     _listener.onServiceFinished(cloner.succeed(), cloner.lastUpdateImages());
