@@ -1,9 +1,11 @@
 package fr.ensicaen.lbssc.ensilink.storage;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import java.util.List;
 
+import fr.ensicaen.lbssc.ensilink.R;
 import fr.ensicaen.lbssc.ensilink.loader.DataLoader;
 import fr.ensicaen.lbssc.ensilink.loader.OnLoadingFinishListener;
 
@@ -24,7 +26,7 @@ public final class School {
     private static List<Mail> _mails;
     private static boolean _neverUpdated;
     private DataLoader _loader;
-    private static boolean _isConnected;
+    private static boolean _isConnected; //TODO set this variable when its connected
 
     /**
      * @return the school instance
@@ -145,7 +147,8 @@ public final class School {
     /**
      * logout from the Ensicaen email account
      */
-    public void logout(){
-        //TODO logout method
+    public void logout(Context context){
+        SharedPreferences pref = context.getSharedPreferences(context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        pref.edit().remove("email").remove("password").apply();
     }
 }

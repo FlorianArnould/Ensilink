@@ -142,7 +142,7 @@ public final class MainActivity extends AppCompatActivity
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
         }else if(item.getTitle().equals(getString(R.string.logout))) {
-            School.getInstance().logout();
+            School.getInstance().logout(getApplicationContext());
         }else if(item.getTitle().equals(getString(R.string.settings))) {
             Intent intent_settings = new Intent(MainActivity.this, SettingsActivity.class);
             startActivity(intent_settings);
