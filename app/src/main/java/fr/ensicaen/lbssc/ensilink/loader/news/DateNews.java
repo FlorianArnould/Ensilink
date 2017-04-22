@@ -10,18 +10,17 @@ import fr.ensicaen.lbssc.ensilink.storage.Date;
 /**
  * Store information from the modifications of the date of a club
  */
-public class DateNews implements News {
+public class DateNews extends News {
 
-    private final String _clubName;
     private final Date _newDate;
 
     public DateNews(String clubName, Date newDate){
-        _clubName = clubName;
+        super(clubName);
         _newDate = newDate;
     }
 
     @Override
     public String toNotificationString() {
-        return "La prochaine réunion du club " + _clubName + "aura lieu le " + _newDate.toString();
+        return "La prochaine réunion du club " + getClubName() + "aura lieu le " + _newDate.toString();
     }
 }

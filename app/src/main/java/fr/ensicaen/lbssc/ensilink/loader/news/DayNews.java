@@ -8,15 +8,14 @@ package fr.ensicaen.lbssc.ensilink.loader.news;
 /**
  * Store information from the modifications of the day of a club
  */
-public class DayNews implements News {
+public class DayNews extends News {
 
     private final int _newDayId;
-    private final String _clubName;
     private String _newDay;
 
     public DayNews(String clubName, int newDayId){
+        super(clubName);
         _newDayId = newDayId;
-        _clubName = clubName;
     }
 
     /**
@@ -29,6 +28,6 @@ public class DayNews implements News {
 
     @Override
     public String toNotificationString() {
-        return "Le club "+ _clubName + " aura maintenant lieu le " + _newDay;
+        return "Le club "+ getClubName() + " aura maintenant lieu le " + _newDay;
     }
 }

@@ -3,7 +3,9 @@ package fr.ensicaen.lbssc.ensilink.loader;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.graphics.BitmapFactory;
@@ -120,30 +122,37 @@ public class UpdateService extends Service {
     private void createNotification(List<News> news){
         String text = "";
         if(!news.isEmpty()) {
+            SharedPreferences pref = getBaseContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
             for (int i=0;i<news.size()-1;i++) {
-                if(news.get(i) instanceof DayNews){
-                    ((DayNews) news.get(i)).setDaysArray(getResources().getStringArray(R.array.days));
+                if(pref.getBoolean(news.get(i).getClubName(), false)) {
+                    if (news.get(i) instanceof DayNews) {
+                        ((DayNews) news.get(i)).setDaysArray(getResources().getStringArray(R.array.days));
+                    }
+                    text += news.get(i).toNotificationString() + "\n";
                 }
-                text += news.get(i).toNotificationString() + "\n";
             }
-            text += news.get(news.size()-1).toNotificationString();
-            NotificationCompat.BigTextStyle notificationStyle = new
-                    NotificationCompat.BigTextStyle();
-            notificationStyle.bigText(text);
-            Intent intent = new Intent(this, SplashActivity.class);
-            PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                    intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            NotificationCompat.Builder builder =
-                    new NotificationCompat.Builder(UpdateService.this.getApplicationContext())
-                            .setContentIntent(contentIntent)
-                            .setSmallIcon(R.drawable.ic_kangaroo)
-                            .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_kangaroo))
-                            .setContentTitle("News")
-                            .setContentText(text)
-                            .setStyle(notificationStyle);
-            builder.setColor(Color.rgb(63,81,181));
-            NotificationManager notifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            notifyMgr.notify(1, builder.build());
+            if(pref.getBoolean(news.get(news.size() - 1).getClubName(), false)) {
+                text += news.get(news.size() - 1).toNotificationString();
+            }
+            if(!text.isEmpty()) {
+                NotificationCompat.BigTextStyle notificationStyle = new
+                        NotificationCompat.BigTextStyle();
+                notificationStyle.bigText(text);
+                Intent intent = new Intent(this, SplashActivity.class);
+                PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+                        intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                NotificationCompat.Builder builder =
+                        new NotificationCompat.Builder(UpdateService.this.getApplicationContext())
+                                .setContentIntent(contentIntent)
+                                .setSmallIcon(R.drawable.ic_kangaroo)
+                                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_kangaroo))
+                                .setContentTitle("News")
+                                .setContentText(text)
+                                .setStyle(notificationStyle);
+                builder.setColor(Color.rgb(63, 81, 181));
+                NotificationManager notifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                notifyMgr.notify(1, builder.build());
+            }
         }
         Log.d("Debug", "News : " + text);
     }

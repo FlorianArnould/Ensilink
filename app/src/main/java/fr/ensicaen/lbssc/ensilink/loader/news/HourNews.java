@@ -8,18 +8,17 @@ package fr.ensicaen.lbssc.ensilink.loader.news;
 /**
  * Store information from the modifications of the hour of a club
  */
-public class HourNews implements News {
+public class HourNews extends News {
 
-    private final String _clubName;
     private final String _newHour;
 
     public HourNews(String clubName, String newHour){
-        _clubName = clubName;
+        super(clubName);
         _newHour = newHour;
     }
 
     @Override
     public String toNotificationString() {
-        return "Le club " + _clubName + "aura maintenant lieu à " + _newHour;
+        return "Le club " + getClubName() + "aura maintenant lieu à " + _newHour;
     }
 }
