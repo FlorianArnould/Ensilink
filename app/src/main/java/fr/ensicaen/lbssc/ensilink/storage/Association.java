@@ -1,6 +1,7 @@
 package fr.ensicaen.lbssc.ensilink.storage;
 
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +16,12 @@ import java.util.List;
  */
 public abstract class Association {
 
+    private final int _id;
     private final String _name;
     private final Image _logo;
     private final Image _photo;
     private final List<Student> _students;
+    private final List<Mail> _mails;
 
     /**
      * The constructor
@@ -26,11 +29,20 @@ public abstract class Association {
      * @param logo the logo image
      * @param photo the photo image
      */
-    Association(String name, Image logo, Image photo){
+    Association(int id, String name, Image logo, Image photo){
+        _id = id;
         _name = name;
         _students = new ArrayList<>();
         _logo = logo;
         _photo = photo;
+        _mails = new ArrayList<>();
+    }
+
+    /**
+     * @return the id of the association
+     */
+    public int getId() {
+        return _id;
     }
 
     /**
@@ -39,6 +51,29 @@ public abstract class Association {
      */
     public void addStudent(Student student){
         _students.add(student);
+    }
+
+    /**
+     * Adds a mail to the association
+     * @param mail a mail instance
+     */
+    public void addMail(Mail mail) {
+        _mails.add(mail);
+    }
+
+    /**
+     * @return the List of the mails
+     */
+    public List<Mail> getMails(){
+        return _mails;
+    }
+
+    /**
+     * @param position of the mail in the list
+     * @return the mail instance
+     */
+    public Mail getMail(int position){
+        return _mails.get(position);
     }
 
     /**

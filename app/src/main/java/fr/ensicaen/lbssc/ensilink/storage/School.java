@@ -2,10 +2,15 @@ package fr.ensicaen.lbssc.ensilink.storage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.ensicaen.lbssc.ensilink.R;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+
 import fr.ensicaen.lbssc.ensilink.loader.DataLoader;
 import fr.ensicaen.lbssc.ensilink.loader.OnLoadingFinishListener;
 
@@ -23,7 +28,7 @@ public final class School {
     private static List<Union> _unions;
     private static List<Event> _events;
     private static List<Image> _images;
-    private static List<Mail> _mails;
+    private static List<Message> _mails;
     private static boolean _neverUpdated;
     private DataLoader _loader;
     private static boolean _isConnected; //TODO set this variable when its connected
@@ -42,6 +47,8 @@ public final class School {
         _neverUpdated = true;
         _loader = null;
         _isConnected = false;
+        //TODO remove the definition of _mails
+        _mails = new ArrayList<>();
     }
 
     /**
@@ -104,19 +111,75 @@ public final class School {
     }
 
     /**
-     * @param i the union index
-     * @return the corresponding email
+     *
+     * @return emails
      */
-    public List<Mail> getMails(int i) { return _mails; }
+    public List<Message> getMails() { return _mails; }
 
     /**
      * @param i the union index
      * @return the corresponding event
      */
-    public Mail getMail(int i) {
+    public Message getMail(int i) {
         return _mails.get(i);
     }
 
+    /**
+     *
+     * @param mail
+     * @return a mail from the mailbox
+     */
+    public int getMailId(Message mail) { return _mails.indexOf(mail); }
+
+    /**
+     *
+     * @param tags
+     * @return
+     */
+    public List<Message> getMailsFromUnion(List<String> tags, String email) {
+        List<Message> list = new ArrayList<>();
+        for(Message message: _mails) {
+            try {
+                if (message.getFrom().toString() == email) {
+                    list.add(message);
+                } else {
+                    for (String tag : tags) {
+                        try {
+                            if (message.getSubject().toLowerCase().contains(tag.toLowerCase())) {
+                                list.add(message);
+                                break;
+                            }
+                        } catch (MessagingException e) {
+                            Log.d("DEBUG", "Problème lors du parsage des mails");
+                        }
+                    }
+                }
+            } catch (MessagingException e) {
+                Log.d("DEBUG","Problème lorsque email == expéditeur");
+            }
+        }
+        return list;
+    }
+
+    /**
+     *
+     * @param name
+     * @return
+     */
+    public List<Message> getMailsFromClub(String name){
+        List<Message> list = new ArrayList<>();
+        for(Message message: _mails) {
+            try {
+                if (message.getSubject().toLowerCase().contains(name.toLowerCase())) {
+                    list.add(message);
+                    break;
+                }
+            } catch (MessagingException e) {
+                Log.d("DEBUG", "Problème lors du parsage des mails");
+            }
+        }
+        return list;
+    }
     /**
      * @return the progress of the current update
      */

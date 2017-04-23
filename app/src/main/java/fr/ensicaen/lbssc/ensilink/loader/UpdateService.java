@@ -16,10 +16,13 @@ import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import javax.mail.MessagingException;
 
 import fr.ensicaen.lbssc.ensilink.R;
 import fr.ensicaen.lbssc.ensilink.loader.news.DayNews;
@@ -102,7 +105,16 @@ public class UpdateService extends Service {
             if(db != null) {
                 DatabaseCloner cloner = new DatabaseCloner(db);
                 cloner.cloneDatabase();
-                //and mails
+                ZimbraConnection zimbra = new ZimbraConnection();
+                try {
+                    zimbra.connect(getBaseContext());
+                    Log.d("DEBUG", "connect successful");
+                    zimbra.updateDatabase(db, getBaseContext());
+                } catch(MessagingException ex) {
+                    Log.e("ERROR", "Connection to the zimbra server is not possible : "+ ex.getMessage());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 if(_listener != null) {
                     _listener.onServiceFinished(cloner.succeed(), cloner.lastUpdateImages());
                     _listener = null;
@@ -111,7 +123,7 @@ public class UpdateService extends Service {
                 createNotification(cloner.getModifications());
             }
         }catch (SQLiteException e){
-            Log.d("D", "Error when tried to open SQLite database : " + e.getMessage());
+            Log.e("ERROR", "Error when tried to open SQLite database : " + e.getMessage());
         }
     }
 

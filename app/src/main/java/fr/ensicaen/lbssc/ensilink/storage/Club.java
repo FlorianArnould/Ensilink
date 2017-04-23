@@ -23,6 +23,7 @@ public final class Club extends Association{
 
     /**
      * The constructor
+     * @param id the id of the club
      * @param name the name of the club
      * @param day the day of the week as an integer between 1 and 7
      * @param date the date of the next event if it is not weekly
@@ -32,8 +33,8 @@ public final class Club extends Association{
      * @param logo the logo image
      * @param photo the photo image
      */
-    public Club(String name, int day, Date date, Time time, Time duration, String place, Image logo, Image photo){
-        super(name, logo, photo);
+    public Club(int id, String name, int day, Date date, Time time, Time duration, String place, Image logo, Image photo){
+        super(id, name, logo, photo);
         _day = day;
         _date = date;
         _time = time;

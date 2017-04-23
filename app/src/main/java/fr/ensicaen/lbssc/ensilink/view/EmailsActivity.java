@@ -3,12 +3,20 @@ package fr.ensicaen.lbssc.ensilink.view;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import java.io.IOException;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+
 import fr.ensicaen.lbssc.ensilink.R;
+import fr.ensicaen.lbssc.ensilink.storage.Association;
 import fr.ensicaen.lbssc.ensilink.storage.Mail;
 import fr.ensicaen.lbssc.ensilink.storage.School;
+import fr.ensicaen.lbssc.ensilink.storage.Union;
 
 /**
  * @author Jérémy Filipozzi
@@ -22,7 +30,6 @@ import fr.ensicaen.lbssc.ensilink.storage.School;
  */
 public class EmailsActivity extends AppCompatActivity {
 
-
     @Override
     @SuppressWarnings("deprecation") //For retro compatibility
     protected void onCreate(Bundle savedInstanceState){
@@ -33,13 +40,19 @@ public class EmailsActivity extends AppCompatActivity {
         }else if(Build.VERSION.SDK_INT >= 21){
             getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
         }
+        int unionId = getIntent().getIntExtra("UNION_ID", 0);
+        int clubId = getIntent().getIntExtra("CLUB_ID", 0);
+        Association association = School.getInstance().getUnion(unionId);
+        if(clubId != -1){
+            Union union = (Union)association;
+            association  = union.getClub(clubId);
+        }
+        Mail mail = association.getMail(getIntent().getIntExtra("MAIL_ID",0));
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(mail.getSubject());
         }
-        Mail mail = School.getInstance().getMail(getIntent().getIntExtra("MAIL_ID",0));
-        TextView mailSubject = (TextView) findViewById(R.id.mailSubject);
-        mailSubject.setText(mail.getSubject());
-        TextView mailDate = (TextView) findViewById(R.id.mailDate);
+        TextView mailDate = (TextView) findViewById(R.id.mail_date);
         mailDate.setText(mail.getDate());
         TextView mailTransmitter = (TextView) findViewById(R.id.mailTransmitter);
         mailTransmitter.setText(mail.getTransmitter());

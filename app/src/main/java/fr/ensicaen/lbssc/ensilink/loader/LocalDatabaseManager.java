@@ -87,6 +87,20 @@ final class LocalDatabaseManager extends SQLiteOpenHelper {
                 "idimage INTEGER REFERENCES images (id)," +
                 "title VARCHAR(100) NOT NULL," +
                 "text VARCHAR(1000) NOT NULL);");
+
+        db.execSQL("CREATE TABLE mails(" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "date DATETIME);");
+
+        db.execSQL("CREATE TABLE club_mails(" +
+                "idclub INTEGER NOT NULL REFERENCES clubs (id)," +
+                "idmail INTEGER NOT NULL REFERENCES mails (id)," +
+                "PRIMARY KEY(idclub, idmail));");
+
+        db.execSQL("CREATE TABLE union_mails(" +
+                "idunion INTEGER NOT NULL REFERENCES unions (id)," +
+                "idmail INTEGER NOT NULL REFERENCES mails (id)," +
+                "PRIMARY KEY(idunion, idmail));");
     }
 
     @Override

@@ -60,7 +60,7 @@ public class ClubActivity extends AppCompatActivity{
      */
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        MailsFragment emailsFragment = MailsFragment.newInstance(_unionId);
+        MailsFragment emailsFragment = MailsFragment.newInstance(_unionId, _clubId);
         InformationFragment info = InformationFragment.newInstance(_unionId, _clubId);
         adapter.addFragment(info, getString(R.string.information));
         adapter.addFragment(emailsFragment, getString(R.string.emails));

@@ -120,7 +120,7 @@ public class UnionFragment extends Fragment implements Updatable {
     public void update(){
         _membersFragment.changeUnion(_unionId);
         _clubsFragment.changeUnion(_unionId);
-        _emailsFragment.changeUnion(_unionId);
+        _emailsFragment.changeAssociation(School.getInstance().getUnion(_unionId));
     }
 
     /**

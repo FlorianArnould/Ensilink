@@ -21,6 +21,7 @@ public final class Union extends Association{
 
     /**
      * The constructor
+     * @param id the id of the union
      * @param name the name of the union
      * @param logo the logo image
      * @param photo the photo image
@@ -28,8 +29,8 @@ public final class Union extends Association{
      * @param facebookUrl the link to the facebook page of the union
      * @param email the email address of the club
      */
-    public Union(String name, Image logo, Image photo, int color, String facebookUrl, String email) {
-        super(name, logo, photo);
+    public Union(int id, String name, Image logo, Image photo, int color, String facebookUrl, String email) {
+        super(id, name, logo, photo);
         _clubs = new ArrayList<>();
         _tags = new ArrayList<>();
         _color = color;
