@@ -8,10 +8,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.IBinder;
 import android.util.Log;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,10 +24,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import fr.ensicaen.lbssc.ensilink.storage.Association;
 import fr.ensicaen.lbssc.ensilink.storage.Club;
 import fr.ensicaen.lbssc.ensilink.storage.Date;
 import fr.ensicaen.lbssc.ensilink.storage.Event;
 import fr.ensicaen.lbssc.ensilink.storage.Image;
+import fr.ensicaen.lbssc.ensilink.storage.Mail;
 import fr.ensicaen.lbssc.ensilink.storage.Student;
 import fr.ensicaen.lbssc.ensilink.storage.Time;
 import fr.ensicaen.lbssc.ensilink.storage.Union;
@@ -165,6 +172,7 @@ final public class DataLoader extends Thread{
         if(unionCursor.moveToFirst()) {
             do {
                 Union union = new Union(
+                        unionCursor.getInt(0),
                         unionCursor.getString(1),
                         new Image(new File(_fileDir, unionCursor.getString(2)), unionCursor.getString(3)),
                         new Image(new File(_fileDir, unionCursor.getString(4)), unionCursor.getString(5)),
@@ -179,6 +187,7 @@ final public class DataLoader extends Thread{
                 loadClubsFromDatabase(unionCursor, union);
                 _unions.add(union);
                 loadEventsFromUnion(unionCursor, union);
+                loadMailsUnionFromDatabase(union);
             } while (unionCursor.moveToNext());
         }
         unionCursor.close();
@@ -207,6 +216,19 @@ final public class DataLoader extends Thread{
     }
 
     /**
+     * Loads the mails of an union
+     * @param union the union to which the mail belong
+     */
+    private void loadMailsUnionFromDatabase(Union union) {
+        Cursor cursor = _db.rawQuery("SELECT idmail, date FROM union_mails JOIN mails ON idmail=id WHERE idunion=?;", new String[]{String.valueOf(union.getId())});
+        if(cursor.moveToFirst()){
+            do {
+                new MailLoader(union).execute(cursor.getString(0), cursor.getString(1));
+            } while (cursor.moveToNext());
+        }
+    }
+
+    /**
      * Loads the clubs of an union
      * @param cursor a cursor from a query on the unions' table
      * @param union the union to which the clubs belong
@@ -229,6 +251,7 @@ final public class DataLoader extends Thread{
                     duration = new Time(clubCursor.getString(5));
                 }
                 Club club = new Club(
+                        clubCursor.getInt(0),
                         clubCursor.getString(1),
                         clubCursor.getInt(2),
                         date,
@@ -238,6 +261,7 @@ final public class DataLoader extends Thread{
                         new Image(new File(_fileDir, clubCursor.getString(7)), clubCursor.getString(8)),
                         new Image(new File(_fileDir, clubCursor.getString(9)), clubCursor.getString(10)));
                 loadStudentsClubFromDatabase(clubCursor, club);
+                loadMailsClubFromDatabase(club);
                 union.addClub(club);
             } while (clubCursor.moveToNext());
         }
@@ -264,6 +288,19 @@ final public class DataLoader extends Thread{
             } while (studentClubCursor.moveToNext());
         }
         studentClubCursor.close();
+    }
+
+    /**
+     * Loads the mails of a club
+     * @param club the club to which the mail belong
+     */
+    private void loadMailsClubFromDatabase(Club club) {
+        Cursor cursor = _db.rawQuery("SELECT idmail, date FROM club_mails JOIN mails ON idmail=id WHERE idclub=?;", new String[]{String.valueOf(club.getId())});
+        if(cursor.moveToFirst()){
+            do {
+                new MailLoader(club).execute(cursor.getString(0), cursor.getString(1));
+            } while (cursor.moveToNext());
+        }
     }
 
     /**
@@ -379,5 +416,33 @@ final public class DataLoader extends Thread{
      */
     public int getMaxProgress(){
         return _maxProgress;
+    }
+
+    class MailLoader extends AsyncTask<String, Void, Void>{
+
+        private final Association _association;
+
+        MailLoader(Association association){
+            _association = association;
+        }
+
+        @Override
+        protected Void doInBackground(String... params) {
+            File parent = _context.getDir("emails", Context.MODE_PRIVATE);
+            try {
+                BufferedReader rd = new BufferedReader(new FileReader(new File(parent, params[0] + ".txt")));
+                String from = rd.readLine();
+                String subject = rd.readLine();
+                String content = "";
+                String line;
+                while((line = rd.readLine()) != null){
+                    content += line + "\n";
+                }
+                _association.addMail(new Mail(from, subject, content, params[1]));
+            } catch(IOException e) {
+                Log.e("ERROR", "Mail not loaded");
+            }
+            return null;
+        }
     }
 }

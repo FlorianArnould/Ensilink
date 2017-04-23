@@ -5,16 +5,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.util.Log;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -24,9 +21,7 @@ import java.util.Locale;
 import java.util.Properties;
 
 import javax.activation.CommandMap;
-import javax.activation.DataHandler;
 import javax.activation.MailcapCommandMap;
-import javax.mail.BodyPart;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -34,10 +29,15 @@ import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.URLName;
-import javax.mail.internet.MimeMultipart;
-import javax.mail.util.SharedByteArrayInputStream;
+
 
 import fr.ensicaen.lbssc.ensilink.R;
+import fr.ensicaen.lbssc.ensilink.storage.Association;
+import fr.ensicaen.lbssc.ensilink.storage.Club;
+import fr.ensicaen.lbssc.ensilink.storage.School;
+import fr.ensicaen.lbssc.ensilink.storage.Union;
+
+import static android.R.id.message;
 
 /**
  * @author Florian Arnould
@@ -55,7 +55,8 @@ public class ZimbraConnection {
     private static final String CONTENT_TYPE_MULTIPART_ALTERNATIVE = "multipart/alternative";
     private static final String CONTENT_TYPE_MULTIPART_RELATED = "multipart/related";
     private static final String CONTENT_TYPE_MULTIPART_MIXED = "multipart/mixed";
-    private String contentType;
+    String contentType;
+    private File _parent;
 
     public ZimbraConnection() {
 
@@ -121,10 +122,13 @@ public class ZimbraConnection {
         cMap.addMailcap("multipart/*; ; x-java-content-handler=com.sun.mail.handlers.multipart_mixed; x-java-fallback-entry=true");
         cMap.addMailcap("message/rfc822; ; x-java-content-handler=com.sun.mail.handlers.message_rfc822");
         Message[] mails = getEmails();
+        Log.d("DEBUG", "got mails");
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MONTH, -2);
         Date limit = cal.getTime();
-        for (Message message : mails) {
+        for (int i=mails.length-1;i>0;i--) {
+            Message message = mails[i];
+            Log.d("DEBUG", message.getSentDate().toString());
             if (message.getSentDate().compareTo(oldMax) > 0 && message.getSentDate().compareTo(limit) > 0) {
                 String email = "";
                 if (message.isMimeType("multipart/*")){
@@ -132,19 +136,10 @@ public class ZimbraConnection {
                 }else if (message.isMimeType("text/plain")){
                     email += message.getContent().toString();
                 }
-                ContentValues values = new ContentValues();
-                values.put("date", ft.format(message.getSentDate()));
-                long id = db.insert("mails", null, values);
-                if(id != -1){
-                    File parent = context.getDir("emails", Context.MODE_PRIVATE);
-                    BufferedWriter wr = new BufferedWriter(new FileWriter(new File(parent, String.valueOf(id) + ".txt")));
-                    wr.write(message.getFrom()[0].toString() + "\n");
-                    wr.write(message.getSubject() + "\n");
-                    wr.write(email);
-                    wr.close();
-                }else{
-                    Log.e("ERROR", "Email ignored : " + message.getSubject());
-                }
+                _parent = context.getDir("emails", Context.MODE_PRIVATE);
+                long id = parseAndInsertMailAndSave(message.getFrom()[0].toString(), message.getSubject(), ft.format(message.getSentDate()), email, db);
+            }else{
+                break;
             }
         }
     }
@@ -167,7 +162,115 @@ public class ZimbraConnection {
         return emailContent;
     }
 
-    private long parseAndInsertMail(String from, String subject, Date date) {
-        return 0;
+    private long parseAndInsertMailAndSave(String from, String subject, String date, String email, SQLiteDatabase db) {
+        ContentValues values = new ContentValues();
+        values.put("date", date);
+        long id = db.insert("mails", null, values);
+        if(id != -1){
+            new DiskSaver().execute(String.valueOf(id), from, subject, email);
+            boolean finished = false;
+            ContentValues values2 = new ContentValues();
+            values2.put("idmail", id);
+            String table = "";
+            Log.d("DEBUG", "Parsing");
+            for(Union union : School.getInstance().getUnions()){
+                for(Club club : union.getClubs()){
+                    if(subject.toLowerCase().contains(club.getName().toLowerCase())){
+                        values2.put("idclub", club.getId());
+                        table = "club_mails";
+                        finished = true;
+                        break;
+                    }
+                }
+                if(finished){
+                    break;
+                }
+                for(String tag : union.getTags()){
+                    if(subject.toLowerCase().contains(tag.toLowerCase())){
+                        values2.put("idunion", union.getId());
+                        table = "union_mails";
+                        finished = true;
+                        break;
+                    }
+                }
+                if(finished){
+                    break;
+                }
+            }
+            if(finished) {
+                db.insert(table, null, values2);
+                Log.d("DEBUG", subject);
+            }
+        }else{
+            Log.e("ERROR", "Email ignored : " + subject);
+        }
+        return id;
+    }
+
+    private class DiskSaver extends AsyncTask<String, Void, Void>{
+
+        @Override
+        protected Void doInBackground(String... params) {
+            try {
+                BufferedWriter wr = new BufferedWriter(new FileWriter(new File(_parent, params[0] + ".txt")));
+                wr.write(params[1] + "\n");
+                wr.write(params[2] + "\n");
+                wr.write(params[3]);
+                wr.close();
+            } catch (IOException ex) {
+                Log.e("ERROR", "mail file not saved");
+            }
+            return null;
+        }
+    }
+
+    private class Parser extends AsyncTask<String, Void, Void>{
+
+        private final SQLiteDatabase _db;
+        private final long _mailId;
+
+        Parser(SQLiteDatabase db, long mailId){
+            _db = db;
+            _mailId = mailId;
+        }
+
+        @Override
+        protected Void doInBackground(String... params) {
+            String subject = params[0];
+            boolean finished = false;
+            ContentValues values = new ContentValues();
+            values.put("idmail", _mailId);
+            String table = "";
+            Log.d("DEBUG", "Parsing");
+            for(Union union : School.getInstance().getUnions()){
+                for(Club club : union.getClubs()){
+                    if(subject.toLowerCase().contains(club.getName().toLowerCase())){
+                        values.put("idclub", club.getId());
+                        table = "club_mails";
+                        finished = true;
+                        break;
+                    }
+                }
+                if(finished){
+                    break;
+                }
+                for(String tag : union.getTags()){
+                    if(subject.toLowerCase().contains(tag.toLowerCase())){
+                        values.put("idunion", union.getId());
+                        table = "union_mails";
+                        finished = true;
+                        break;
+                    }
+                }
+                if(finished){
+                    break;
+                }
+            }
+            if(finished) {
+                _db.insert(table, null, values);
+                Log.d("DEBUG", subject);
+            }
+            return null;
+        }
     }
 }

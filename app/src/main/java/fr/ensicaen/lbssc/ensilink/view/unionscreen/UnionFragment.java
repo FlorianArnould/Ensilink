@@ -116,7 +116,7 @@ public class UnionFragment extends Fragment implements Updatable {
     public void update(){
         _membersFragment.changeUnion(_unionId);
         _clubsFragment.changeUnion(_unionId);
-        _emailsFragment.changeUnion(_unionId);
+        _emailsFragment.changeAssociation(School.getInstance().getUnion(_unionId));
     }
 
     /**
@@ -152,7 +152,7 @@ public class UnionFragment extends Fragment implements Updatable {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
         _membersFragment = MembersFragment.newInstance(_unionId);
         _clubsFragment = ClubsFragment.newInstance(_unionId);
-        _emailsFragment = MailsFragment.newInstance(_unionId);
+        _emailsFragment = MailsFragment.newInstance(School.getInstance().getUnion(_unionId));
         adapter.addFragment(_membersFragment, getString(R.string.members));
         adapter.addFragment(_clubsFragment, getString(R.string.clubs));
         adapter.addFragment(_emailsFragment, getString(R.string.emails));

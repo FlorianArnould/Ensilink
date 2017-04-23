@@ -106,9 +106,8 @@ public class UpdateService extends Service {
                 ZimbraConnection zimbra = new ZimbraConnection();
                 try {
                     zimbra.connect(getBaseContext());
-                    Log.d("DEBUG", "coucou");
+                    Log.d("DEBUG", "connect successful");
                     zimbra.updateDatabase(db, getBaseContext());
-                    zimbra.close();
                 } catch(MessagingException ex) {
                     Log.e("ERROR", "Connection to the zimbra server is not possible : "+ ex.getMessage());
                 } catch (IOException e) {

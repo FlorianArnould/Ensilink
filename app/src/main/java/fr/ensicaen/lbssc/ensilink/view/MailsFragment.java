@@ -3,6 +3,7 @@ package fr.ensicaen.lbssc.ensilink.view;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,8 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 
 import fr.ensicaen.lbssc.ensilink.R;
+import fr.ensicaen.lbssc.ensilink.storage.Association;
+import fr.ensicaen.lbssc.ensilink.storage.Mail;
 import fr.ensicaen.lbssc.ensilink.storage.School;
 
 
@@ -32,9 +35,10 @@ import fr.ensicaen.lbssc.ensilink.storage.School;
  * Class which display the screen of a the mails of an union
  * The real implementation will come in the second version
  */
-public class MailsFragment extends AssociationFragment implements  Updatable {
+public class MailsFragment extends ListFragment implements Updatable {
 
         private MailAdapter _adapter;
+        private Association _association;
 
         /**
          * Required empty public constructor
@@ -47,16 +51,16 @@ public class MailsFragment extends AssociationFragment implements  Updatable {
          * create an instance of InformationFragment
          * @return return the list of the mails
          */
-        public static MailsFragment newInstance(int unionId) {
+        public static MailsFragment newInstance(Association association) {
             MailsFragment mails = new MailsFragment();
-            AssociationFragment.newInstance(unionId, mails);
+            mails._association = association;
             return mails;
         }
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            _adapter = new MailAdapter(School.getInstance().getMails());
+            _adapter = new MailAdapter(_association.getMails());
         }
         
 
@@ -78,26 +82,32 @@ public class MailsFragment extends AssociationFragment implements  Updatable {
                     startActivity(myIntent);
                 }
             });
-            list.setOnScrollListener((MainActivity)getActivity());
+            if(getActivity() instanceof MainActivity) {
+                list.setOnScrollListener((MainActivity) getActivity());
+            }
             update();
+        }
+
+        public void changeAssociation(Association association){
+            _association = association;
         }
 
         @Override
         public void update() {
             if (_adapter != null) {
-                _adapter.update(School.getInstance().getMails());
+                _adapter.update(_association.getMails());
             }
         }
 
         private final class MailAdapter extends BaseAdapter {
 
-            List<Message> _mails;
+            List<Mail> _mails;
 
             /**
              * Constructor of the class
              * @param mails a list of mails
              */
-            MailAdapter(List<Message> mails){
+            MailAdapter(List<Mail> mails){
                 update(mails);
             }
 
@@ -105,7 +115,7 @@ public class MailsFragment extends AssociationFragment implements  Updatable {
              * Replace the old list of mails by adding the new ones
              * @param mails a list mails to add to the ListView
              */
-            void update(List<Message> mails){
+            void update(List<Mail> mails){
                 _mails = mails;
                 notifyDataSetChanged();
             }
@@ -125,33 +135,13 @@ public class MailsFragment extends AssociationFragment implements  Updatable {
                     LayoutInflater inflater = (LayoutInflater) MailsFragment.this.getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     view = inflater.inflate(R.layout.emails_row,parent,false);
                 }
-                Message mail = _mails.get(i);
+                Mail mail = _mails.get(i);
                 TextView mailSubject = (TextView) view.findViewById(R.id.email_subject);
-                try {
-                    mailSubject.setText(mail.getSubject());
-                } catch (MessagingException e) {
-                    Log.d("DEBUG","Problème avec la récupération du sujet");
-                }
+                mailSubject.setText(mail.getSubject());
                 TextView mailSender = (TextView) view.findViewById(R.id.email_sender);
-                try {
-                    String sender = mail.getFrom().toString();
-                    mailSender.setText(sender);
-                } catch (MessagingException e) {
-                    Log.d("DEBUG","Problème avec la récupération du nom de l'expéditeur");
-                }
+                mailSender.setText(mail.getTransmitter());
                 TextView mailText = (TextView) view.findViewById(R.id.email_content);
-                String mailContent = null;
-                try {
-                    mailContent = mail.getContent().toString();
-                } catch (IOException e) {
-                    Log.d("DEBUG","Problème avec le contenu du message");
-                } catch (MessagingException e) {
-                    Log.d("DEBUG","Problème avec la récupération du contenu du mail");
-                }
-                if (mailContent.length() > 35){
-                    mailContent = mailContent.substring(0,35) + "...";
-                }
-                mailText.setText(mailContent);
+                mailText.setText(mail.getText());
                 return view;
             }
         }
