@@ -44,6 +44,8 @@
         <activity android:name=".view.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Login"></activity>
+        <activity android:name=".view.EmailsActivity"
+            android:screenOrientation="portrait"/>
         <service
             android:enabled="true"
             android:exported="true"

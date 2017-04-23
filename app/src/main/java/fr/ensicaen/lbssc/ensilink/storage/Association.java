@@ -69,6 +69,14 @@ public abstract class Association {
     }
 
     /**
+     * @param position of the mail in the list
+     * @return the mail instance
+     */
+    public Mail getMail(int position){
+        return _mails.get(position);
+    }
+
+    /**
      * @return the name of the association
      */
     public String getName(){

@@ -21,6 +21,7 @@ import javax.mail.MessagingException;
 
 import fr.ensicaen.lbssc.ensilink.R;
 import fr.ensicaen.lbssc.ensilink.storage.Association;
+import fr.ensicaen.lbssc.ensilink.storage.Club;
 import fr.ensicaen.lbssc.ensilink.storage.Mail;
 import fr.ensicaen.lbssc.ensilink.storage.School;
 
@@ -39,6 +40,8 @@ public class MailsFragment extends ListFragment implements Updatable {
 
         private MailAdapter _adapter;
         private Association _association;
+        private int _unionId;
+        private int _clubId;
 
         /**
          * Required empty public constructor
@@ -51,9 +54,23 @@ public class MailsFragment extends ListFragment implements Updatable {
          * create an instance of InformationFragment
          * @return return the list of the mails
          */
-        public static MailsFragment newInstance(Association association) {
+        public static MailsFragment newInstance(int unionId) {
             MailsFragment mails = new MailsFragment();
-            mails._association = association;
+            mails._association = School.getInstance().getUnion(unionId);
+            mails._unionId = unionId;
+            mails._clubId = -1;
+            return mails;
+        }
+
+        /**
+         * create an instance of InformationFragment
+         * @return return the list of the mails
+         */
+        public static MailsFragment newInstance(int unionId, int clubId) {
+            MailsFragment mails = new MailsFragment();
+            mails._association = School.getInstance().getUnion(unionId).getClub(clubId);
+            mails._unionId = unionId;
+            mails._clubId = clubId;
             return mails;
         }
 
@@ -77,7 +94,9 @@ public class MailsFragment extends ListFragment implements Updatable {
             list.setAdapter(_adapter);
             list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Intent myIntent = new Intent(view.getContext(), LoginActivity.class);
+                    Intent myIntent = new Intent(view.getContext(), EmailsActivity.class);
+                    myIntent.putExtra("UNION_ID", _unionId);
+                    myIntent.putExtra("CLUB_ID", _clubId);
                     myIntent.putExtra("MAIL_ID", position);
                     startActivity(myIntent);
                 }
@@ -141,7 +160,7 @@ public class MailsFragment extends ListFragment implements Updatable {
                 TextView mailSender = (TextView) view.findViewById(R.id.email_sender);
                 mailSender.setText(mail.getTransmitter());
                 TextView mailText = (TextView) view.findViewById(R.id.email_content);
-                mailText.setText(mail.getText());
+                mailText.setText(mail.getDate());
                 return view;
             }
         }

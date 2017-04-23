@@ -13,7 +13,10 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 
 import fr.ensicaen.lbssc.ensilink.R;
+import fr.ensicaen.lbssc.ensilink.storage.Association;
+import fr.ensicaen.lbssc.ensilink.storage.Mail;
 import fr.ensicaen.lbssc.ensilink.storage.School;
+import fr.ensicaen.lbssc.ensilink.storage.Union;
 
 /**
  * @author Jérémy Filipozzi
@@ -37,31 +40,24 @@ public class EmailsActivity extends AppCompatActivity {
         }else if(Build.VERSION.SDK_INT >= 21){
             getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
         }
+        int unionId = getIntent().getIntExtra("UNION_ID", 0);
+        int clubId = getIntent().getIntExtra("CLUB_ID", 0);
+        Association association = School.getInstance().getUnion(unionId);
+        if(clubId != -1){
+            Union union = (Union)association;
+            association  = union.getClub(clubId);
+        }
+        Mail mail = association.getMail(getIntent().getIntExtra("MAIL_ID",0));
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(mail.getSubject());
         }
-        Message mail = School.getInstance().getMail(getIntent().getIntExtra("MAIL_ID",0));
-        TextView mailSubject = (TextView) findViewById(R.id.mailSubject);
-        try {
-            mailSubject.setText(mail.getSubject());
-        } catch (MessagingException e) {
-            Log.d("DEBUG","Problème avec la récupération de l'objet du mail");
-        }
-
+        TextView mailDate = (TextView) findViewById(R.id.mail_date);
+        mailDate.setText(mail.getDate());
         TextView mailTransmitter = (TextView) findViewById(R.id.mailTransmitter);
-        try {
-            mailTransmitter.setText(mail.getFrom().toString());
-        } catch (MessagingException e) {
-            Log.d("DEBUG","Problème avec la récupération du nom de l'expéditeur");
-        }
+        mailTransmitter.setText(mail.getTransmitter());
         TextView mailText = (TextView) findViewById(R.id.mailText);
-        try {
-            mailText.setText(mail.getContent().toString());
-        } catch (IOException e) {
-            Log.d("DEBUG","Problème avec le contenu du message");
-        } catch (MessagingException e) {
-            Log.d("DEBUG","Problème avec la récupération du contenu du mail");
-        }
+        mailText.setText(mail.getText());
     }
 
     @Override

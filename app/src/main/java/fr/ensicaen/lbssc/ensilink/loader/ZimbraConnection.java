@@ -172,7 +172,6 @@ public class ZimbraConnection {
             ContentValues values2 = new ContentValues();
             values2.put("idmail", id);
             String table = "";
-            Log.d("DEBUG", "Parsing");
             for(Union union : School.getInstance().getUnions()){
                 for(Club club : union.getClubs()){
                     if(subject.toLowerCase().contains(club.getName().toLowerCase())){
@@ -199,7 +198,6 @@ public class ZimbraConnection {
             }
             if(finished) {
                 db.insert(table, null, values2);
-                Log.d("DEBUG", subject);
             }
         }else{
             Log.e("ERROR", "Email ignored : " + subject);
