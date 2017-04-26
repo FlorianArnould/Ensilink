@@ -1,12 +1,40 @@
+/**
+ * This file is part of Ensilink.
+ *
+ * Ensilink is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ *
+ * Ensilink is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with Ensilink.
+ * If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Copyright, The Ensilink team :  ARNOULD Florian, ARIK Marsel, FILIPOZZI Jérémy,
+ * ENSICAEN, 6 Boulevard du Maréchal Juin, 26 avril 2017
+ *
+ */
+
 package fr.ensicaen.lbssc.ensilink.view;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -18,10 +46,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.TextView;
 
 import java.util.List;
 
 import fr.ensicaen.lbssc.ensilink.R;
+import fr.ensicaen.lbssc.ensilink.view.settingsscreen.SettingsActivity;
 import fr.ensicaen.lbssc.ensilink.view.unionscreen.UnionFragment;
 import fr.ensicaen.lbssc.ensilink.view.creditsscreen.CreditsActivity;
 import fr.ensicaen.lbssc.ensilink.storage.OnSchoolDataListener;
@@ -38,12 +68,13 @@ import fr.ensicaen.lbssc.ensilink.utils.ColorCreator;
  * The main activity of the application which manage the navigation drawer and the fragments
  */
 public final class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, OnScrollListener{
+        implements NavigationView.OnNavigationItemSelectedListener, OnScrollListener {
 
     private UnionFragment _unionFragment;
     private Updatable _currentFragment;
     private SwipeRefreshLayout _refresher;
     private DrawerLayout _drawer;
+    private final int LOGIN_ACTIVITY_ID = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,16 +102,18 @@ public final class MainActivity extends AppCompatActivity
         navigationView.setItemIconTintList(null);
         navigationView.setNavigationItemSelectedListener(this);
 
-        if (savedInstanceState == null) {
+        refreshDrawer();
+        boolean fragmentSet = false;
+        if (getIntent() != null) {
+            int unionId = getIntent().getIntExtra("UNION_ID", -1);
+            if (unionId != -1) {
+                initializeOrSetUnionFragment(unionId);
+                fragmentSet = true;
+            }
+        }
+        if (savedInstanceState == null && !fragmentSet) {
             changeFragment(new EventFragment());
         }
-        refreshDrawer();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
     }
 
     @Override
@@ -93,56 +126,68 @@ public final class MainActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            /*case R.id.action_settings:
-                return true;*/
-            case R.id.action_refresh:
-                _refresher.setRefreshing(true);
-                refresh();
-                return true;
-            case R.id.action_credits:
-                Intent intent = new Intent(MainActivity.this, CreditsActivity.class);
-                startActivity(intent);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     /**
      * Replace the drawer rows with the new ones
      */
-    private void refreshDrawer(){
-        final Menu menu = ((NavigationView)findViewById(R.id.nav_view)).getMenu();
+    private void refreshDrawer() {
+        final Menu menu = ((NavigationView) findViewById(R.id.nav_view)).getMenu();
         menu.clear();
-        menu.add(getString(R.string.news)).setCheckable(true);
+        Drawable drawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_kangaroo);
+        drawable.mutate().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+        menu.add(getString(R.string.news)).setCheckable(true).setIcon(drawable);
         List<Union> list = School.getInstance().getUnions();
-        for(Union u : list){
+        for (Union u : list) {
             MenuItem item = menu.add(u.getName());
             item.setIcon(u.getLogo());
             item.setCheckable(true);
         }
+        MenuItem item;
+        if (School.getInstance().isConnected()) {
+            item = menu.add(1, Menu.NONE, Menu.NONE, getString(R.string.logout));
+        } else {
+            item = menu.add(1, Menu.NONE, Menu.NONE, getString(R.string.login));
+        }
+        drawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_beach_access);
+        drawable.mutate().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+        item.setIcon(drawable);
+        item = menu.add(1, Menu.NONE, Menu.NONE, getString(R.string.settings));
+        drawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_settings);
+        drawable.mutate().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+        item.setIcon(drawable);
+        item = menu.add(1, Menu.NONE, Menu.NONE, getString(R.string.credits));
+        drawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_library_books);
+        drawable.mutate().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+        item.setIcon(drawable);
+        NavigationView nav = (NavigationView) findViewById(R.id.nav_view);
+        TextView email = (TextView) nav.getHeaderView(0).findViewById(R.id.mailAddress);
+        email.setText(getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE).getString("email", "nom@ecole.ensicaen.fr"));
+
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        if(_unionFragment != null){
+        if (_unionFragment != null) {
             _unionFragment.resetPosition();
         }
-        if(item.getTitle().equals(getString(R.string.news))){
+        if (item.getTitle().equals(getString(R.string.news))) {
             changeFragment(new EventFragment());
-        }else {
+        } else if (item.getTitle().equals(getString(R.string.login))) {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivityForResult(intent, LOGIN_ACTIVITY_ID);
+        } else if (item.getTitle().equals(getString(R.string.logout))) {
+            School.getInstance().logout(getApplicationContext());
+            refreshDrawer();
+        } else if (item.getTitle().equals(getString(R.string.settings))) {
+            Intent intent_settings = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent_settings);
+        } else if (item.getTitle().equals(getString(R.string.credits))) {
+            Intent intent = new Intent(MainActivity.this, CreditsActivity.class);
+            startActivity(intent);
+        } else {
             List<Union> list = School.getInstance().getUnions();
             for (int i = 0; i < list.size(); i++) {
                 if (item.toString().equals(list.get(i).getName())) {
-                    if (_unionFragment == null) {
-                        _unionFragment = UnionFragment.newInstance(i);
-                    } else {
-                        _unionFragment.changeUnion(i);
-                    }
-                    changeFragment(_unionFragment);
-                    _unionFragment.changeColor(this, i);
+                    initializeOrSetUnionFragment(i);
                 }
             }
         }
@@ -152,11 +197,25 @@ public final class MainActivity extends AppCompatActivity
     }
 
     /**
+     * Set the current fragment as a union fragment
+     * @param unionId the position of the union
+     */
+    private void initializeOrSetUnionFragment(int unionId) {
+        if (_unionFragment == null) {
+            _unionFragment = UnionFragment.newInstance(unionId);
+        } else {
+            _unionFragment.changeUnion(unionId);
+        }
+        changeFragment(_unionFragment);
+        _unionFragment.changeColor(this, unionId);
+    }
+
+    /**
      * set the text displayed in the action bar
      * @param title the text to display
      */
-    public void setActionBarTitle(String title){
-        if(getSupportActionBar() != null){
+    public void setActionBarTitle(String title) {
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(title);
         }
     }
@@ -165,20 +224,25 @@ public final class MainActivity extends AppCompatActivity
      * Set the color of the action bar
      * @param color the color to set
      */
-    public void setApplicationColor(@ColorInt int color){
-        if(getSupportActionBar() != null) {
+    public void setApplicationColor(@ColorInt int color) {
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(color));
         }
-        if(_drawer != null) {
+        if (_drawer != null) {
             _drawer.setStatusBarBackgroundColor(ColorCreator.darkerColor(color));
         }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(color);
+        }
+        NavigationView nav = (NavigationView) findViewById(R.id.nav_view);
+        nav.getHeaderView(0).findViewById(R.id.drawer_header).setBackgroundColor(color);
     }
 
     /**
      * Replace the main fragment by another
      * @param fragment the new fragment
      */
-    private void changeFragment(Fragment fragment){
+    private void changeFragment(Fragment fragment) {
         _currentFragment = (Updatable) fragment;
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContent, fragment).commit();
     }
@@ -186,7 +250,7 @@ public final class MainActivity extends AppCompatActivity
     /**
      * Reload all information in the application
      */
-    private void refresh(){
+    private void refresh() {
         School.getInstance().refreshData(getApplicationContext(), new OnSchoolDataListener() {
             @Override
             public void OnDataRefreshed() {
@@ -205,7 +269,7 @@ public final class MainActivity extends AppCompatActivity
 
     @Override
     public void onScrollStateChanged(AbsListView absListView, int state) {
-        if(state == OnScrollListener.SCROLL_STATE_IDLE) {
+        if (state == OnScrollListener.SCROLL_STATE_IDLE) {
             updateRefresherState(absListView);
         }
     }
@@ -219,8 +283,8 @@ public final class MainActivity extends AppCompatActivity
      * Update the state of the "swipe to refresh" action
      * @param absListView active listview
      */
-    public void updateRefresherState(AbsListView absListView){
-        if(_refresher != null) {
+    public void updateRefresherState(AbsListView absListView) {
+        if (_refresher != null) {
             setRefresherEnabled(!ViewCompat.canScrollVertically(absListView, -1));
         }
     }
@@ -229,7 +293,14 @@ public final class MainActivity extends AppCompatActivity
      * Set the state of the "swipe to refresh" action
      * @param enabled the new state
      */
-    public void setRefresherEnabled(boolean enabled){
+    public void setRefresherEnabled(boolean enabled) {
         _refresher.setEnabled(enabled);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == LOGIN_ACTIVITY_ID && resultCode == RESULT_OK){
+            refreshDrawer();
+        }
     }
 }

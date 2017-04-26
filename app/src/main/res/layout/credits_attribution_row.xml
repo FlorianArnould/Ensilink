@@ -22,6 +22,7 @@
         android:textSize="15sp"
         android:paddingStart="15dp"
         android:paddingEnd="15dp"
+        android:textColor="@android:color/tertiary_text_light"
         android:gravity="center"/>
 
 </LinearLayout>

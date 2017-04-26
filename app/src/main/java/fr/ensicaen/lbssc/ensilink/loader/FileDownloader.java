@@ -1,3 +1,25 @@
+/**
+ * This file is part of Ensilink.
+ *
+ * Ensilink is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ *
+ * Ensilink is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with Ensilink.
+ * If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Copyright, The Ensilink team :  ARNOULD Florian, ARIK Marsel, FILIPOZZI Jérémy,
+ * ENSICAEN, 6 Boulevard du Maréchal Juin, 26 avril 2017
+ *
+ */
+
 package fr.ensicaen.lbssc.ensilink.loader;
 
 import android.content.Context;
@@ -13,7 +35,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
 
 /**
  * @author Florian Arnould
@@ -36,23 +57,10 @@ final class FileDownloader {
 
 
     /**
-     * @param imageNames a list of the name of the images
-     */
-    void downloadImages(List<String> imageNames){
-        try{
-            for (String imageName : imageNames){
-                download(imageName);
-            }
-        } catch (IOException e) {
-            Log.d("D", "io error : " + e.getMessage());
-        }
-    }
-
-    /**
      * Download one image from the network
      * @param imageName the image name
      */
-    private void download(String imageName) throws IOException{
+    void download(String imageName) throws IOException{
         try {
             URL url = new URL("http://www.ecole.ensicaen.fr/~arnould/others/test/images/" + imageName);
             InputStream in = url.openStream();

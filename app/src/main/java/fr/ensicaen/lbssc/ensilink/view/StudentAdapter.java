@@ -1,10 +1,35 @@
+/**
+ * This file is part of Ensilink.
+ *
+ * Ensilink is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ *
+ * Ensilink is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with Ensilink.
+ * If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Copyright, The Ensilink team :  ARNOULD Florian, ARIK Marsel, FILIPOZZI Jérémy,
+ * ENSICAEN, 6 Boulevard du Maréchal Juin, 26 avril 2017
+ *
+ */
+
 package fr.ensicaen.lbssc.ensilink.view;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.List;
@@ -65,13 +90,33 @@ public final class StudentAdapter extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.members_fragment_row, parent, false);
         }
-        Student student = _students.get(i);
+        final Student student = _students.get(i);
         TextView text = (TextView) view.findViewById(R.id.listview_union_membre_role);
         text.setText(student.getPosition());
         text = (TextView) view.findViewById(R.id.listview_union_membre_nom);
         text.setText(student.getName() + " \"" + student.getNickname() + "\" " + student.getLastName());
         text = (TextView) view.findViewById(R.id.listview_union_membre_mail);
         text.setText(student.getEmail());
+
+
+        ImageButton button=(ImageButton) view.findViewById(R.id.image_mail);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String email = student.getEmail();
+                String[] emailaddress= new String[] {email};
+
+
+            Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+                emailIntent.setData(Uri.parse("mailto:"));
+                emailIntent.putExtra(Intent.EXTRA_EMAIL  , emailaddress);
+
+
+                _context.startActivity(Intent.createChooser((emailIntent),"Envoyer un email"));
+
+            }
+        });
         return view;
     }
 }

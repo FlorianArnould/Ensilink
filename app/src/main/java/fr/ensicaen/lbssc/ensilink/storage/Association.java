@@ -1,3 +1,25 @@
+/**
+ * This file is part of Ensilink.
+ *
+ * Ensilink is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ *
+ * Ensilink is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with Ensilink.
+ * If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Copyright, The Ensilink team :  ARNOULD Florian, ARIK Marsel, FILIPOZZI Jérémy,
+ * ENSICAEN, 6 Boulevard du Maréchal Juin, 26 avril 2017
+ *
+ */
+
 package fr.ensicaen.lbssc.ensilink.storage;
 
 import android.graphics.drawable.Drawable;
@@ -13,12 +35,14 @@ import java.util.List;
 /**
  * Abstract class that represent a student association
  */
-abstract class Association {
+public abstract class Association {
 
+    private final int _id;
     private final String _name;
     private final Image _logo;
     private final Image _photo;
     private final List<Student> _students;
+    private final List<Mail> _mails;
 
     /**
      * The constructor
@@ -26,11 +50,20 @@ abstract class Association {
      * @param logo the logo image
      * @param photo the photo image
      */
-    Association(String name, Image logo, Image photo){
+    Association(int id, String name, Image logo, Image photo){
+        _id = id;
         _name = name;
         _students = new ArrayList<>();
         _logo = logo;
         _photo = photo;
+        _mails = new ArrayList<>();
+    }
+
+    /**
+     * @return the id of the association
+     */
+    public int getId() {
+        return _id;
     }
 
     /**
@@ -39,6 +72,29 @@ abstract class Association {
      */
     public void addStudent(Student student){
         _students.add(student);
+    }
+
+    /**
+     * Adds a mail to the association
+     * @param mail a mail instance
+     */
+    public void addMail(Mail mail) {
+        _mails.add(mail);
+    }
+
+    /**
+     * @return the List of the mails
+     */
+    public List<Mail> getMails(){
+        return _mails;
+    }
+
+    /**
+     * @param position of the mail in the list
+     * @return the mail instance
+     */
+    public Mail getMail(int position){
+        return _mails.get(position);
     }
 
     /**

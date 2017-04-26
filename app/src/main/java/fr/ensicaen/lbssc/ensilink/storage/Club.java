@@ -1,3 +1,25 @@
+/**
+ * This file is part of Ensilink.
+ *
+ * Ensilink is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ *
+ * Ensilink is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with Ensilink.
+ * If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Copyright, The Ensilink team :  ARNOULD Florian, ARIK Marsel, FILIPOZZI Jérémy,
+ * ENSICAEN, 6 Boulevard du Maréchal Juin, 26 avril 2017
+ *
+ */
+
 package fr.ensicaen.lbssc.ensilink.storage;
 
 import android.content.Context;
@@ -23,6 +45,7 @@ public final class Club extends Association{
 
     /**
      * The constructor
+     * @param id the id of the club
      * @param name the name of the club
      * @param day the day of the week as an integer between 1 and 7
      * @param date the date of the next event if it is not weekly
@@ -32,8 +55,8 @@ public final class Club extends Association{
      * @param logo the logo image
      * @param photo the photo image
      */
-    public Club(String name, int day, Date date, Time time, Time duration, String place, Image logo, Image photo){
-        super(name, logo, photo);
+    public Club(int id, String name, int day, Date date, Time time, Time duration, String place, Image logo, Image photo){
+        super(id, name, logo, photo);
         _day = day;
         _date = date;
         _time = time;

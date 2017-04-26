@@ -1,6 +1,29 @@
+/**
+ * This file is part of Ensilink.
+ *
+ * Ensilink is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ *
+ * Ensilink is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with Ensilink.
+ * If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Copyright, The Ensilink team :  ARNOULD Florian, ARIK Marsel, FILIPOZZI Jérémy,
+ * ENSICAEN, 6 Boulevard du Maréchal Juin, 26 avril 2017
+ *
+ */
+
 package fr.ensicaen.lbssc.ensilink.loader;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.util.Log;
@@ -18,12 +41,21 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+
+import fr.ensicaen.lbssc.ensilink.loader.news.DateNews;
+import fr.ensicaen.lbssc.ensilink.loader.news.DayNews;
+import fr.ensicaen.lbssc.ensilink.loader.news.HourNews;
+import fr.ensicaen.lbssc.ensilink.loader.news.News;
+import fr.ensicaen.lbssc.ensilink.loader.news.PlaceNews;
+import fr.ensicaen.lbssc.ensilink.storage.Date;
 
 /**
  * @author Florian Arnould
@@ -38,6 +70,7 @@ final class DatabaseCloner{
     private boolean _success;
     private final SQLiteDatabase _db;
     private final Map<String, Long> _imagesTimestamp;
+    private final List<News> _news;
 
     /**
      * @param db the database instance
@@ -46,6 +79,7 @@ final class DatabaseCloner{
         _success = false;
         _db = db;
         _imagesTimestamp = new HashMap<>();
+        _news = new ArrayList<>();
     }
 
     /**
@@ -138,6 +172,7 @@ final class DatabaseCloner{
             NamedNodeMap att = node.getAttributes();
             _imagesTimestamp.put(att.getNamedItem("file").getNodeValue(), Long.valueOf(att.getNamedItem("timestamp").getNodeValue()));
         }
+        checkClubNews(doc);
         clearDatabase();
         String[] tableList = LocalDatabaseManager.getTables();
         _db.beginTransaction();
@@ -179,5 +214,41 @@ final class DatabaseCloner{
      */
     Map<String, Long> lastUpdateImages(){
         return _imagesTimestamp;
+    }
+
+    /**
+     * Create the private list which contains the news which needs a notification
+     * @param doc DOM document which represent the XML file
+     */
+    private void checkClubNews(Document doc){
+        NodeList clubs = doc.getElementsByTagName("clubs");
+        for(int i=0;i<clubs.getLength();i++){
+            Node club = clubs.item(i);
+            NamedNodeMap attributes = club.getAttributes();
+            Cursor cursor = _db.query("clubs", new String[]{"idunion", "day", "date", "start_hour", "place"}, "id=?", new String[]{attributes.getNamedItem("id").getNodeValue()}, null, null, null, null);
+            if(cursor.moveToFirst()){
+                if(!cursor.getString(1).equals(attributes.getNamedItem("day").getNodeValue())){
+                    _news.add(new DayNews(cursor.getInt(0), attributes.getNamedItem("name").getNodeValue(),  Integer.valueOf(attributes.getNamedItem("day").getNodeValue())));
+                }
+                if(!cursor.getString(2).equals(attributes.getNamedItem("date").getNodeValue())){
+                    _news.add(new DateNews(cursor.getInt(0), attributes.getNamedItem("name").getNodeValue(), new Date(attributes.getNamedItem("date").getNodeValue())));
+                }
+                if(!cursor.getString(3).equals(attributes.getNamedItem("start_hour").getNodeValue())){
+                    _news.add(new HourNews(cursor.getInt(0), attributes.getNamedItem("name").getNodeValue(), attributes.getNamedItem("start_hour").getNodeValue()));
+                }
+                if(!cursor.getString(4).equals(attributes.getNamedItem("place").getNodeValue())){
+                    _news.add(new PlaceNews(cursor.getInt(0), attributes.getNamedItem("name").getNodeValue(), attributes.getNamedItem("place").getNodeValue()));
+                }
+            }
+            cursor.close();
+        }
+    }
+
+    /**
+     * Give the modifications of the database
+     * @return a list of News for notifications
+     */
+    List<News> getModifications(){
+        return _news;
     }
 }

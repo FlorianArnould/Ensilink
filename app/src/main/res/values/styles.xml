@@ -4,42 +4,59 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@android:color/transparent</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:windowAnimationStyle">@style/Animation.Window</item>
-    </style>
-
-    <style name="Animation.Window" parent="@android:style/Animation.Activity">
-        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
-        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
-    </style>
-
-    <style name="AppTheme.Splash" parent="AppTheme.NoActionBar">
-        <item name="android:background">@color/colorBlue</item>
-        <item name="colorAccent">@android:color/white</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-
-
-    <style name="MyMaterialTheme" parent="MyMaterialTheme.Base">
-
+    <style name="AppTheme.Splash" parent="AppTheme.NoActionBar">
+        <item name="android:background">@color/colorBlue</item>
+        <item name="colorAccent">@android:color/white</item>
     </style>
 
-    <style name="MyMaterialTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
+    <style name="AppTheme.Login" parent="AppTheme.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@android:color/white</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="AppTheme_Dark_Dialog" parent="Theme.AppCompat.Dialog">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:background">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="AppTheme.SCBSwitch" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="colorControlActivated">#46bdbf</item>
+
+        <!-- inactive thumb color -->
+        <item name="colorSwitchThumbNormal">#f1f1f1
+        </item>
+
+        <!-- inactive track color (30% transparency) -->
+        <item name="android:colorForeground">#42221f1f
+        </item>
+    </style>
+    <style name="FloatingButtonTheme" parent="Theme.AppCompat.NoActionBar" >
+        <item name="colorPrimary">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorFacebook</item>
+        <item name="android:colorBackground">@color/colorAccent</item>
+        <item name="android:textColorPrimaryInverse">@color/colorAccent</item>
+        <item name="android:textColorSecondaryInverse">@color/colorAccent</item>
+    </style>
+
+    <style name="UnionSettingTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:colorBackground">@color/colorPrimary</item>
     </style>
 
 </resources>

@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import fr.ensicaen.lbssc.ensilink.view.MainActivity;
 import fr.ensicaen.lbssc.ensilink.R;
 import fr.ensicaen.lbssc.ensilink.view.Updatable;
-import fr.ensicaen.lbssc.ensilink.view.EmailsFragment;
+import fr.ensicaen.lbssc.ensilink.view.MailsFragment;
 import fr.ensicaen.lbssc.ensilink.view.ViewPagerAdapter;
 import fr.ensicaen.lbssc.ensilink.storage.School;
 import fr.ensicaen.lbssc.ensilink.storage.Union;
@@ -33,7 +33,7 @@ public class UnionFragment extends Fragment implements Updatable {
     private View _view;
     private MembersFragment _membersFragment;
     private ClubsFragment _clubsFragment;
-    private EmailsFragment _emailsFragment;
+    private MailsFragment _emailsFragment;
     private int _color;
     private int _unionId;
 
@@ -64,6 +64,7 @@ public class UnionFragment extends Fragment implements Updatable {
         if (getArguments() != null && _unionId == 0) {
             _unionId = getArguments().getInt("UNION_ID");
         }
+
     }
 
     @Override
@@ -75,7 +76,6 @@ public class UnionFragment extends Fragment implements Updatable {
 
             ViewPager viewPager = (ViewPager) _view.findViewById(R.id.viewpager);
             setupViewPager(viewPager);
-
             _tabLayout = (TabLayout) _view.findViewById(R.id.tabs);
             _tabLayout.setupWithViewPager(viewPager);
             _tabLayout.setBackgroundColor(_color);
@@ -117,7 +117,7 @@ public class UnionFragment extends Fragment implements Updatable {
     public void update(){
         _membersFragment.changeUnion(_unionId);
         _clubsFragment.changeUnion(_unionId);
-        _emailsFragment.changeUnion(_unionId);
+        _emailsFragment.changeAssociation(School.getInstance().getUnion(_unionId));
     }
 
     /**
@@ -153,7 +153,7 @@ public class UnionFragment extends Fragment implements Updatable {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
         _membersFragment = MembersFragment.newInstance(_unionId);
         _clubsFragment = ClubsFragment.newInstance(_unionId);
-        _emailsFragment = EmailsFragment.newInstance(_unionId);
+        _emailsFragment = MailsFragment.newInstance(_unionId);
         adapter.addFragment(_membersFragment, getString(R.string.members));
         adapter.addFragment(_clubsFragment, getString(R.string.clubs));
         adapter.addFragment(_emailsFragment, getString(R.string.emails));

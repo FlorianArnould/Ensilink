@@ -1,8 +1,33 @@
+/**
+ * This file is part of Ensilink.
+ *
+ * Ensilink is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ *
+ * Ensilink is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with Ensilink.
+ * If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Copyright, The Ensilink team :  ARNOULD Florian, ARIK Marsel, FILIPOZZI Jérémy,
+ * ENSICAEN, 6 Boulevard du Maréchal Juin, 26 avril 2017
+ *
+ */
+
 package fr.ensicaen.lbssc.ensilink.storage;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import java.util.List;
+
+import fr.ensicaen.lbssc.ensilink.R;
 
 import fr.ensicaen.lbssc.ensilink.loader.DataLoader;
 import fr.ensicaen.lbssc.ensilink.loader.OnLoadingFinishListener;
@@ -22,6 +47,8 @@ public final class School {
     private static List<Event> _events;
     private static List<Image> _images;
     private static boolean _neverUpdated;
+    private DataLoader _loader;
+    private static boolean _isConnected;
 
     /**
      * @return the school instance
@@ -35,6 +62,8 @@ public final class School {
      */
     private School() {
         _neverUpdated = true;
+        _loader = null;
+        _isConnected = false;
     }
 
     /**
@@ -43,8 +72,8 @@ public final class School {
      * @param listener a listener to get when the school will be updated
      */
     public void refreshData(Context context, final OnSchoolDataListener listener){
-        DataLoader loader = new DataLoader(context, _neverUpdated);
-        loader.setOnLoadingFinishListener(new OnLoadingFinishListener() {
+        _loader = new DataLoader(context, _neverUpdated);
+        _loader.setOnLoadingFinishListener(new OnLoadingFinishListener() {
             @Override
             public void OnLoadingFinish(DataLoader loader) {
                 _unions = loader.getUnions();
@@ -56,7 +85,9 @@ public final class School {
                 _neverUpdated = false;
             }
         });
-        loader.start();
+        _loader.start();
+        SharedPreferences pref = context.getSharedPreferences(context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        _isConnected = !pref.getString("email", "").isEmpty() && !pref.getString("password", "").isEmpty();
     }
 
     /**
@@ -94,5 +125,49 @@ public final class School {
      */
     public List<Image> getImages(){
         return _images;
+    }
+
+
+    /**
+     * @return the progress of the current update
+     */
+    public int getProgress(){
+        if(_loader != null){
+            return _loader.getProgress();
+        }
+        return 0;
+    }
+
+    /**
+     * @return the max value of the progress of the current update
+     */
+    public int getMaxProgress(){
+        if(_loader != null){
+            return _loader.getMaxProgress();
+        }
+        return 0;
+    }
+
+    /**
+     * @return if the user is connected with an Ensicaen email account
+     */
+    public boolean isConnected(){
+        return _isConnected;
+    }
+
+    /**
+     * logout from the Ensicaen email account
+     */
+    public void logout(Context context){
+        SharedPreferences pref = context.getSharedPreferences(context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        pref.edit().remove("email").remove("password").apply();
+        _isConnected = false;
+    }
+
+    /**
+     * Set the user state as connected to the zimbra server of the school
+     */
+    public void setConnected() {
+        _isConnected = true;
     }
 }
