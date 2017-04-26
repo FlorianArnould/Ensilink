@@ -19,6 +19,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AbsListView;
@@ -77,10 +78,18 @@ public final class MainActivity extends AppCompatActivity
         navigationView.setItemIconTintList(null);
         navigationView.setNavigationItemSelectedListener(this);
 
-        if (savedInstanceState == null) {
+        refreshDrawer();
+        boolean fragmentSetted = false;
+        if(getIntent() != null){
+            int unionId = getIntent().getIntExtra("UNION_ID", -1);
+            if(unionId != -1){
+                initializeOrSetUnionFragment(unionId);
+                fragmentSetted = true;
+            }
+        }
+        if (savedInstanceState == null && !fragmentSetted) {
             changeFragment(new EventFragment());
         }
-        refreshDrawer();
     }
 
     @Override
@@ -125,10 +134,6 @@ public final class MainActivity extends AppCompatActivity
         drawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_library_books);
         drawable.mutate().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
         item.setIcon(drawable);
-        item = menu.add(1, Menu.NONE, Menu.NONE, getString(R.string.help));
-        drawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_help);
-        drawable.mutate().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
-        item.setIcon(drawable);
     }
 
     @Override
@@ -149,25 +154,31 @@ public final class MainActivity extends AppCompatActivity
         }else if(item.getTitle().equals(getString(R.string.credits))) {
             Intent intent = new Intent(MainActivity.this, CreditsActivity.class);
             startActivity(intent);
-        }else if(item.getTitle().equals("Aide")) {
-            //TODO launch the help activity
         }else{
             List<Union> list = School.getInstance().getUnions();
             for (int i = 0; i < list.size(); i++) {
                 if (item.toString().equals(list.get(i).getName())) {
-                    if (_unionFragment == null) {
-                        _unionFragment = UnionFragment.newInstance(i);
-                    } else {
-                        _unionFragment.changeUnion(i);
-                    }
-                    changeFragment(_unionFragment);
-                    _unionFragment.changeColor(this, i);
+                    initializeOrSetUnionFragment(i);
                 }
             }
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    /**
+     * Set the current fragment as a union fragment
+     * @param unionId the position of the union
+     */
+    public void initializeOrSetUnionFragment(int unionId){
+        if (_unionFragment == null) {
+            _unionFragment = UnionFragment.newInstance(unionId);
+        } else {
+            _unionFragment.changeUnion(unionId);
+        }
+        changeFragment(_unionFragment);
+        _unionFragment.changeColor(this, unionId);
     }
 
     /**

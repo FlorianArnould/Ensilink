@@ -203,19 +203,19 @@ final class DatabaseCloner{
         for(int i=0;i<clubs.getLength();i++){
             Node club = clubs.item(i);
             NamedNodeMap attributes = club.getAttributes();
-            Cursor cursor = _db.query("clubs", new String[]{"day", "date", "start_hour", "place"}, "id=?", new String[]{attributes.getNamedItem("id").getNodeValue()}, null, null, null, null);
+            Cursor cursor = _db.query("clubs", new String[]{"idunion", "day", "date", "start_hour", "place"}, "id=?", new String[]{attributes.getNamedItem("id").getNodeValue()}, null, null, null, null);
             if(cursor.moveToFirst()){
-                if(!cursor.getString(0).equals(attributes.getNamedItem("day").getNodeValue())){
-                    _news.add(new DayNews(attributes.getNamedItem("name").getNodeValue(),  Integer.valueOf(attributes.getNamedItem("day").getNodeValue())));
+                if(!cursor.getString(1).equals(attributes.getNamedItem("day").getNodeValue())){
+                    _news.add(new DayNews(cursor.getInt(0), attributes.getNamedItem("name").getNodeValue(),  Integer.valueOf(attributes.getNamedItem("day").getNodeValue())));
                 }
-                if(!cursor.getString(1).equals(attributes.getNamedItem("date").getNodeValue())){
-                    _news.add(new DateNews(attributes.getNamedItem("name").getNodeValue(), new Date(attributes.getNamedItem("date").getNodeValue())));
+                if(!cursor.getString(2).equals(attributes.getNamedItem("date").getNodeValue())){
+                    _news.add(new DateNews(cursor.getInt(0), attributes.getNamedItem("name").getNodeValue(), new Date(attributes.getNamedItem("date").getNodeValue())));
                 }
-                if(!cursor.getString(2).equals(attributes.getNamedItem("start_hour").getNodeValue())){
-                    _news.add(new HourNews(attributes.getNamedItem("name").getNodeValue(), attributes.getNamedItem("start_hour").getNodeValue()));
+                if(!cursor.getString(3).equals(attributes.getNamedItem("start_hour").getNodeValue())){
+                    _news.add(new HourNews(cursor.getInt(0), attributes.getNamedItem("name").getNodeValue(), attributes.getNamedItem("start_hour").getNodeValue()));
                 }
-                if(!cursor.getString(3).equals(attributes.getNamedItem("place").getNodeValue())){
-                    _news.add(new PlaceNews(attributes.getNamedItem("name").getNodeValue(), attributes.getNamedItem("place").getNodeValue()));
+                if(!cursor.getString(4).equals(attributes.getNamedItem("place").getNodeValue())){
+                    _news.add(new PlaceNews(cursor.getInt(0), attributes.getNamedItem("name").getNodeValue(), attributes.getNamedItem("place").getNodeValue()));
                 }
             }
             cursor.close();

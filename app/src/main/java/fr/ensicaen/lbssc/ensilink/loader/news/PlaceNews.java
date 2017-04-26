@@ -12,8 +12,8 @@ public class PlaceNews extends News {
 
     private final String _newPlace;
 
-    public PlaceNews(String clubName, String newPlace){
-        super(clubName);
+    public PlaceNews(int unionId, String clubName, String newPlace){
+        super(unionId, clubName);
         _newPlace = newPlace;
     }
 

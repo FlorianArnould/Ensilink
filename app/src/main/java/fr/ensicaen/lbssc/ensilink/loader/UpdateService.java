@@ -117,10 +117,8 @@ public class UpdateService extends Service {
                 try {
                     zimbra.connect(getBaseContext());
                     zimbra.updateDatabase(db, getBaseContext());
-                } catch(MessagingException ex) {
+                } catch(Exception ex) {
                     Log.e("ERROR", "Connection to the zimbra server is not possible : "+ ex.getMessage());
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
                 if(_listener != null) {
                     _listener.onServiceFinished(cloner.succeed(), cloner.lastUpdateImages());
@@ -159,12 +157,20 @@ public class UpdateService extends Service {
                 NotificationCompat.BigTextStyle notificationStyle = new
                         NotificationCompat.BigTextStyle();
                 notificationStyle.bigText(text);
-                Intent intent = new Intent(this, SplashActivity.class);
+                Intent intent;
+                if(news.size() >= 2){
+                    intent = new Intent(this, SplashActivity.class);
+                }else{
+                    intent = new Intent(this, ClubActivity.class);
+                    intent.putExtra("UNION_ID", news.get(0).getUnionIndex());
+                    intent.putExtra("CLUB_ID", news.get(0).getClubIndex());
+                }
                 PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                         intent, PendingIntent.FLAG_UPDATE_CURRENT);
                 NotificationCompat.Builder builder =
                         new NotificationCompat.Builder(UpdateService.this.getApplicationContext())
                                 .setContentIntent(contentIntent)
+                                .setAutoCancel(true)
                                 .setSmallIcon(R.drawable.ic_kangaroo)
                                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_kangaroo))
                                 .setContentTitle("News")
@@ -181,6 +187,10 @@ public class UpdateService extends Service {
         Log.d("Debug", "News : " + text);
     }
 
+    /**
+     * Send a notification if it is needed
+     * @param newMails list of the new mails
+     */
     private void createMailNotification(List<MailNotificationContainer> newMails){
         SharedPreferences pref = getBaseContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         for(MailNotificationContainer container : newMails){
@@ -197,16 +207,17 @@ public class UpdateService extends Service {
                 Intent intent;
                 if (container.isForAClub()) {
                     intent = new Intent(this, ClubActivity.class);
-                    intent.putExtra("CLUB_ID", container.getClub().getId());
+                    intent.putExtra("CLUB_ID", container.getUnion().getClubIndex(container.getClub()));
                 } else {
                     intent = new Intent(this, MainActivity.class);
                 }
-                intent.putExtra("UNION_ID", container.getUnion().getId());
+                intent.putExtra("UNION_ID", container.getUnion().getId()-1);
                 PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                         intent, PendingIntent.FLAG_UPDATE_CURRENT);
                 NotificationCompat.Builder builder =
                         new NotificationCompat.Builder(UpdateService.this.getApplicationContext())
                                 .setContentIntent(contentIntent)
+                                .setAutoCancel(true)
                                 .setSmallIcon(R.drawable.ic_kangaroo)
                                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_kangaroo))
                                 .setContentTitle(container.getSubject())

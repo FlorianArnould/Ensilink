@@ -12,8 +12,8 @@ public class HourNews extends News {
 
     private final String _newHour;
 
-    public HourNews(String clubName, String newHour){
-        super(clubName);
+    public HourNews(int unionId, String clubName, String newHour){
+        super(unionId, clubName);
         _newHour = newHour;
     }
 

@@ -96,4 +96,11 @@ public final class Union extends Association{
     public String getEmail() {
         return _email;
     }
+
+    /**
+     * @return the index of the club in the union
+     */
+    public int getClubIndex(Club club) {
+        return _clubs.indexOf(club);
+    }
 }

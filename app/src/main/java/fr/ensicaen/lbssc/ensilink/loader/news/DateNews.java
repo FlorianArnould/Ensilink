@@ -14,8 +14,8 @@ public class DateNews extends News {
 
     private final Date _newDate;
 
-    public DateNews(String clubName, Date newDate){
-        super(clubName);
+    public DateNews(int unionId, String clubName, Date newDate){
+        super(unionId, clubName);
         _newDate = newDate;
     }
 
