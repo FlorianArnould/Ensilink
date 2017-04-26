@@ -12,11 +12,13 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 
@@ -32,8 +34,10 @@ import javax.mail.URLName;
 
 
 import fr.ensicaen.lbssc.ensilink.R;
+import fr.ensicaen.lbssc.ensilink.loader.news.MailNotificationContainer;
 import fr.ensicaen.lbssc.ensilink.storage.Association;
 import fr.ensicaen.lbssc.ensilink.storage.Club;
+import fr.ensicaen.lbssc.ensilink.storage.Mail;
 import fr.ensicaen.lbssc.ensilink.storage.School;
 import fr.ensicaen.lbssc.ensilink.storage.Union;
 
@@ -56,10 +60,11 @@ public class ZimbraConnection {
     private static final String CONTENT_TYPE_MULTIPART_RELATED = "multipart/related";
     private static final String CONTENT_TYPE_MULTIPART_MIXED = "multipart/mixed";
     String contentType;
+    List<MailNotificationContainer> _newMails;
     private File _parent;
 
     public ZimbraConnection() {
-
+       _newMails = new ArrayList<>();
     }
 
     public void connect(Context context) throws MessagingException {
@@ -122,7 +127,6 @@ public class ZimbraConnection {
         cMap.addMailcap("multipart/*; ; x-java-content-handler=com.sun.mail.handlers.multipart_mixed; x-java-fallback-entry=true");
         cMap.addMailcap("message/rfc822; ; x-java-content-handler=com.sun.mail.handlers.message_rfc822");
         Message[] mails = getEmails();
-        Log.d("DEBUG", "got mails");
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MONTH, -2);
         Date limit = cal.getTime();
@@ -137,7 +141,7 @@ public class ZimbraConnection {
                     email += message.getContent().toString();
                 }
                 _parent = context.getDir("emails", Context.MODE_PRIVATE);
-                long id = parseAndInsertMailAndSave(message.getFrom()[0].toString(), message.getSubject(), ft.format(message.getSentDate()), email, db);
+                parseAndInsertMailAndSave(message.getFrom()[0].toString(), message.getSubject(), ft.format(message.getSentDate()), email, db);
             }else{
                 break;
             }
@@ -162,7 +166,7 @@ public class ZimbraConnection {
         return emailContent;
     }
 
-    private long parseAndInsertMailAndSave(String from, String subject, String date, String email, SQLiteDatabase db) {
+    private void parseAndInsertMailAndSave(String from, String subject, String date, String email, SQLiteDatabase db) {
         ContentValues values = new ContentValues();
         values.put("date", date);
         long id = db.insert("mails", null, values);
@@ -176,6 +180,7 @@ public class ZimbraConnection {
                 for(Club club : union.getClubs()){
                     if(subject.toLowerCase().contains(club.getName().toLowerCase())){
                         values2.put("idclub", club.getId());
+                        _newMails.add(new MailNotificationContainer(subject, email, union, club));
                         table = "club_mails";
                         finished = true;
                         break;
@@ -187,6 +192,7 @@ public class ZimbraConnection {
                 for(String tag : union.getTags()){
                     if(subject.toLowerCase().contains(tag.toLowerCase())){
                         values2.put("idunion", union.getId());
+                        _newMails.add(new MailNotificationContainer(subject, email, union));
                         table = "union_mails";
                         finished = true;
                         break;
@@ -202,7 +208,10 @@ public class ZimbraConnection {
         }else{
             Log.e("ERROR", "Email ignored : " + subject);
         }
-        return id;
+    }
+
+    List<MailNotificationContainer> getNewMails(){
+        return _newMails;
     }
 
     private class DiskSaver extends AsyncTask<String, Void, Void>{
@@ -217,56 +226,6 @@ public class ZimbraConnection {
                 wr.close();
             } catch (IOException ex) {
                 Log.e("ERROR", "mail file not saved");
-            }
-            return null;
-        }
-    }
-
-    private class Parser extends AsyncTask<String, Void, Void>{
-
-        private final SQLiteDatabase _db;
-        private final long _mailId;
-
-        Parser(SQLiteDatabase db, long mailId){
-            _db = db;
-            _mailId = mailId;
-        }
-
-        @Override
-        protected Void doInBackground(String... params) {
-            String subject = params[0];
-            boolean finished = false;
-            ContentValues values = new ContentValues();
-            values.put("idmail", _mailId);
-            String table = "";
-            Log.d("DEBUG", "Parsing");
-            for(Union union : School.getInstance().getUnions()){
-                for(Club club : union.getClubs()){
-                    if(subject.toLowerCase().contains(club.getName().toLowerCase())){
-                        values.put("idclub", club.getId());
-                        table = "club_mails";
-                        finished = true;
-                        break;
-                    }
-                }
-                if(finished){
-                    break;
-                }
-                for(String tag : union.getTags()){
-                    if(subject.toLowerCase().contains(tag.toLowerCase())){
-                        values.put("idunion", union.getId());
-                        table = "union_mails";
-                        finished = true;
-                        break;
-                    }
-                }
-                if(finished){
-                    break;
-                }
-            }
-            if(finished) {
-                _db.insert(table, null, values);
-                Log.d("DEBUG", subject);
             }
             return null;
         }

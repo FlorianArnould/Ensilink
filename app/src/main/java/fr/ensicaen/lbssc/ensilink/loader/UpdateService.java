@@ -1,5 +1,6 @@
 package fr.ensicaen.lbssc.ensilink.loader;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -10,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.media.RingtoneManager;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.IBinder;
@@ -26,8 +28,12 @@ import javax.mail.MessagingException;
 
 import fr.ensicaen.lbssc.ensilink.R;
 import fr.ensicaen.lbssc.ensilink.loader.news.DayNews;
+import fr.ensicaen.lbssc.ensilink.loader.news.MailNotificationContainer;
 import fr.ensicaen.lbssc.ensilink.loader.news.News;
+import fr.ensicaen.lbssc.ensilink.storage.Mail;
+import fr.ensicaen.lbssc.ensilink.view.MainActivity;
 import fr.ensicaen.lbssc.ensilink.view.SplashActivity;
+import fr.ensicaen.lbssc.ensilink.view.clubscreen.ClubActivity;
 
 /**
  * @author Florian Arnould
@@ -42,6 +48,7 @@ public class UpdateService extends Service {
     private static ScheduledExecutorService _serviceExecutor;
     private IBinder _binder;
     private OnServiceFinishedListener _listener;
+    private int _notificationMailId;
 
     @Override
     public void onCreate(){
@@ -57,6 +64,7 @@ public class UpdateService extends Service {
                 }
             }, 2, 2, TimeUnit.MINUTES);
         }
+        _notificationMailId = 2;
     }
 
     @Override
@@ -108,7 +116,6 @@ public class UpdateService extends Service {
                 ZimbraConnection zimbra = new ZimbraConnection();
                 try {
                     zimbra.connect(getBaseContext());
-                    Log.d("DEBUG", "connect successful");
                     zimbra.updateDatabase(db, getBaseContext());
                 } catch(MessagingException ex) {
                     Log.e("ERROR", "Connection to the zimbra server is not possible : "+ ex.getMessage());
@@ -121,6 +128,8 @@ public class UpdateService extends Service {
                 }
                 db.close();
                 createNotification(cloner.getModifications());
+                createMailNotification(zimbra.getNewMails());
+
             }
         }catch (SQLiteException e){
             Log.e("ERROR", "Error when tried to open SQLite database : " + e.getMessage());
@@ -160,6 +169,9 @@ public class UpdateService extends Service {
                                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_kangaroo))
                                 .setContentTitle("News")
                                 .setContentText(text)
+                                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                                .setLights(Color.rgb(63, 81, 181), 3000, 3000)
+                                .setVibrate(new long[]{0, 500})
                                 .setStyle(notificationStyle);
                 builder.setColor(Color.rgb(63, 81, 181));
                 NotificationManager notifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -169,6 +181,50 @@ public class UpdateService extends Service {
         Log.d("Debug", "News : " + text);
     }
 
+    private void createMailNotification(List<MailNotificationContainer> newMails){
+        SharedPreferences pref = getBaseContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        for(MailNotificationContainer container : newMails){
+            boolean wantANotification;
+            if(container.isForAClub()){
+                wantANotification = pref.getBoolean(container.getClub().getName(), false);
+            }else{
+                wantANotification = pref.getBoolean(container.getUnion().getName(), false);
+            }
+            if(wantANotification) {
+                NotificationCompat.BigTextStyle notificationStyle = new
+                        NotificationCompat.BigTextStyle();
+                notificationStyle.bigText(container.getText());
+                Intent intent;
+                if (container.isForAClub()) {
+                    intent = new Intent(this, ClubActivity.class);
+                    intent.putExtra("CLUB_ID", container.getClub().getId());
+                } else {
+                    intent = new Intent(this, MainActivity.class);
+                }
+                intent.putExtra("UNION_ID", container.getUnion().getId());
+                PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+                        intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                NotificationCompat.Builder builder =
+                        new NotificationCompat.Builder(UpdateService.this.getApplicationContext())
+                                .setContentIntent(contentIntent)
+                                .setSmallIcon(R.drawable.ic_kangaroo)
+                                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_kangaroo))
+                                .setContentTitle(container.getSubject())
+                                .setContentText(container.getText())
+                                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                                .setLights(Color.rgb(63, 81, 181), 3000, 3000)
+                                .setVibrate(new long[]{0, 500})
+                                .setStyle(notificationStyle);
+                builder.setColor(Color.rgb(63, 81, 181));
+                NotificationManager notifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                notifyMgr.notify(_notificationMailId, builder.build());
+                _notificationMailId++;
+                if (_notificationMailId < 2) {
+                    _notificationMailId = 2;
+                }
+            }
+        }
+    }
     /**
      * AsyncTask which update information to avoid network on main thread errors
      */

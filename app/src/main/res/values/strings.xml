@@ -65,4 +65,6 @@
     <string name="authentification_error">Une erreur est survenue lors de l\'authentification, Veuillez réessayer.</string>
     <string name="preference_file_key">"fr.ensicaen.lbssc.ensilink.preferences"</string>
 
+    <string name="new_mail">Nouveaux emails reçus</string>
+
 </resources>
