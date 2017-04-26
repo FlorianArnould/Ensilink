@@ -1,3 +1,25 @@
+/**
+ * This file is part of Ensilink.
+ *
+ * Ensilink is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ *
+ * Ensilink is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with Ensilink.
+ * If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Copyright, The Ensilink team :  ARNOULD Florian, ARIK Marsel, FILIPOZZI Jérémy,
+ * ENSICAEN, 6 Boulevard du Maréchal Juin, 26 avril 2017
+ *
+ */
+
 package fr.ensicaen.lbssc.ensilink.view;
 
 import android.content.Context;
@@ -20,7 +42,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AbsListView;
@@ -82,15 +103,15 @@ public final class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         refreshDrawer();
-        boolean fragmentSetted = false;
+        boolean fragmentSet = false;
         if (getIntent() != null) {
             int unionId = getIntent().getIntExtra("UNION_ID", -1);
             if (unionId != -1) {
                 initializeOrSetUnionFragment(unionId);
-                fragmentSetted = true;
+                fragmentSet = true;
             }
         }
-        if (savedInstanceState == null && !fragmentSetted) {
+        if (savedInstanceState == null && !fragmentSet) {
             changeFragment(new EventFragment());
         }
     }
@@ -177,10 +198,9 @@ public final class MainActivity extends AppCompatActivity
 
     /**
      * Set the current fragment as a union fragment
-     *
      * @param unionId the position of the union
      */
-    public void initializeOrSetUnionFragment(int unionId) {
+    private void initializeOrSetUnionFragment(int unionId) {
         if (_unionFragment == null) {
             _unionFragment = UnionFragment.newInstance(unionId);
         } else {
@@ -192,7 +212,6 @@ public final class MainActivity extends AppCompatActivity
 
     /**
      * set the text displayed in the action bar
-     *
      * @param title the text to display
      */
     public void setActionBarTitle(String title) {
@@ -203,7 +222,6 @@ public final class MainActivity extends AppCompatActivity
 
     /**
      * Set the color of the action bar
-     *
      * @param color the color to set
      */
     public void setApplicationColor(@ColorInt int color) {
@@ -222,7 +240,6 @@ public final class MainActivity extends AppCompatActivity
 
     /**
      * Replace the main fragment by another
-     *
      * @param fragment the new fragment
      */
     private void changeFragment(Fragment fragment) {
@@ -264,7 +281,6 @@ public final class MainActivity extends AppCompatActivity
 
     /**
      * Update the state of the "swipe to refresh" action
-     *
      * @param absListView active listview
      */
     public void updateRefresherState(AbsListView absListView) {
@@ -275,7 +291,6 @@ public final class MainActivity extends AppCompatActivity
 
     /**
      * Set the state of the "swipe to refresh" action
-     *
      * @param enabled the new state
      */
     public void setRefresherEnabled(boolean enabled) {

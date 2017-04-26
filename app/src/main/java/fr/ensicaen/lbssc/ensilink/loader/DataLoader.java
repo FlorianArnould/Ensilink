@@ -1,3 +1,25 @@
+/**
+ * This file is part of Ensilink.
+ *
+ * Ensilink is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ *
+ * Ensilink is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with Ensilink.
+ * If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Copyright, The Ensilink team :  ARNOULD Florian, ARIK Marsel, FILIPOZZI Jérémy,
+ * ENSICAEN, 6 Boulevard du Maréchal Juin, 26 avril 2017
+ *
+ */
+
 package fr.ensicaen.lbssc.ensilink.loader;
 
 import android.content.ComponentName;
@@ -13,10 +35,8 @@ import android.os.IBinder;
 import android.util.Log;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,7 +75,7 @@ final public class DataLoader extends Thread{
     private final boolean _preload;
     private int _progress;
     private int _maxProgress;
-    private Context _context;
+    private final Context _context;
 
     /**
      * @param context an activity context needed to open the local database with the database manager
@@ -226,6 +246,7 @@ final public class DataLoader extends Thread{
                 new MailLoader(union).execute(cursor.getString(0), cursor.getString(1));
             } while (cursor.moveToNext());
         }
+        cursor.close();
     }
 
     /**
@@ -301,6 +322,7 @@ final public class DataLoader extends Thread{
                 new MailLoader(club).execute(cursor.getString(0), cursor.getString(1));
             } while (cursor.moveToNext());
         }
+        cursor.close();
     }
 
     /**
@@ -418,6 +440,9 @@ final public class DataLoader extends Thread{
         return _maxProgress;
     }
 
+    /**
+     * AsyncTask to load mails from hard disk in background
+     */
     class MailLoader extends AsyncTask<String, Void, Void>{
 
         private final Association _association;

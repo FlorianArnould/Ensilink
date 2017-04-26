@@ -1,15 +1,33 @@
+/**
+ * This file is part of Ensilink.
+ *
+ * Ensilink is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ *
+ * Ensilink is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with Ensilink.
+ * If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Copyright, The Ensilink team :  ARNOULD Florian, ARIK Marsel, FILIPOZZI Jérémy,
+ * ENSICAEN, 6 Boulevard du Maréchal Juin, 26 avril 2017
+ *
+ */
+
 package fr.ensicaen.lbssc.ensilink.storage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import fr.ensicaen.lbssc.ensilink.R;
-import javax.mail.Message;
-import javax.mail.MessagingException;
 
 import fr.ensicaen.lbssc.ensilink.loader.DataLoader;
 import fr.ensicaen.lbssc.ensilink.loader.OnLoadingFinishListener;
@@ -69,11 +87,7 @@ public final class School {
         });
         _loader.start();
         SharedPreferences pref = context.getSharedPreferences(context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        if(!pref.getString("email", "").isEmpty() && !pref.getString("password", "").isEmpty()){
-            _isConnected = true;
-        }else{
-            _isConnected = false;
-        }
+        _isConnected = !pref.getString("email", "").isEmpty() && !pref.getString("password", "").isEmpty();
     }
 
     /**
@@ -150,7 +164,10 @@ public final class School {
         _isConnected = false;
     }
 
-    public void setConnected(boolean state) {
-        _isConnected = state;
+    /**
+     * Set the user state as connected to the zimbra server of the school
+     */
+    public void setConnected() {
+        _isConnected = true;
     }
 }

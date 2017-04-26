@@ -1,3 +1,25 @@
+/**
+ * This file is part of Ensilink.
+ *
+ * Ensilink is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ *
+ * Ensilink is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with Ensilink.
+ * If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Copyright, The Ensilink team :  ARNOULD Florian, ARIK Marsel, FILIPOZZI Jérémy,
+ * ENSICAEN, 6 Boulevard du Maréchal Juin, 26 avril 2017
+ *
+ */
+
 package fr.ensicaen.lbssc.ensilink.loader;
 
 import android.content.ContentValues;
@@ -35,43 +57,48 @@ import javax.mail.URLName;
 
 import fr.ensicaen.lbssc.ensilink.R;
 import fr.ensicaen.lbssc.ensilink.loader.news.MailNotificationContainer;
-import fr.ensicaen.lbssc.ensilink.storage.Association;
 import fr.ensicaen.lbssc.ensilink.storage.Club;
-import fr.ensicaen.lbssc.ensilink.storage.Mail;
 import fr.ensicaen.lbssc.ensilink.storage.School;
 import fr.ensicaen.lbssc.ensilink.storage.Union;
 
-import static android.R.id.message;
-
 /**
- * @author Florian Arnould
+ * @author Jeremy Filipozzi
  * @version 1.0
  */
 
+/**
+ * ZimbraConnection is a class to use javax.mail to connect, and get mails from the zimbra server of Ensicaen
+ */
 public class ZimbraConnection {
 
-    private Session _session;
     private Store _store;
     private static final String POP_SERVER3 = "zimbra.ensicaen.fr";
 
     private static final String CONTENT_TYPE_TEXT_PLAIN = "text/plain";
     private static final String CONTENT_TYPE_TEXT_HTML = "text/html";
-    private static final String CONTENT_TYPE_MULTIPART_ALTERNATIVE = "multipart/alternative";
-    private static final String CONTENT_TYPE_MULTIPART_RELATED = "multipart/related";
-    private static final String CONTENT_TYPE_MULTIPART_MIXED = "multipart/mixed";
-    String contentType;
-    List<MailNotificationContainer> _newMails;
+    private final List<MailNotificationContainer> _newMails;
     private File _parent;
 
     public ZimbraConnection() {
        _newMails = new ArrayList<>();
     }
 
+    /**
+     * Connect with email and password in SharedPreferences
+     * @param context an activity context to use SharedPreferences
+     * @throws MessagingException javax.mail Exception
+     */
     public void connect(Context context) throws MessagingException {
         SharedPreferences pref = context.getSharedPreferences(context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         connect(pref.getString("email", ""), pref.getString("password", ""));
     }
 
+    /**
+     * Connect to the zimbra server
+     * @param email the ensicaen email address
+     * @param password the ensicaen password
+     * @throws MessagingException javax.mail Exception
+     */
     public void connect(String email, String password) throws MessagingException {
         Properties pop3Properties = new Properties();
         pop3Properties.setProperty("mail.pop3.ssl.enable", "true");
@@ -80,15 +107,23 @@ public class ZimbraConnection {
         pop3Properties.setProperty("mail.pop3.port", "995");
         pop3Properties.setProperty("mail.pop3.socketFactory.port", "995");
 
-        _session = Session.getInstance(pop3Properties);
-        _store = _session.getStore(new URLName("pop3://" + POP_SERVER3));
+        Session session = Session.getInstance(pop3Properties);
+        _store = session.getStore(new URLName("pop3://" + POP_SERVER3));
         _store.connect(email, password);
     }
 
+    /**
+     * Close the connection to the zimbra server
+     * @throws MessagingException javax.mail Exception
+     */
     public void close() throws MessagingException {
         _store.close();
     }
 
+    /**
+     * @return the mails loaded by javax.mail
+     * @throws MessagingException javax.mail Exception
+     */
     private Message[] getEmails() throws MessagingException {
         Folder folder = _store.getDefaultFolder();
         folder = folder.getFolder("INBOX");
@@ -100,6 +135,13 @@ public class ZimbraConnection {
         return folder.getMessages();
     }
 
+    /**
+     * Update the local database with the emails
+     * @param db the database
+     * @param context an application context
+     * @throws MessagingException javax.mail Exception
+     * @throws IOException Exception when getting the content of the mail
+     */
     void updateDatabase(SQLiteDatabase db, Context context) throws MessagingException, IOException {
         Cursor maxCursor = db.rawQuery("SELECT max(date) FROM mails;", null, null);
         Date oldMax;
@@ -148,24 +190,34 @@ public class ZimbraConnection {
         }
     }
 
+    /**
+     * Use to get the content of a multipart mail
+     * @param message the mail
+     * @return the content as a string
+     * @throws IOException Exception when getting the content of the mail
+     * @throws MessagingException javax.mail Exception
+     */
     private String getContentFromMultipart(Message message) throws IOException, MessagingException {
         Object objectContent = message.getContent();
         Multipart multipart = (Multipart) objectContent;
         String emailContent = "";
         int count = multipart.getCount();
         for (int i = 0; i < count; i++) {
-            if (multipart.getBodyPart(i).getContentType().contains(this.CONTENT_TYPE_TEXT_HTML)) {
-                contentType = this.CONTENT_TYPE_TEXT_HTML;
-            } else if (multipart.getBodyPart(i).getContentType().contains(this.CONTENT_TYPE_TEXT_PLAIN)) {
-                contentType = this.CONTENT_TYPE_TEXT_PLAIN;
+            if (!multipart.getBodyPart(i).getContentType().contains(CONTENT_TYPE_TEXT_HTML) && multipart.getBodyPart(i).getContentType().contains(CONTENT_TYPE_TEXT_PLAIN)) {
                 emailContent += multipart.getBodyPart(i).getContent().toString();
-            } else if (multipart.getBodyPart(i).getContentType().contains(this.CONTENT_TYPE_MULTIPART_ALTERNATIVE) || multipart.getBodyPart(i).getContentType().contains(this.CONTENT_TYPE_MULTIPART_RELATED)
-                    || multipart.getBodyPart(i).getContentType().contains(this.CONTENT_TYPE_MULTIPART_MIXED)) {
             }
         }
         return emailContent;
     }
 
+    /**
+     * Parse the mails and Insert them in the database
+     * @param from the sender email address
+     * @param subject the subject of the mail
+     * @param date the sent date of the mail
+     * @param email the content of the mail
+     * @param db the database
+     */
     private void parseAndInsertMailAndSave(String from, String subject, String date, String email, SQLiteDatabase db) {
         ContentValues values = new ContentValues();
         values.put("date", date);
@@ -177,6 +229,13 @@ public class ZimbraConnection {
             values2.put("idmail", id);
             String table = "";
             for(Union union : School.getInstance().getUnions()){
+                if(from.contains(union.getEmail())){
+                    values2.put("idunion", union.getId());
+                    _newMails.add(new MailNotificationContainer(subject, email, union));
+                    table = "union_mails";
+                    finished = true;
+                    break;
+                }
                 for(Club club : union.getClubs()){
                     if(subject.toLowerCase().contains(club.getName().toLowerCase())){
                         values2.put("idclub", club.getId());
@@ -210,10 +269,16 @@ public class ZimbraConnection {
         }
     }
 
+    /**
+     * @return the list of the new mails
+     */
     List<MailNotificationContainer> getNewMails(){
         return _newMails;
     }
 
+    /**
+     * ASyncTask used to save the mails on the disk in background
+     */
     private class DiskSaver extends AsyncTask<String, Void, Void>{
 
         @Override

@@ -48,7 +48,8 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_email"
         android:layout_gravity="center"
-        android:paddingRight="10dp"
-        android:background="@android:color/transparent"
-        android:onClick="myClickHandler" />
+        android:contentDescription="@string/email_icon"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:background="@android:color/transparent" />
 </LinearLayout>
