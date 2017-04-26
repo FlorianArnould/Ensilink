@@ -53,16 +53,12 @@ public class SettingsClubActivity extends AppCompatActivity {
         }
         ListView list = (ListView)findViewById(R.id.list);
         list.setAdapter(new ClubsAdapter());
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //TODO change The Switch position
-            }
-        });
         String unionName = School.getInstance().getUnion(getIntent().getIntExtra("UNION_POSITION", 0)).getName();
         TextView text = (TextView) findViewById(R.id.union_name);
         text.setText(unionName);
         Switch switchButton = (Switch)findViewById(R.id.union_switch);
+        SharedPreferences pref = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        switchButton.setChecked(pref.getBoolean(unionName, false));
         switchButton.setOnCheckedChangeListener(new OnCheckedChangeListener(unionName));
     }
 

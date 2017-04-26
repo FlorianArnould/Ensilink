@@ -1,7 +1,9 @@
 package fr.ensicaen.lbssc.ensilink.view;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
@@ -14,6 +16,7 @@ import android.widget.EditText;
 
 import fr.ensicaen.lbssc.ensilink.R;
 import fr.ensicaen.lbssc.ensilink.loader.ZimbraConnection;
+import fr.ensicaen.lbssc.ensilink.storage.School;
 
 
 public class LoginActivity extends AppCompatActivity
@@ -116,6 +119,10 @@ public class LoginActivity extends AppCompatActivity
                 if(result) {
                     SharedPreferences pref = LoginActivity.this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
                     pref.edit().putString("email", _email.getText().toString()).putString("password", _password.getText().toString()).apply();
+                    School.getInstance().setConnected(true);
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("result",result);
+                    LoginActivity.this.setResult(Activity.RESULT_OK,returnIntent);
                     LoginActivity.this.finish();
                 }else{
                     AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this, R.style.AppTheme_Dark_Dialog);
