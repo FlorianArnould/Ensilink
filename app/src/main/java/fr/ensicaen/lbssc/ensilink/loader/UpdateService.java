@@ -134,8 +134,9 @@ public class UpdateService extends Service {
                 try {
                     zimbra.connect(getBaseContext());
                     zimbra.updateDatabase(db, getBaseContext());
-                } catch(Exception ex) {
-                    Log.e("ERROR", "Connection to the zimbra server is not possible : "+ ex.getMessage());
+                    // TODO: 07/06/17 check to change this catch
+                } catch(Exception e) {
+                    Log.e("updateInformation", "Connection to the zimbra server is not possible : " + e.getMessage(), e);
                 }
                 if(_listener != null) {
                     _listener.onServiceFinished(cloner.succeed(), cloner.lastUpdateImages());
@@ -147,7 +148,7 @@ public class UpdateService extends Service {
 
             }
         }catch (SQLiteException e){
-            Log.e("ERROR", "Error when tried to open SQLite database : " + e.getMessage());
+            Log.e("updateInformation", "Error when tried to open SQLite database : " + e.getMessage(), e);
         }
     }
 
@@ -201,7 +202,6 @@ public class UpdateService extends Service {
                 notifyMgr.notify(1, builder.build());
             }
         }
-        Log.d("Debug", "News : " + text);
     }
 
     /**

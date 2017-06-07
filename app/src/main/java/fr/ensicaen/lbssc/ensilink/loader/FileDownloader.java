@@ -74,7 +74,7 @@ final class FileDownloader {
             }
             move(imageName+".new", imageName);
         } catch (MalformedURLException e) {
-            Log.d("D", "malformed url error : " + e.getMessage());
+            Log.w("download", "malformed url error : " + e.getMessage(), e);
         }
     }
 
@@ -100,9 +100,9 @@ final class FileDownloader {
                 Log.d("D", "File " + original + " was not removed correctly");
             }
         } catch (FileNotFoundException e) {
-            Log.d("D", "File not found when moving image " + target + " : " + e.getMessage());
+            Log.w("move", "File not found when moving image " + target + " : " + e.getMessage(), e);
         } catch (IOException e) {
-            Log.d("D", "Read or write error when moving image " + target + " : " + e.getMessage());
+            Log.w("move", "Read or write error when moving image " + target + " : " + e.getMessage(), e);
         }
     }
 }

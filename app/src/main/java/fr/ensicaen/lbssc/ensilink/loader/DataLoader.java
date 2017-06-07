@@ -151,7 +151,7 @@ final public class DataLoader extends Thread{
         try{
             _db = _databaseManager.getWritableDatabase();
         }catch (SQLiteException e){
-            Log.d("D", "Error when tried to open SQLite database : " + e.getMessage());
+            Log.w("openDatabase", "Error when tried to open SQLite database : " + e.getMessage(), e);
             return false;
         }
         return true;
@@ -378,7 +378,7 @@ final public class DataLoader extends Thread{
                 _progress++;
             }
         } catch (IOException e) {
-            Log.d("D", "io error : " + e.getMessage());
+            Log.d("updateImages", "io error : " + e.getMessage(), e);
         }
         removeUnusedFiles(timestamps.keySet());
     }
@@ -465,7 +465,7 @@ final public class DataLoader extends Thread{
                 }
                 _association.addMail(new Mail(from, subject, content, params[1]));
             } catch(IOException e) {
-                Log.e("ERROR", "Mail not loaded");
+                Log.w("doInBackground", "Mail not loaded : " + e.getMessage(), e);
             }
             return null;
         }

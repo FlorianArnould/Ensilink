@@ -131,12 +131,12 @@ final class DatabaseCloner{
                 out.flush();
                 return connection.getInputStream();
             }catch (ProtocolException e){
-                Log.d("D", "Error with the protocol : " + e.getMessage());
+                Log.w("connect", "Error with the protocol : " + e.getMessage(), e);
             }
         }catch (MalformedURLException e){
-            Log.d("D", "Error with the url: " + e.getMessage());
+            Log.w("connect", "Error with the url: " + e.getMessage(), e);
         }catch (IOException e){
-            Log.d("D", "Error with input/output : " + e.getMessage() + "\n" + e.toString());
+            Log.w("connect", "Error with input/output : " + e.getMessage(), e);
         }
         return null;
     }
