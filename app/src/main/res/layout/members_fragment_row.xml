@@ -1,55 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout android:orientation="horizontal"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="7dp"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:orientation="horizontal"
+    android:padding="7dp">
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="wrap_content"
-    android:layout_weight="0.8"
-    android:layout_height="wrap_content"
-    android:padding="7dp"
-    >
-
-    <TextView
-        android:id="@+id/listview_union_membre_role"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="#737373"
-        android:gravity="start"/>
+        android:layout_weight="0.8"
+        android:orientation="vertical"
+        android:padding="7dp">
 
-    <TextView
-        android:id="@+id/listview_union_membre_nom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        android:textSize="12sp"
-        android:gravity="start"
-        android:textColor="@color/colorSubText"/>
+        <TextView
+            android:id="@+id/listview_union_membre_role"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:textColor="#737373"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
 
-    <TextView
-        android:id="@+id/listview_union_membre_mail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        android:textSize="12sp"
-        android:gravity="start"
-        android:textColor="@color/colorSubText"/>
+        <TextView
+            android:id="@+id/listview_union_membre_nom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:paddingTop="5dp"
+            android:textColor="@color/colorSubText"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/listview_union_membre_mail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:paddingTop="5dp"
+            android:textColor="@color/colorSubText"
+            android:textSize="12sp"/>
     </LinearLayout>
 
     <ImageButton
         android:id="@+id/image_mail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_email"
         android:layout_gravity="center"
+        android:background="@android:color/transparent"
         android:contentDescription="@string/email_icon"
-        android:paddingStart="10dp"
         android:paddingEnd="10dp"
-        android:background="@android:color/transparent" />
+        android:paddingStart="10dp"
+        android:src="@drawable/ic_email"/>
+
 </LinearLayout>

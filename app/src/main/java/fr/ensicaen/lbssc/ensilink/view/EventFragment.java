@@ -1,25 +1,23 @@
 /**
  * This file is part of Ensilink.
- *
+ * <p>
  * Ensilink is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 3 of
  * the License, or (at your option) any later version.
- *
+ * <p>
  * Ensilink is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Lesser General Public
  * License along with Ensilink.
  * If not, see <http://www.gnu.org/licenses/>.
- *
+ * <p>
  * Copyright, The Ensilink team :  ARNOULD Florian, ARIK Marsel, FILIPOZZI Jérémy,
  * ENSICAEN, 6 Boulevard du Maréchal Juin, 26 avril 2017
- *
  */
-
 package fr.ensicaen.lbssc.ensilink.view;
 
 import android.content.Context;
@@ -40,10 +38,10 @@ import android.widget.TextView;
 import java.util.List;
 
 import fr.ensicaen.lbssc.ensilink.R;
-import fr.ensicaen.lbssc.ensilink.view.eventscreen.EventActivity;
 import fr.ensicaen.lbssc.ensilink.storage.Event;
 import fr.ensicaen.lbssc.ensilink.storage.OnImageLoadedListener;
 import fr.ensicaen.lbssc.ensilink.storage.School;
+import fr.ensicaen.lbssc.ensilink.view.eventscreen.EventActivity;
 
 /**
  * @author Florian Arnould
@@ -54,122 +52,120 @@ import fr.ensicaen.lbssc.ensilink.storage.School;
  * Fragment to display the event of the school
  */
 public final class EventFragment extends ListFragment implements Updatable {
+	private EventAdapter _adapter;
 
-    private EventAdapter _adapter;
+	/**
+	 * Required empty public constructor
+	 */
+	public EventFragment() {
 
-    /**
-     * Required empty public constructor
-     */
-    public EventFragment(){
+	}
 
-    }
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		_adapter = new EventAdapter(School.getInstance().getEvents());
+	}
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        _adapter = new EventAdapter(School.getInstance().getEvents());
-    }
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+							 Bundle savedInstanceState) {
+		// Inflate the layout for this fragment
+		View view = inflater.inflate(R.layout.event_fragment, container, false);
+		MainActivity activity = (MainActivity)getActivity();
+		activity.setActionBarTitle(getActivity().getResources().getString(R.string.app_name));
+		activity.setApplicationColor(Color.rgb(63, 81, 181));
+		return view;
+	}
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.event_fragment, container, false);
-        MainActivity activity = (MainActivity) getActivity();
-        activity.setActionBarTitle(getActivity().getResources().getString(R.string.app_name));
-        activity.setApplicationColor(Color.rgb(63,81,181));
-        return view;
-    }
+	@Override
+	public void onActivityCreated(Bundle savedStateInstance) {
+		super.onActivityCreated(savedStateInstance);
+		ListView list = getListView();
+		list.setAdapter(_adapter);
+		list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Intent myIntent = new Intent(view.getContext(), EventActivity.class);
+				myIntent.putExtra("EVENT_ID", position);
+				startActivity(myIntent);
+			}
+		});
+		list.setOnScrollListener((MainActivity)getActivity());
+		update();
+	}
 
-    @Override
-    public void onActivityCreated(Bundle savedStateInstance){
-        super.onActivityCreated(savedStateInstance);
-        ListView list = getListView();
-        list.setAdapter(_adapter);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent myIntent = new Intent(view.getContext(), EventActivity.class);
-                myIntent.putExtra("EVENT_ID", position);
-                startActivity(myIntent);
-            }
-        });
-        list.setOnScrollListener((MainActivity)getActivity());
-        update();
-    }
+	@Override
+	public void update() {
+		_adapter.update(School.getInstance().getEvents());
+	}
 
-    @Override
-    public void update() {
-        _adapter.update(School.getInstance().getEvents());
-    }
+	/**
+	 * Class which store the event to show in the ListView
+	 */
+	private final class EventAdapter extends BaseAdapter {
+		List<Event> _events;
 
-    /**
-     * Class which store the event to show in the ListView
-     */
-    private final class EventAdapter extends BaseAdapter {
+		/**
+		 * The constructor
+		 * @param events a list of the events
+		 */
+		EventAdapter(List<Event> events) {
+			super();
+			update(events);
+		}
 
-        List<Event> _events;
+		/**
+		 * Replace the list of the events
+		 * @param events a list of the events
+		 */
+		void update(List<Event> events) {
+			_events = events;
+			notifyDataSetChanged();
+		}
 
-        /**
-         * The constructor
-         * @param events a list of the events
-         */
-        EventAdapter(List<Event> events){
-            super();
-            update(events);
-        }
+		@Override
+		public int getCount() {
+			return _events.size();
+		}
 
-        /**
-         * Replace the list of the events
-         * @param events a list of the events
-         */
-        void update(List<Event> events){
-            _events = events;
-            notifyDataSetChanged();
-        }
+		@Override
+		public Object getItem(int i) {
+			return _events.get(i);
+		}
 
-        @Override
-        public int getCount() {
-            return _events.size();
-        }
+		@Override
+		public long getItemId(int i) {
+			return 0;
+		}
 
-        @Override
-        public Object getItem(int i) {
-            return _events.get(i);
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int i, View view, ViewGroup parent) {
-            if(view == null) {
-                LayoutInflater inflater = (LayoutInflater) EventFragment.this.getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                view = inflater.inflate(R.layout.event_row, parent, false);
-            }
-            Event event = _events.get(i);
-            final ImageView image = (ImageView) view.findViewById(R.id.listview_image);
-            event.getParentUnion().loadLogo(new OnImageLoadedListener() {
-                @Override
-                public void OnImageLoaded(final Drawable logo) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            image.setImageDrawable(logo);
-                        }
-                    });
-                }
-            });
-            TextView title = (TextView) view.findViewById(R.id.listview_item_title);
-            title.setText(event.getTitle());
-            TextView description = (TextView) view.findViewById(R.id.listview_item_short_description);
-            String shortDescription = event.getMainText();
-            if(shortDescription.length() > 35){
-                shortDescription = shortDescription.substring(0,35) + "...";
-            }
-            description.setText(shortDescription);
-            return view;
-        }
-    }
+		@Override
+		public View getView(int i, View view, ViewGroup parent) {
+			if (view == null) {
+				LayoutInflater inflater = (LayoutInflater)EventFragment.this.getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				view = inflater.inflate(R.layout.event_row, parent, false);
+			}
+			Event event = _events.get(i);
+			final ImageView image = (ImageView)view.findViewById(R.id.listview_image);
+			event.getParentUnion().loadLogo(new OnImageLoadedListener() {
+				@Override
+				public void OnImageLoaded(final Drawable logo) {
+					getActivity().runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							image.setImageDrawable(logo);
+						}
+					});
+				}
+			});
+			TextView title = (TextView)view.findViewById(R.id.listview_item_title);
+			title.setText(event.getTitle());
+			TextView description = (TextView)view.findViewById(R.id.listview_item_short_description);
+			String shortDescription = event.getMainText();
+			if (shortDescription.length() > 35) {
+				shortDescription = shortDescription.substring(0, 35) + "...";
+			}
+			description.setText(shortDescription);
+			return view;
+		}
+	}
 }

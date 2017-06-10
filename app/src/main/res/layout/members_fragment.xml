@@ -1,43 +1,44 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.unionscreen.MembersFragment">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <ImageView
-        android:id="@+id/photo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:layout_marginTop="@dimen/tab_layout_height"
-        android:contentDescription="@string/union_photo_description"/>
 
-    <ListView
-        android:id="@id/android:list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/photo"
-        android:dividerHeight="2dp"/>
+        <ImageView
+            android:id="@+id/photo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/tab_layout_height"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/union_photo_description"/>
+
+        <ListView
+            android:id="@id/android:list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/photo"
+            android:dividerHeight="2dp"/>
+
     </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/facebook"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="16dp"
         android:clickable="true"
         android:src="@drawable/ic_facebook"
-        android:layout_margin="16dp"
-        app:layout_anchor="@id/photo"
-        app:layout_anchorGravity="bottom|right|end"
         android:theme="@style/FloatingButtonTheme"
         android:tint="@color/colorAccent"
         app:borderWidth="0dp"
         app:fabSize="normal"
-
-        />
+        app:layout_anchor="@id/photo"
+        app:layout_anchorGravity="bottom|right|end"/>
 
 </android.support.design.widget.CoordinatorLayout>

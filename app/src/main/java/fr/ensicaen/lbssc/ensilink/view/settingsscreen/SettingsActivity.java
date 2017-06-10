@@ -1,25 +1,23 @@
 /**
  * This file is part of Ensilink.
- *
+ * <p>
  * Ensilink is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 3 of
  * the License, or (at your option) any later version.
- *
+ * <p>
  * Ensilink is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Lesser General Public
  * License along with Ensilink.
  * If not, see <http://www.gnu.org/licenses/>.
- *
+ * <p>
  * Copyright, The Ensilink team :  ARNOULD Florian, ARIK Marsel, FILIPOZZI Jérémy,
  * ENSICAEN, 6 Boulevard du Maréchal Juin, 26 avril 2017
- *
  */
-
 package fr.ensicaen.lbssc.ensilink.view.settingsscreen;
 
 import android.content.Context;
@@ -52,80 +50,78 @@ import fr.ensicaen.lbssc.ensilink.storage.Union;
  * Screen which display all unions to access to their clubs preferences
  */
 public class SettingsActivity extends AppCompatActivity {
+	@Override
+	@SuppressWarnings("deprecation") //For retro compatibility
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.settings_activity);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+			getWindow().setStatusBarColor(getColor(R.color.colorPrimaryDark));
+		} else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+		}
+		if (getSupportActionBar() != null) {
+			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		}
+		ListView list = (ListView)findViewById(R.id.list);
+		list.setAdapter(new UnionsAdapter());
+		list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Intent intent = new Intent(SettingsActivity.this, SettingsClubActivity.class);
+				intent.putExtra("UNION_POSITION", position);
+				startActivity(intent);
+			}
+		});
+	}
 
-    @Override
-    @SuppressWarnings("deprecation") //For retro compatibility
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.settings_activity);
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            getWindow().setStatusBarColor(getColor(R.color.colorPrimaryDark));
-        }else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-            getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
-        }
-        if(getSupportActionBar() != null){
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-        ListView list = (ListView)findViewById(R.id.list);
-        list.setAdapter(new UnionsAdapter());
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(SettingsActivity.this, SettingsClubActivity.class);
-                intent.putExtra("UNION_POSITION", position);
-                startActivity(intent);
-            }
-        });
-    }
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				this.finish();
+				break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
-            case android.R.id.home:
-                this.finish();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+	/**
+	 * Adapter to show unions' name
+	 */
+	private class UnionsAdapter extends BaseAdapter {
+		private final List<String> _unions;
 
-    /**
-     * Adapter to show unions' name
-     */
-    private class UnionsAdapter extends BaseAdapter{
+		UnionsAdapter() {
+			_unions = new ArrayList<>();
+			for (Union union : School.getInstance().getUnions()) {
+				_unions.add(union.getName());
+			}
+		}
 
-        private final List<String> _unions;
+		@Override
+		public int getCount() {
+			return _unions.size();
+		}
 
-        UnionsAdapter(){
-            _unions = new ArrayList<>();
-            for(Union union : School.getInstance().getUnions()){
-                _unions.add(union.getName());
-            }
-        }
+		@Override
+		public Object getItem(int position) {
+			return _unions.get(position);
+		}
 
-        @Override
-        public int getCount() {
-            return _unions.size();
-        }
+		@Override
+		public long getItemId(int position) {
+			return 0;
+		}
 
-        @Override
-        public Object getItem(int position) {
-            return _unions.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View view, ViewGroup parent) {
-            if(view == null) {
-                LayoutInflater inflater = (LayoutInflater) SettingsActivity.this.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                view = inflater.inflate(R.layout.settings_union_row, parent, false);
-            }
-            TextView text = (TextView) view.findViewById(R.id.union_name);
-            text.setText(_unions.get(position));
-            return view;
-        }
-    }
+		@Override
+		public View getView(int position, View view, ViewGroup parent) {
+			if (view == null) {
+				LayoutInflater inflater = (LayoutInflater)SettingsActivity.this.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				view = inflater.inflate(R.layout.settings_union_row, parent, false);
+			}
+			TextView text = (TextView)view.findViewById(R.id.union_name);
+			text.setText(_unions.get(position));
+			return view;
+		}
+	}
 }

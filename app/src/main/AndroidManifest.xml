@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="fr.ensicaen.lbssc.ensilink">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="fr.ensicaen.lbssc.ensilink">
 
     <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -20,25 +20,25 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Splash">
             <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
 
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".view.MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".view.eventscreen.EventActivity"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".view.clubscreen.ClubActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".view.creditsscreen.CreditsActivity"
             android:screenOrientation="portrait"/>
@@ -46,21 +46,24 @@
             android:name=".view.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Login"/>
-        <activity android:name=".view.EmailsActivity"
+        <activity
+            android:name=".view.EmailsActivity"
             android:screenOrientation="portrait"/>
+
         <service
+            android:name=".loader.UpdateService"
             android:enabled="true"
             android:exported="true"
-            android:name=".loader.UpdateService"
             />
+
         <activity
             android:name=".view.settingsscreen.SettingsActivity"
             android:label="@string/parameters"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".view.settingsscreen.SettingsClubActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/parameters"/>
+            android:label="@string/parameters"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

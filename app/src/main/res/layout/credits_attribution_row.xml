@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="horizontal"
     android:padding="7dp"
     tools:ignore="UseCompoundDrawables">
 
     <ImageView
         android:id="@+id/icon"
-        android:contentDescription="@string/attribution_logo"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp"/>
+        android:contentDescription="@string/attribution_logo"
+        android:paddingEnd="15dp"
+        android:paddingStart="15dp"/>
 
     <TextView
         android:id="@+id/attribution"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:textSize="15sp"
-        android:paddingStart="15dp"
+        android:gravity="center"
         android:paddingEnd="15dp"
+        android:paddingStart="15dp"
         android:textColor="@android:color/tertiary_text_light"
-        android:gravity="center"/>
+        android:textSize="15sp"/>
 
 </LinearLayout>

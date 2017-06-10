@@ -1,17 +1,17 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="horizontal"
     android:padding="15dp">
 
     <TextView
         android:id="@+id/union_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
+        android:drawablePadding="20dp"
         android:gravity="center"
         android:textColor="#737373"
-        android:drawablePadding="20dp"/>
-
+        android:textSize="15sp"/>
 
 </LinearLayout>

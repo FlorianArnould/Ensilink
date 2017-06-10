@@ -1,25 +1,23 @@
 /**
  * This file is part of Ensilink.
- *
+ * <p>
  * Ensilink is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
  * published by the Free Software Foundation, either version 3 of
  * the License, or (at your option) any later version.
- *
+ * <p>
  * Ensilink is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Lesser General Public
  * License along with Ensilink.
  * If not, see <http://www.gnu.org/licenses/>.
- *
+ * <p>
  * Copyright, The Ensilink team :  ARNOULD Florian, ARIK Marsel, FILIPOZZI Jérémy,
  * ENSICAEN, 6 Boulevard du Maréchal Juin, 26 avril 2017
- *
  */
-
 package fr.ensicaen.lbssc.ensilink.view.settingsscreen;
 
 import android.content.Context;
@@ -55,108 +53,105 @@ import fr.ensicaen.lbssc.ensilink.storage.School;
  * Screen which display preferences for clubs
  */
 public class SettingsClubActivity extends AppCompatActivity {
+	private SharedPreferences _pref;
 
-    private SharedPreferences _pref;
+	@Override
+	@SuppressWarnings("deprecation") //For retro compatibility
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.settings_club_activity);
+		_pref = SettingsClubActivity.this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+			getWindow().setStatusBarColor(getColor(R.color.colorPrimaryDark));
+		} else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+		}
+		if (getSupportActionBar() != null) {
+			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+			getSupportActionBar().setElevation(0);
+		}
+		ListView list = (ListView)findViewById(R.id.list);
+		list.setAdapter(new ClubsAdapter());
+		String unionName = School.getInstance().getUnion(getIntent().getIntExtra("UNION_POSITION", 0)).getName();
+		TextView text = (TextView)findViewById(R.id.union_name);
+		text.setText(unionName);
+		Switch switchButton = (Switch)findViewById(R.id.union_switch);
+		SharedPreferences pref = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+		switchButton.setChecked(pref.getBoolean(unionName, false));
+		switchButton.setOnCheckedChangeListener(new OnCheckedChangeListener(unionName));
+	}
 
-    @Override
-    @SuppressWarnings("deprecation") //For retro compatibility
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.settings_club_activity);
-        _pref = SettingsClubActivity.this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            getWindow().setStatusBarColor(getColor(R.color.colorPrimaryDark));
-        }else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-            getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
-        }
-        if(getSupportActionBar() != null){
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setElevation(0);
-        }
-        ListView list = (ListView)findViewById(R.id.list);
-        list.setAdapter(new ClubsAdapter());
-        String unionName = School.getInstance().getUnion(getIntent().getIntExtra("UNION_POSITION", 0)).getName();
-        TextView text = (TextView) findViewById(R.id.union_name);
-        text.setText(unionName);
-        Switch switchButton = (Switch)findViewById(R.id.union_switch);
-        SharedPreferences pref = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        switchButton.setChecked(pref.getBoolean(unionName, false));
-        switchButton.setOnCheckedChangeListener(new OnCheckedChangeListener(unionName));
-    }
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				this.finish();
+				break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
-            case android.R.id.home:
-                this.finish();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+	/**
+	 * Adapter for the rows of the list view
+	 */
+	private class ClubsAdapter extends BaseAdapter {
+		private final List<String> _clubs;
+		private final boolean _switchButtonsInitialized[];
 
-    /**
-     * Adapter for the rows of the list view
-     */
-    private class ClubsAdapter extends BaseAdapter {
+		ClubsAdapter() {
+			_clubs = new ArrayList<>();
+			for (Club club : School.getInstance().getUnion(getIntent().getIntExtra("UNION_POSITION", 0)).getClubs()) {
+				_clubs.add(club.getName());
+			}
+			_switchButtonsInitialized = new boolean[_clubs.size()];
+			Arrays.fill(_switchButtonsInitialized, false);
+		}
 
-        private final List<String> _clubs;
-        private final boolean _switchButtonsInitialized[];
+		@Override
+		public int getCount() {
+			return _clubs.size();
+		}
 
-        ClubsAdapter(){
-            _clubs = new ArrayList<>();
-            for(Club club : School.getInstance().getUnion(getIntent().getIntExtra("UNION_POSITION", 0)).getClubs()){
-                _clubs.add(club.getName());
-            }
-            _switchButtonsInitialized = new boolean[_clubs.size()];
-            Arrays.fill(_switchButtonsInitialized, false);
-        }
+		@Override
+		public Object getItem(int position) {
+			return _clubs.get(position);
+		}
 
-        @Override
-        public int getCount() {
-            return _clubs.size();
-        }
+		@Override
+		public long getItemId(int position) {
+			return 0;
+		}
 
-        @Override
-        public Object getItem(int position) {
-            return _clubs.get(position);
-        }
+		@Override
+		public View getView(int position, View view, ViewGroup parent) {
+			if (view == null) {
+				LayoutInflater inflater = (LayoutInflater)SettingsClubActivity.this.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				view = inflater.inflate(R.layout.settings_club_row, parent, false);
+			}
+			TextView text = (TextView)view.findViewById(R.id.union_name);
+			text.setText(_clubs.get(position));
+			if (!_switchButtonsInitialized[position]) {
+				SwitchCompat switchButton = (SwitchCompat)view.findViewById(R.id.switch_button);
+				switchButton.setChecked(_pref.getBoolean(_clubs.get(position), false));
+				switchButton.setOnCheckedChangeListener(new OnCheckedChangeListener(_clubs.get(position)));
+			}
+			return view;
+		}
+	}
 
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
+	/**
+	 * listener use to store the associationName to change the shared preferences of the application
+	 */
+	private class OnCheckedChangeListener implements CompoundButton.OnCheckedChangeListener {
+		private final String _associationName;
 
-        @Override
-        public View getView(int position, View view, ViewGroup parent) {
-            if(view == null) {
-                LayoutInflater inflater = (LayoutInflater) SettingsClubActivity.this.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                view = inflater.inflate(R.layout.settings_club_row, parent, false);
-            }
-            TextView text = (TextView) view.findViewById(R.id.union_name);
-            text.setText(_clubs.get(position));
-            if(!_switchButtonsInitialized[position]) {
-                SwitchCompat switchButton = (SwitchCompat) view.findViewById(R.id.switch_button);
-                switchButton.setChecked(_pref.getBoolean(_clubs.get(position), false));
-                switchButton.setOnCheckedChangeListener(new OnCheckedChangeListener(_clubs.get(position)));
-            }
-            return view;
-        }
-    }
+		OnCheckedChangeListener(String associationName) {
+			_associationName = associationName;
+		}
 
-    /**
-     * listener use to store the associationName to change the shared preferences of the application
-     */
-    private class OnCheckedChangeListener implements CompoundButton.OnCheckedChangeListener{
-
-        private final String _associationName;
-
-        OnCheckedChangeListener(String associationName){
-            _associationName = associationName;
-        }
-
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            _pref.edit().putBoolean(_associationName, isChecked).apply();
-        }
-    }
+		@Override
+		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			_pref.edit().putBoolean(_associationName, isChecked).apply();
+		}
+	}
 }
