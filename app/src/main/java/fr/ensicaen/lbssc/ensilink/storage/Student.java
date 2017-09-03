@@ -37,10 +37,11 @@ public final class Student {
 
 	/**
 	 * the constructor
-	 * @param name his or her first name
+	 *
+	 * @param name     his or her first name
 	 * @param lastName his or her last name
 	 * @param nickname his or her nickname
-	 * @param email his or her email address
+	 * @param email    his or her email address
 	 * @param position his or her position in the club or in the union
 	 */
 	public Student(String name, String lastName, String nickname, String email, String position) {

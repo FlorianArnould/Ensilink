@@ -37,7 +37,7 @@ final class Artist {
 	private final String _attribution;
 
 	/**
-	 * @param drawableId resource id of the drawable
+	 * @param drawableId  resource id of the drawable
 	 * @param attribution attribution text for the creative commons license
 	 */
 	Artist(Drawable drawableId, String attribution) {

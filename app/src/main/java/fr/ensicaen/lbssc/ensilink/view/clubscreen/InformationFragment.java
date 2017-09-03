@@ -58,8 +58,9 @@ public class InformationFragment extends Fragment {
 
 	/**
 	 * Method to use to create an instance of InformationFragment
+	 *
 	 * @param unionId the id of the union of the club
-	 * @param clubId the id of the club
+	 * @param clubId  the id of the club
 	 * @return a new instance of InformationFragment
 	 */
 	public static InformationFragment newInstance(int unionId, int clubId) {

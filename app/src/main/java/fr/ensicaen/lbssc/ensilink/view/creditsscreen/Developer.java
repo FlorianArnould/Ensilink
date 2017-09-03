@@ -35,8 +35,8 @@ final class Developer {
 
 	/**
 	 * @param drawableId resource id of the drawable
-	 * @param position position of the developer
-	 * @param name name of the developer
+	 * @param position   position of the developer
+	 * @param name       name of the developer
 	 */
 	Developer(int drawableId, String position, String name) {
 		_drawableId = drawableId;

@@ -6,16 +6,18 @@ apply plugin: 'com.android.application'
 
 apply plugin: 'jacoco'
 
+def ApplicationId = "fr.ensicaen.lbssc.ensilink"
+def ApplicationVersion = "1.1"
 //noinspection GroovyMissingReturnStatement
 android {
     compileSdkVersion 25
     buildToolsVersion '25.0.3'
     defaultConfig {
-        applicationId "fr.ensicaen.lbssc.ensilink"
+        applicationId ApplicationId
         minSdkVersion 17
         targetSdkVersion 25
         versionCode 3
-        versionName "1.1"
+        versionName ApplicationVersion
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -64,8 +66,8 @@ dependencies {
 sonarqube {
     properties {
         property "sonar.projectName", "Ensilink"
-        property "sonar.projectKey", "ENLK"
-        property "sonar.projectVersion", "1.0"
+        property "sonar.projectKey", ApplicationId
+        property "sonar.projectVersion", ApplicationVersion
         property "sonar.sources", "src/main/java"
         property "sonar.language", "java"
         property "sonar.sourceEncoding", "UTF-8"

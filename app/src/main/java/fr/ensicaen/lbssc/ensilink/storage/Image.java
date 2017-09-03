@@ -36,7 +36,8 @@ public class Image {
 
 	/**
 	 * The constructor
-	 * @param file with the path to the image
+	 *
+	 * @param file        with the path to the image
 	 * @param attribution the possible attribution of this image
 	 */
 	public Image(File file, String attribution) {

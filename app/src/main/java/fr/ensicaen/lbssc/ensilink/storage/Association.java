@@ -43,8 +43,9 @@ public abstract class Association {
 
 	/**
 	 * The constructor
-	 * @param name the name of the association
-	 * @param logo the logo image
+	 *
+	 * @param name  the name of the association
+	 * @param logo  the logo image
 	 * @param photo the photo image
 	 */
 	Association(int id, String name, Image logo, Image photo) {
@@ -65,6 +66,7 @@ public abstract class Association {
 
 	/**
 	 * Adds a student to the association
+	 *
 	 * @param student a student instance
 	 */
 	public void addStudent(Student student) {
@@ -73,6 +75,7 @@ public abstract class Association {
 
 	/**
 	 * Adds a mail to the association
+	 *
 	 * @param mail a mail instance
 	 */
 	public void addMail(Mail mail) {
@@ -110,6 +113,7 @@ public abstract class Association {
 
 	/**
 	 * load the logo in a thread and after call the listener
+	 *
 	 * @param listener listener called when the image will be loaded
 	 */
 	public void loadLogo(OnImageLoadedListener listener) {
@@ -119,6 +123,7 @@ public abstract class Association {
 
 	/**
 	 * Load the logo here and return it
+	 *
 	 * @return a drawable of the logo of the club
 	 */
 	public Drawable getLogo() {
@@ -127,6 +132,7 @@ public abstract class Association {
 
 	/**
 	 * Load the photo in a thread and after call the listener
+	 *
 	 * @param listener listener called when the image will be loaded
 	 */
 	public void loadPhoto(OnImageLoadedListener listener) {
@@ -143,7 +149,8 @@ public abstract class Association {
 
 		/**
 		 * The constructor
-		 * @param path to the local file
+		 *
+		 * @param path     to the local file
 		 * @param listener the listener to call when the image will be loaded
 		 */
 		ImageLoadThread(String path, OnImageLoadedListener listener) {

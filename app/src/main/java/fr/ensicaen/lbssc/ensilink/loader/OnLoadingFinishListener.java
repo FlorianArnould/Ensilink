@@ -31,6 +31,7 @@ package fr.ensicaen.lbssc.ensilink.loader;
 public interface OnLoadingFinishListener {
 	/**
 	 * Executes this when loading is finished
+	 *
 	 * @param loader the DataLoader instance itself
 	 */
 	void OnLoadingFinish(DataLoader loader);

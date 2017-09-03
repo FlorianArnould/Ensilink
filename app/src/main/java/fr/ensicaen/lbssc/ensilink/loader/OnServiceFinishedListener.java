@@ -33,7 +33,7 @@ import java.util.Map;
 interface OnServiceFinishedListener {
 	/**
 	 * @param succeed is true if the execution was successful
-	 * @param images the images to download
+	 * @param images  the images to download
 	 */
 	void onServiceFinished(boolean succeed, Map<String, Long> images);
 }

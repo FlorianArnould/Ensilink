@@ -35,6 +35,7 @@ public final class Date {
 
 	/**
 	 * The constructor
+	 *
 	 * @param date a string to parse to get the date with this form : day-month-year. Example: 22-05-2016
 	 */
 	public Date(String date) {

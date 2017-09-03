@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+<last_update_image_folder timestamp="1488584801" />
+<last_update_image_file file="placeholder.png" timestamp="1481563606" />
+<last_update_image_file file="logo_bde.jpg" timestamp="1481989694" />
+<last_update_image_file file="photo_bde.jpg" timestamp="1481989700" />
+<last_update_image_file file="logo_bds.png" timestamp="1481563611" />
+<last_update_image_file file="photo_bds.jpg" timestamp="1481989700" />
+<last_update_image_file file="logo_bdd.jpg" timestamp="1481989695" />
+<last_update_image_file file="photo_bdd.jpg" timestamp="1481989697" />
+<last_update_image_file file="logo_bda.jpg" timestamp="1481989694" />
+<last_update_image_file file="photo_bda.jpg" timestamp="1481989698" />
+<last_update_image_file file="logo_bdh.png" timestamp="1481989697" />
+<last_update_image_file file="photo_bdh.jpg" timestamp="1481989699" />
+<last_update_image_file file="volley.png" timestamp="1485452876" />
+<last_update_image_file file="football.png" timestamp="1485452855" />
+<last_update_image_file file="handball.png" timestamp="1485452858" />
+<last_update_image_file file="rugby.png" timestamp="1485452872" />
+<last_update_image_file file="basketball.png" timestamp="1485452849" />
+<last_update_image_file file="futsal.png" timestamp="1485452857" />
+<last_update_image_file file="planeur.png" timestamp="1485452869" />
+<last_update_image_file file="crossfit.png" timestamp="1485452853" />
+<last_update_image_file file="musculation.png" timestamp="1485452865" />
+<last_update_image_file file="fuck.png" timestamp="1485452856" />
+<last_update_image_file file="badminton.png" timestamp="1485452849" />
+<last_update_image_file file="pompom.png" timestamp="1485452871" />
+<last_update_image_file file="voile.png" timestamp="1485452875" />
+<last_update_image_file file="hockey.png" timestamp="1485452859" />
+<last_update_image_file file="tennis.png" timestamp="1485452875" />
+<last_update_image_file file="natation.png" timestamp="1485452866" />
+<last_update_image_file file="photo.png" timestamp="1485452868" />
+<last_update_image_file file="rock.png" timestamp="1485452871" />
+<last_update_image_file file="7_eme_art.png" timestamp="1485452847" />
+<last_update_image_file file="mix.png" timestamp="1485452864" />
+<last_update_image_file file="SWAG.png" timestamp="1485452874" />
+<last_update_image_file file="marsu.png" timestamp="1485452864" />
+<last_update_image_file file="capelice.png" timestamp="1485452852" />
+<last_update_image_file file="SM.png" timestamp="1485452873" />
+<last_update_image_file file="fanfare.png" timestamp="1485452854" />
+<last_update_image_file file="biere.png" timestamp="1485452850" />
+<last_update_image_file file="fromage.png" timestamp="1485452856" />
+<last_update_image_file file="poker.png" timestamp="1485452870" />
+<last_update_image_file file="magic.png" timestamp="1485452862" />
+<last_update_image_file file="plateau.png" timestamp="1485452869" />
+<last_update_image_file file="jeu_video.png" timestamp="1485452861" />
+<last_update_image_file file="cuisine.png" timestamp="1485452854" />
+<last_update_image_file file="cocktail.png" timestamp="1485452853" />
+<last_update_image_file file="baby_foot.png" timestamp="1485452848" />
+<last_update_image_file file="informatique.png" timestamp="1488584827" />
+<last_update_image_file file="billard.png" timestamp="1485452850" />
+<last_update_image_file file="paintball.png" timestamp="1485452867" />
+<last_update_image_file file="mamie.png" timestamp="1485452863" />
+<last_update_image_file file="jeu_de_role.png" timestamp="1485452860" />
+<last_update_image_file file="lecture.png" timestamp="1485452862" />
+<last_update_image_file file="parrains_du_monde.png" timestamp="1485452867" />
+<last_update_image_file file="bouchon_d_amour.png" timestamp="1485452851" />
+<last_update_image_file file="gnu_gourou.png" timestamp="1485452857" />
+<last_update_image_file file="main_a_la_pate.png" timestamp="1485452863" />
+<last_update_image_file file="club4L.png" timestamp="1485452852" />
+<last_update_image_file file="international.png" timestamp="1485452860" />
+<last_update_image_file file="avenir_et_culture.png" timestamp="1485452847" />
+<last_update_image_file file="SFEN.png" timestamp="1485452872" />
+<last_update_image_file file="cas.jpg" timestamp="1485460277" />
+<last_update_image_file file="caenpagnebds.jpg" timestamp="1485460277" />
+<last_update_image_file file="caenpagnebde.jpg" timestamp="1485460276" />
+<last_update_image_file file="anniversaire.jpg" timestamp="1485460276" />
+<last_update_image_file file="carnaval.jpg" timestamp="1485706497" />
+<last_update_image_file file="bdh.jpg" timestamp="1485706497" />
+<last_update_image_file file="logo_aplicaen.jpg" timestamp="1488493419" />
+<last_update_image_file file="photo_aplicaen.png" timestamp="1488497933" />
+<colors id="7" red="0" green="0" blue="0" />
+<colors id="1" red="69" green="133" blue="241" />
+<colors id="3" red="46" green="82" blue="68" />
+<colors id="4" red="117" green="4" blue="22" />
+<colors id="5" red="15" green="203" blue="170" />
+<colors id="6" red="47" green="49" blue="73" />
+<colors id="2" red="238" green="33" blue="33" />
+<images id="1" name="placeholder.png" attribution="" />
+<images id="2" name="logo_bde.jpg" attribution="" />
+<images id="3" name="photo_bde.jpg" attribution="" />
+<images id="4" name="logo_bds.png" attribution="" />
+<images id="5" name="photo_bds.jpg" attribution="" />
+<images id="6" name="logo_bdd.jpg" attribution="" />
+<images id="7" name="photo_bdd.jpg" attribution="" />
+<images id="8" name="logo_bda.jpg" attribution="" />
+<images id="9" name="photo_bda.jpg" attribution="" />
+<images id="10" name="logo_bdh.png" attribution="" />
+<images id="11" name="photo_bdh.jpg" attribution="" />
+<images id="12" name="volley.png" attribution="Volleyball by Gabriele Fumero " />
+<images id="13" name="football.png" attribution="Soccer Ball by Ricardo Moreira " />
+<images id="14" name="handball.png" attribution="Handball by anbileru adaleru " />
+<images id="15" name="rugby.png" attribution="Rugby by Jeremy Linden " />
+<images id="16" name="basketball.png" attribution="Basketball by Felix Brönnimann " />
+<images id="17" name="futsal.png" attribution="Soccer Ball by Loudoun Design Co. " />
+<images id="18" name="planeur.png" attribution="Glider by CombineDesign " />
+<images id="19" name="crossfit.png" attribution="Fitness by Harsha Rai " />
+<images id="20" name="musculation.png" attribution="Gym Workout Machine " />
+<images id="21" name="fuck.png" attribution="fighting by Gan Khoon Lay" />
+<images id="22" name="badminton.png" attribution="Shuttlecock by Rémy Médard" />
+<images id="23" name="pompom.png" attribution="Cheerleader by Gan Khoon Lay " />
+<images id="24" name="voile.png" attribution="sailboat by jillian noble" />
+<images id="25" name="hockey.png" attribution="hockey by anbileru adaleru" />
+<images id="26" name="tennis.png" attribution="Tennis by Lilit Kalachyan" />
+<images id="27" name="natation.png" attribution="" />
+<images id="28" name="photo.png" attribution="Photo by i cons " />
+<images id="29" name="rock.png" attribution="Swing Dancing by Gan Khoon Lay" />
+<images id="30" name="7_eme_art.png" attribution="Film by Nicolas Ramallo " />
+<images id="31" name="mix.png" attribution="dj by bmijnlieff " />
+<images id="32" name="SWAG.png" attribution="Enhance by Aaron K. Kim " />
+<images id="33" name="marsu.png" attribution="Newspaper by Jonathan 'Jonnie' Butcher " />
+<images id="34" name="capelice.png" attribution="Paint Palette by David " />
+<images id="35" name="SM.png" attribution="News Microphone by Oliviu Stoian" />
+<images id="36" name="fanfare.png" attribution="Drum by Oliviu Stoian " />
+<images id="37" name="biere.png" attribution="Beer by Timothy Deegan " />
+<images id="38" name="fromage.png" attribution="Cheese by Co-Effect Creative " />
+<images id="39" name="poker.png" attribution="Poker Chips by Nick Rissmeyer " />
+<images id="40" name="magic.png" attribution="Playing Cards by Vicons Design " />
+<images id="41" name="plateau.png" attribution="Checkerboard by Lee Mette " />
+<images id="42" name="jeu_video.png" attribution="Video Game Controller by Félix Péault " />
+<images id="43" name="cuisine.png" attribution="Chef Hat by Tommy Lau " />
+<images id="44" name="cocktail.png" attribution="Cocktail by Fuat şanlı" />
+<images id="45" name="baby_foot.png" attribution="table soccer by Michael Bundscherer " />
+<images id="46" name="informatique.png" attribution="protection by Gregor Črešnar " />
+<images id="47" name="billard.png" attribution="8 Ball by Dani Rolli " />
+<images id="48" name="paintball.png" attribution="Splatter by Magicon " />
+<images id="49" name="mamie.png" attribution="grandmother by Gan Khoon Lay " />
+<images id="50" name="jeu_de_role.png" attribution="Dice by quentin couillard " />
+<images id="51" name="lecture.png" attribution="reader by Creative Stall" />
+<images id="52" name="parrains_du_monde.png" attribution="Handshake by lipi " />
+<images id="53" name="bouchon_d_amour.png" attribution="plastic recycling by Sergey Demushkin " />
+<images id="54" name="gnu_gourou.png" attribution="Penguin by Hayden Kerrisk " />
+<images id="55" name="main_a_la_pate.png" attribution="Teacher by Musavvir Ahmed " />
+<images id="56" name="club4L.png" attribution="Car by Hysen Drogu " />
+<images id="57" name="international.png" attribution="Global Partners by Gregor Črešnar " />
+<images id="58" name="avenir_et_culture.png" attribution="pack packing by corpus delicti " />
+<images id="59" name="SFEN.png" attribution="atom by Erin Agnoli " />
+<images id="60" name="cas.jpg" attribution="" />
+<images id="61" name="caenpagnebds.jpg" attribution="" />
+<images id="62" name="caenpagnebde.jpg" attribution="" />
+<images id="63" name="anniversaire.jpg" attribution="" />
+<images id="64" name="carnaval.jpg" attribution="" />
+<images id="65" name="bdh.jpg" attribution="" />
+<images id="66" name="logo_aplicaen.jpg" attribution="" />
+<images id="67" name="photo_aplicaen.png" attribution="" />
+<unions id="1" name="Bureau des élèves" idlogo="2" idphoto="3" idcolor="1" email="bde@ecole.ensicaen.fr" tags="bde" facebook="https://www.facebook.com/bde.ensicaen/?fref=ts" />
+<unions id="3" name="Bureau des divertissements" idlogo="6" idphoto="7" idcolor="3" email="bdd@ecole.ensicaen.fr" tags="bdd" facebook="https://www.facebook.com/BDDensi/?fref=ts" />
+<unions id="4" name="Bureau des arts" idlogo="8" idphoto="9" idcolor="4" email="bda@ecole.ensicaen.fr" tags="bda" facebook="https://www.facebook.com/bda.ensicaen?fref=ts" />
+<unions id="5" name="Bureau des humanités" idlogo="10" idphoto="11" idcolor="5" email="bdh@ecole.ensicaen.fr" tags="bdh" facebook="https://www.facebook.com/bdh.ensicaen/?fref=ts" />
+<unions id="6" name="Aplicaen" idlogo="66" idphoto="67" idcolor="6" email="aplicaen@ecole.ensicaen.fr" tags="aplicaen" facebook="https://www.facebook.com/Aplicaen/?fref=ts" />
+<unions id="2" name="Bureau des sports" idlogo="4" idphoto="5" idcolor="2" email="bds@ecole.ensicaen.fr" tags="bds" facebook="https://www.facebook.com/BDS.ENSICAEN/?fref=ts" />
+<students id="1" lastname="Le Gall" name="Arthur" nickname="Chafouin" email="legall@ensicaen.fr" />
+<students id="2" lastname="Pradeilles" name="Sarah" nickname="Sarah Tatouille" email="pradeilles@ensicaen.fr" />
+<students id="3" lastname="Robert" name="Margot" nickname="Got" email="robert@ensicaen.fr" />
+<students id="4" lastname="Arik" name="Marsel" nickname="Marcelino" email="arik@ensicaen.fr" />
+<students id="5" lastname="Atlan" name="David" nickname="Schnek Feu " email="atlan@ensicaen.fr" />
+<students id="6" lastname="Maillard" name="Antoine" nickname="DJ Stiff" email="maillard@ensicaen.fr" />
+<students id="8" lastname="Chassee" name="Axel" nickname="War Machine" email="chasse@ensicaen.fr" />
+<students id="9" lastname="Chotard" name="Marine" nickname="L'inimarinable" email="marien.chotard@ensicaen.fr" />
+<students id="10" lastname="Mathieu" name="Stigliani" nickname="Epic Sax Guy" email="mathieu.stigliani@ensicaen.fr" />
+<students id="11" lastname="Gueguen" name="Clément" nickname="L'animal" email="clement.gueguen@ensicaen.fr" />
+<students id="12" lastname="Tayaya" name="Sophie" nickname="Sophi'stické" email="sophie.tayaya@ensicaen.fr" />
+<students id="13" lastname="Duplessis" name="Vincent" nickname="Mad Marx" email="vincent.duplessis@ensicaen.fr" />
+<students id="14" lastname="Mathey" name="Audrey" nickname="Audré Mi Fa Sol" email="audrey.mathey@ensicaen.fr" />
+<students id="15" lastname="Ruel" name="Simon" nickname="Garfunkel" email="simon.ruel@ensicaen.fr" />
+<students id="16" lastname="Provost" name="Antoine" nickname="Can'art" email="antoine.provost@ensicaen.fr" />
+<students id="17" lastname="Zghari" name="Alaa" nickname="Aladin" email="alaa.zghari@ensicaen.fr" />
+<students id="18" lastname="Querne" name="Corentin" nickname="Raisin" email="corentin.querne@ensicaen.fr" />
+<students id="19" lastname="Chassilian" name="Louis" nickname="Roux Cool 2.0" email="louis.chassillan@ensicaen.fr" />
+<students id="20" lastname="Alexi" name="Florent" nickname="Le créole" email="florent.alexis@ensicaen.fr" />
+<students id="21" lastname="Varache" name="Florian" nickname="Flotteur" email="varache@ensicaen.fr" />
+<students id="22" lastname="Hédan" name="Éléonore" nickname="Eléalouest" email="hedan@ensicaen.fr" />
+<students id="23" lastname="Dodelin" name="Paul" nickname="Pôle Dance" email="dodelin@ensicaen.fr" />
+<students id="24" lastname="Loirette" name="Marine" nickname="Marionnette" email="loirette@ensicaen.fr" />
+<students id="25" lastname="Le Boulanger" name="Paul" nickname="Jacob" email="pleboulanger@ensicaen.fr" />
+<students id="26" lastname="Gilg" name="Etienne" nickname="Olive" email="gilg@ensicaen.fr" />
+<students id="27" lastname="Hillion-Villepastour" name="Charles" nickname="Charly's" email="hillion@ensicaen.fr" />
+<students id="28" lastname="Di Gioa" name="Lucas" nickname="Luclaque Ta Chatte" email="digioa@ensicaen.fr" />
+<students id="29" lastname="Bonnet" name="Camille" nickname="Bonnet C" email="bonnet@ensicaen.fr" />
+<students id="30" lastname="Quan" name="Pierre" nickname="" email="quan@ensicaen.fr" />
+<students id="31" lastname="Hibon" name="Jeanne" nickname="Jacquelinnelaf" email="hibon@ensicaen.fr" />
+<students id="32" lastname="Petit" name="Adeline" nickname="Tata A2" email="apetit@ensicaen.fr" />
+<students id="33" lastname="Ernult" name="Jordan" nickname="Michael" email="ernult@ensicaen.fr" />
+<students id="34" lastname="Eyraud" name="Alban" nickname="Moundir" email="eyraud@ensicaen.fr" />
+<students id="35" lastname="Bernard" name="Corentin" nickname="Rococo" email="cbernard@ensicaen.fr" />
+<students id="36" lastname="Senalada" name="Thibaud" nickname="Titi" email="senalada@ensicaen.fr" />
+<students id="37" lastname="Levillain" name="Thomas" nickname="Jason" email="levillain@ensicaen.fr" />
+<students id="38" lastname="Guaquière" name="Thibaut" nickname="Wattouat" email="gaqueire@ensicaen.fr" />
+<students id="39" lastname="Auffret" name="Gwladys" nickname="Gaufrette" email="auffret@ensicaen.fr" />
+<students id="40" lastname="Limare" name="Julien" nickname="Djool" email="limare@ensicaen.fr" />
+<students id="41" lastname="Fournier" name="Antoine" nickname="Armadillo" email="fournier@ensicaen.fr" />
+<students id="42" lastname="Peron" name="Clément" nickname="Patapon" email="peron@ensicaen.fr" />
+<students id="43" lastname="Barbier" name="Paul" nickname="Barbier Girl" email="barbier@ensicaen.fr" />
+<students id="44" lastname="Fournol" name="Romain" nickname="Snailed it" email="fournol@ensicaen.fr" />
+<students id="45" lastname="Vaunois" name="Silvère" nickname="Gro kk" email="vaunois@ensicaen.fr" />
+<students id="46" lastname="Joncheret" name="Irian" nickname="Remembrall" email="joncheret@ensicaen.fr" />
+<students id="47" lastname="Bomont" name="Louis" nickname="Rub-x" email="bomont@ensicaen.fr" />
+<students id="48" lastname="Fradet" name="Arnaud" nickname="Farfaday" email="fradet@ensicaen.fr" />
+<students id="49" lastname="Merciol" name="Sarah" nickname="SaRahge'quit" email="merciol@ensicaen.fr" />
+<students id="50" lastname="Duthu" name="Rémi" nickname="Cooking Mama" email="duthu@ensicaen.fr" />
+<students id="51" lastname="Le Philippe" name="Thomas" nickname="Baitagato" email="lephilippe@ensicaen.fr" />
+<students id="52" lastname="Salaun" name="Thibault" nickname="Dr FullHouse" email="salaun@ensicaen.fr" />
+<students id="53" lastname="Bousselin" name="Thomas" nickname="Perdu" email="bousselin@ensicaen.fr" />
+<students id="54" lastname="Luguet" name="Margaux" nickname="Hangaux'ver" email="luguet@ensicaen.fr" />
+<students id="55" lastname="Simon" name="Juliette" nickname="Raiponce" email="simon@ensicaen.fr" />
+<students id="56" lastname="Maresq" name="Matthieu" nickname="M and M's Blue" email="maresq@ensicaen.fr" />
+<students id="57" lastname="Alard" name="Pierre" nickname="Unicorn" email="alard@ensicaen.fr" />
+<students id="58" lastname="Copado" name="Margot" nickname="Yang" email="mcopado@ensicaen.fr" />
+<students id="59" lastname="Fertin" name="Marie-Alix" nickname="Manix" email="fertin@ensicaen.fr" />
+<students id="60" lastname="Stevenot" name="Maxime" nickname="Câlin" email="stevenot@ensicaen.fr" />
+<students id="61" lastname="Girard" name="Colin" nickname="Alaska" email="girard@ensicaen.fr" />
+<students id="62" lastname="Ollivier" name="Axel" nickname="Ramoloss" email="ollivier@ensicaen.fr" />
+<students id="63" lastname="Marques" name="Pierre" nickname="M and M's Red" email="marques@ensicaen.fr" />
+<students id="64" lastname="Riou" name="Sarah" nickname="2nd degré" email="riou@ensicaen.fr" />
+<students id="65" lastname="Copado" name="Charlotte" nickname="Yin" email="copado@ensicaen.fr" />
+<students id="66" lastname="Feuillet" name="Louison" nickname="P'tit Biscuit" email="feuillet@ensicaen.fr" />
+<students id="67" lastname="Peineau" name="Dozet" nickname="" email="peineau@ensicaen.fr" />
+<students id="68" lastname="Le Pennec" name="Jérémy" nickname="" email="lepennec@ensicaen.fr" />
+<students id="69" lastname="Etienne" name="Guilhem" nickname="" email="etienne@ensicaen.fr" />
+<students id="70" lastname="Derock" name="Janine" nickname="" email="derock@ensicaen.fr" />
+<students id="71" lastname="Pilarski" name="Charly" nickname="" email="pilarski@ensicaen.fr" />
+<students id="72" lastname="Jorand" name="Jean-Baptiste" nickname="" email="jorand@ensicaen.fr" />
+<students id="73" lastname="Néel" name="François" nickname="" email="neel@ensicaen.fr" />
+<students id="74" lastname="Decrocq" name="Marie" nickname="" email="decrocq@ensicaen.fr" />
+<students id="75" lastname="Rouault" name="Nicolas" nickname="" email="rouault@ensicaen.fr" />
+<students id="76" lastname="Le Cann" name="Claire" nickname="" email="lecann@ensicaen.fr" />
+<students id="77" lastname="Skelenard" name="Martin" nickname="" email="skelenard@ensicaen.fr" />
+<students id="78" lastname="Lepasquier" name="Julien" nickname="" email="lepasquier@ensicaen.fr" />
+<students id="79" lastname="Postat" name="Anaëlle" nickname="" email="postat@ensicaen.fr" />
+<students id="80" lastname="Dufrène" name="Arnaud" nickname="" email="dufrene@ensicaen.fr" />
+<students id="81" lastname="Hannes" name="Guillaume" nickname="" email="hannes@ensicaen.fr" />
+<students id="82" lastname="Minier" name="Audrey" nickname="" email="minier@ensicaen.fr" />
+<students id="83" lastname="Delpeuch" name="Charles" nickname="" email="delpeuch@ensicaen.fr" />
+<students id="85" lastname="Gabon" name="Pierre" nickname="" email="gabon@ensicaen.fr" />
+<students id="86" lastname="Leroy" name="Théophile" nickname="" email="leroy@ensicaen.fr" />
+<students id="87" lastname="Bousba" name="Joey" nickname="" email="bousba@ensicaen.fr" />
+<students id="88" lastname="Carlier" name="Louis" nickname="" email="carlier@ensicaen.fr" />
+<students id="89" lastname="Proux" name="Elodie" nickname="" email="proux@ensicaen.fr" />
+<students id="90" lastname="Maleval" name="Marc" nickname="" email="maleval@ensicaen.fr" />
+<students id="91" lastname="Levaslot" name="Alexis" nickname="" email="levaslot@ensicaen.fr" />
+<students id="92" lastname="Gutierrez" name="Mariana" nickname="" email="gutierrez@ensicaen.fr" />
+<students id="93" lastname="Sellami" name="Emna" nickname="" email="sellami@ensicaen.fr" />
+<students id="94" lastname="Spanti" name="Nicolas" nickname="" email="spanti@ensicaen.fr" />
+<students id="95" lastname="Mouchati" name="Henri" nickname="" email="henri.mouchati@ensicaen.fr" />
+<students id="96" lastname="Pelloux" name="Sylvain" nickname="" email="sylvain.pelloux@ensicaen.fr" />
+<students id="97" lastname="Guilbot" name="Valentin" nickname="" email="valentin.guilbot@ecole.ensicaen.fr" />
+<students id="98" lastname="Tanguy" name="Erwann" nickname="" email="erwann.tanguy@ecole.ensicaen.fr" />
+<students id="99" lastname="Bouvier" name="Pierrick" nickname="" email="pierrick.bouvier@ecole.ensicaen.fr" />
+<students id="100" lastname="Trouche" name="Benoit" nickname="" email="benoit.trouche@ecole.ensicaen.fr" />
+<students id="101" lastname="Laube" name="Maxime" nickname="" email="maxime.laube@ecole.ensicaen.fr" />
+<students id="7" lastname="Filipozzi" name="Jérémy" nickname="Big Foot" email="filipozzi@ensicaen.fr" />
+<students id="84" lastname="Arnould" name="Florian" nickname="" email="arnould@ensicaen.fr" />
+<students id="102" lastname="admin" name="admin" nickname="admin" email="admin" />
+<clubs id="1" idunion="2" idlogo="13" idphoto="1" name="Football" day="4" date="" start_hour="15:00:00" duration="02:00:00" place="Terrain synthétique" />
+<clubs id="2" idunion="2" idlogo="12" idphoto="1" name="Volley" day="4" date="" start_hour="14:00:00" duration="03:00:00" place="Gymnase de la mairie" />
+<clubs id="4" idunion="2" idlogo="16" idphoto="1" name="Basketball" day="3" date="" start_hour="20:15:00" duration="01:45:00" place="Gymnase STAPS" />
+<clubs id="5" idunion="2" idlogo="14" idphoto="1" name="Handball" day="2" date="" start_hour="21:00:00" duration="02:00:00" place="Gymnase Cambes-en-Plaines" />
+<clubs id="6" idunion="2" idlogo="27" idphoto="1" name="Natation" day="7" date="" start_hour="14:00:00" duration="02:00:00" place="Piscine municipale" />
+<clubs id="7" idunion="2" idlogo="21" idphoto="1" name="FUCK" day="3" date="" start_hour="18:00:00" duration="02:00:00" place="Salle d'examen" />
+<clubs id="9" idunion="2" idlogo="22" idphoto="1" name="Badminton" day="5" date="" start_hour="20:00:00" duration="02:00:00" place="Gymnase STAPS" />
+<clubs id="10" idunion="2" idlogo="23" idphoto="1" name="Pompom" day="4" date="" start_hour="14:00:00" duration="01:00:00" place="Salle d'examen" />
+<clubs id="11" idunion="2" idlogo="18" idphoto="1" name="Planeur" day="6" date="" start_hour="14:00:00" duration="02:00:00" place="------" />
+<clubs id="12" idunion="2" idlogo="24" idphoto="1" name="Voile" day="4" date="" start_hour="14:00:00" duration="02:00:00" place="------" />
+<clubs id="13" idunion="2" idlogo="25" idphoto="1" name="Hockey" day="4" date="" start_hour="14:15:00" duration="02:00:00" place="Patinoire de Caen" />
+<clubs id="14" idunion="2" idlogo="26" idphoto="1" name="Tennis" day="6" date="" start_hour="14:00:00" duration="02:00:00" place="------" />
+<clubs id="15" idunion="2" idlogo="20" idphoto="1" name="Musculation" day="5" date="" start_hour="18:00:00" duration="02:00:00" place="Gymnase STAPS" />
+<clubs id="16" idunion="2" idlogo="19" idphoto="1" name="Crossfit" day="2" date="" start_hour="18:45:00" duration="01:15:00" place="Salle d'examen" />
+<clubs id="17" idunion="4" idlogo="29" idphoto="1" name="Rock" day="4" date="" start_hour="14:00:00" duration="01:00:00" place="Foyer" />
+<clubs id="18" idunion="4" idlogo="30" idphoto="1" name="7ème art" day="4" date="" start_hour="14:00:00" duration="01:00:00" place="------" />
+<clubs id="19" idunion="4" idlogo="31" idphoto="1" name="Mix" day="4" date="" start_hour="14:00:00" duration="01:00:00" place="Foyer" />
+<clubs id="20" idunion="4" idlogo="32" idphoto="1" name="SWAG" day="2" date="" start_hour="14:00:00" duration="01:00:00" place="------" />
+<clubs id="21" idunion="4" idlogo="33" idphoto="1" name="Marsu" day="2" date="" start_hour="14:00:00" duration="01:00:00" place="------" />
+<clubs id="22" idunion="4" idlogo="34" idphoto="1" name="Capelice" day="7" date="" start_hour="14:00:00" duration="01:00:00" place="------" />
+<clubs id="23" idunion="4" idlogo="28" idphoto="1" name="Club Photo" day="1" date="" start_hour="18:00:00" duration="01:00:00" place="------" />
+<clubs id="24" idunion="4" idlogo="35" idphoto="1" name="Club SM" day="5" date="" start_hour="18:00:00" duration="02:00:00" place="Foyer" />
+<clubs id="25" idunion="4" idlogo="36" idphoto="1" name="Fanfare" day="4" date="" start_hour="18:00:00" duration="02:00:00" place="Foyer" />
+<clubs id="26" idunion="3" idlogo="37" idphoto="1" name="Club Bière" day="2" date="" start_hour="14:00:00" duration="01:00:00" place="L'académie de la bière" />
+<clubs id="27" idunion="3" idlogo="38" idphoto="1" name="Fromage" day="2" date="" start_hour="14:00:00" duration="01:00:00" place="-------" />
+<clubs id="28" idunion="3" idlogo="40" idphoto="1" name="Magic" day="4" date="" start_hour="14:00:00" duration="05:00:00" place="A314" />
+<clubs id="29" idunion="3" idlogo="41" idphoto="1" name="Plateau" day="2" date="" start_hour="14:00:00" duration="05:00:00" place="A314" />
+<clubs id="31" idunion="3" idlogo="42" idphoto="1" name="Jeux Vidéos" day="4" date="" start_hour="14:00:00" duration="05:00:00" place="A112" />
+<clubs id="32" idunion="3" idlogo="39" idphoto="1" name="Poker" day="4" date="" start_hour="17:00:00" duration="02:00:00" place="Foyer" />
+<clubs id="33" idunion="3" idlogo="43" idphoto="1" name="Club Cuisine" day="4" date="" start_hour="18:00:00" duration="02:00:00" place="------" />
+<clubs id="34" idunion="3" idlogo="44" idphoto="1" name="Cocktail" day="4" date="" start_hour="18:00:00" duration="02:00:00" place="-------" />
+<clubs id="35" idunion="3" idlogo="45" idphoto="1" name="Baby-Foot" day="4" date="" start_hour="08:00:00" duration="11:00:00" place="Foyer" />
+<clubs id="36" idunion="3" idlogo="47" idphoto="1" name="Billard" day="4" date="" start_hour="08:00:00" duration="11:00:00" place="Foyer" />
+<clubs id="37" idunion="3" idlogo="51" idphoto="1" name="Lecture" day="4" date="" start_hour="08:00:00" duration="11:00:00" place="-------" />
+<clubs id="38" idunion="3" idlogo="48" idphoto="1" name="Paintball" day="6" date="" start_hour="14:00:00" duration="04:00:00" place="-------" />
+<clubs id="39" idunion="3" idlogo="49" idphoto="1" name="Mamie" day="7" date="" start_hour="14:00:00" duration="04:00:00" place="-------" />
+<clubs id="40" idunion="3" idlogo="50" idphoto="1" name="Jeux de rôle" day="4" date="" start_hour="14:00:00" duration="05:00:00" place="-------" />
+<clubs id="41" idunion="5" idlogo="55" idphoto="1" name="Main à la pâte" day="2" date="" start_hour="14:00:00" duration="01:00:00" place="------" />
+<clubs id="42" idunion="5" idlogo="58" idphoto="1" name="Avenir et Culture" day="2" date="" start_hour="14:00:00" duration="01:00:00" place="-------" />
+<clubs id="43" idunion="5" idlogo="59" idphoto="1" name="SFEN" day="4" date="" start_hour="14:00:00" duration="05:00:00" place="------" />
+<clubs id="44" idunion="5" idlogo="56" idphoto="1" name="4L Trophy" day="2" date="" start_hour="14:00:00" duration="05:00:00" place="------" />
+<clubs id="45" idunion="5" idlogo="52" idphoto="1" name="Parrains du monde" day="4" date="" start_hour="14:00:00" duration="02:00:00" place="------" />
+<clubs id="46" idunion="5" idlogo="57" idphoto="1" name="Club international" day="4" date="" start_hour="14:00:00" duration="05:00:00" place="------" />
+<clubs id="47" idunion="5" idlogo="53" idphoto="1" name="Bouchons d'amour" day="4" date="" start_hour="17:00:00" duration="02:00:00" place="------" />
+<clubs id="48" idunion="5" idlogo="54" idphoto="1" name="Gnu Gourou" day="4" date="" start_hour="18:00:00" duration="02:00:00" place="------" />
+<clubs id="3" idunion="2" idlogo="15" idphoto="1" name="Rugby" day="4" date="" start_hour="14:00:00" duration="02:00:00" place="Stade naturel" />
+<clubs id="8" idunion="2" idlogo="17" idphoto="1" name="Futsal" day="5" date="" start_hour="18:00:00" duration="02:00:00" place="Gymnase STAPS" />
+<clubs id="30" idunion="3" idlogo="46" idphoto="1" name="Sécurité Informatique" day="4" date="" start_hour="14:00:00" duration="02:00:00" place="coucou" />
+<students_club idclub="1" idstudent="67" position="Prez" />
+<students_club idclub="1" idstudent="6" position="Vice-Prez" />
+<students_club idclub="2" idstudent="23" position="Prez" />
+<students_club idclub="2" idstudent="68" position="Vice-Prez" />
+<students_club idclub="4" idstudent="33" position="Prez" />
+<students_club idclub="4" idstudent="35" position="Vice-Prez" />
+<students_club idclub="5" idstudent="18" position="Prez" />
+<students_club idclub="5" idstudent="68" position="Vice-Prez" />
+<students_club idclub="6" idstudent="71" position="Prez" />
+<students_club idclub="6" idstudent="8" position="Vice-Prez" />
+<students_club idclub="7" idstudent="1" position="Prez" />
+<students_club idclub="7" idstudent="2" position="Vice-Prez" />
+<students_club idclub="9" idstudent="72" position="Prez" />
+<students_club idclub="9" idstudent="73" position="Vice-Prez" />
+<students_club idclub="10" idstudent="29" position="Prez" />
+<students_club idclub="10" idstudent="24" position="Vice-Prez" />
+<students_club idclub="11" idstudent="74" position="Prez" />
+<students_club idclub="12" idstudent="75" position="Prez" />
+<students_club idclub="13" idstudent="25" position="Prez" />
+<students_club idclub="13" idstudent="32" position="Vice-Prez" />
+<students_club idclub="14" idstudent="76" position="Prez" />
+<students_club idclub="15" idstudent="77" position="Prez" />
+<students_club idclub="15" idstudent="71" position="Vice-Prez" />
+<students_club idclub="16" idstudent="78" position="Prez" />
+<students_club idclub="16" idstudent="79" position="Vice-Prez" />
+<students_club idclub="17" idstudent="9" position="Prez" />
+<students_club idclub="17" idstudent="19" position="Vice-Prez" />
+<students_club idclub="18" idstudent="80" position="Prez" />
+<students_club idclub="18" idstudent="13" position="Vice-Prez" />
+<students_club idclub="19" idstudent="6" position="Prez" />
+<students_club idclub="19" idstudent="60" position="Vice-Prez" />
+<students_club idclub="20" idstudent="81" position="Prez" />
+<students_club idclub="21" idstudent="43" position="Prez" />
+<students_club idclub="22" idstudent="12" position="Prez" />
+<students_club idclub="22" idstudent="82" position="Vice-Prez" />
+<students_club idclub="23" idstudent="17" position="Prez" />
+<students_club idclub="24" idstudent="86" position="Prez" />
+<students_club idclub="25" idstudent="75" position="Vice-Prez" />
+<students_club idclub="26" idstudent="50" position="Prez" />
+<students_club idclub="26" idstudent="52" position="Vice-Prez" />
+<students_club idclub="27" idstudent="52" position="Prez" />
+<students_club idclub="27" idstudent="53" position="Vice-Prez" />
+<students_club idclub="28" idstudent="83" position="Prez" />
+<students_club idclub="28" idstudent="47" position="Vice-Prez" />
+<students_club idclub="29" idstudent="43" position="Prez" />
+<students_club idclub="29" idstudent="44" position="Vice-Prez" />
+<students_club idclub="31" idstudent="45" position="Prez" />
+<students_club idclub="31" idstudent="85" position="Vice-Prez" />
+<students_club idclub="32" idstudent="86" position="Prez" />
+<students_club idclub="32" idstudent="80" position="Vice-Prez" />
+<students_club idclub="33" idstudent="48" position="Prez" />
+<students_club idclub="34" idstudent="40" position="Prez" />
+<students_club idclub="34" idstudent="87" position="Vice-Prez" />
+<students_club idclub="35" idstudent="6" position="Prez" />
+<students_club idclub="35" idstudent="5" position="Vice-Prez" />
+<students_club idclub="36" idstudent="27" position="Prez" />
+<students_club idclub="36" idstudent="40" position="Vice-Prez" />
+<students_club idclub="37" idstudent="45" position="Prez" />
+<students_club idclub="37" idstudent="61" position="Vice-Prez" />
+<students_club idclub="38" idstudent="45" position="Prez" />
+<students_club idclub="38" idstudent="88" position="Vice-Prez" />
+<students_club idclub="39" idstudent="2" position="Prez" />
+<students_club idclub="39" idstudent="54" position="Vice-Prez" />
+<students_club idclub="40" idstudent="53" position="Prez" />
+<students_club idclub="41" idstudent="16" position="Prez" />
+<students_club idclub="42" idstudent="64" position="Prez" />
+<students_club idclub="42" idstudent="70" position="Vice-Prez" />
+<students_club idclub="43" idstudent="83" position="Prez" />
+<students_club idclub="43" idstudent="56" position="Vice-Prez" />
+<students_club idclub="44" idstudent="89" position="Prez" />
+<students_club idclub="44" idstudent="90" position="Vice-Prez" />
+<students_club idclub="45" idstudent="91" position="Prez" />
+<students_club idclub="46" idstudent="92" position="Prez" />
+<students_club idclub="46" idstudent="93" position="Vice-Prez" />
+<students_club idclub="47" idstudent="59" position="Prez" />
+<students_club idclub="47" idstudent="64" position="Vice-Prez" />
+<students_club idclub="48" idstudent="94" position="Prez" />
+<students_club idclub="3" idstudent="69" position="Prez" />
+<students_club idclub="3" idstudent="70" position="Vice-Prez" />
+<students_club idclub="3" idstudent="34" position="Vice-Prez" />
+<students_club idclub="8" idstudent="7" position="Prez" />
+<students_club idclub="8" idstudent="4" position="Vice-Prez" />
+<students_club idclub="30" idstudent="84" position="Prez" />
+<students_union idunion="2" idstudent="1" position="Prez" />
+<students_union idunion="2" idstudent="2" position="Viceprez" />
+<students_union idunion="2" idstudent="3" position="Trez" />
+<students_union idunion="2" idstudent="8" position="Secrétaire" />
+<students_union idunion="2" idstudent="4" position="Respo Event" />
+<students_union idunion="2" idstudent="5" position="Respo Com" />
+<students_union idunion="2" idstudent="6" position="Respo Clubs" />
+<students_union idunion="2" idstudent="7" position="Respo FFSU" />
+<students_union idunion="1" idstudent="21" position="Prez" />
+<students_union idunion="1" idstudent="22" position="Viceprez" />
+<students_union idunion="1" idstudent="23" position="Trez" />
+<students_union idunion="1" idstudent="24" position="Vice-Trez" />
+<students_union idunion="1" idstudent="25" position="Secrétaire" />
+<students_union idunion="1" idstudent="26" position="Vice-Secrétaire" />
+<students_union idunion="1" idstudent="27" position="Respo Com" />
+<students_union idunion="1" idstudent="28" position="Vice-Respo Com" />
+<students_union idunion="1" idstudent="29" position="Respo Partenariat" />
+<students_union idunion="1" idstudent="30" position="Vice-Respo Partenariat" />
+<students_union idunion="1" idstudent="31" position="Respo Event" />
+<students_union idunion="1" idstudent="32" position="Vice-Respo Event" />
+<students_union idunion="1" idstudent="34" position="Respo Clubs" />
+<students_union idunion="1" idstudent="35" position="Vice-Respo Clubs" />
+<students_union idunion="1" idstudent="33" position="Respo Logistique" />
+<students_union idunion="1" idstudent="36" position="Consultant" />
+<students_union idunion="1" idstudent="37" position="Consultant" />
+<students_union idunion="3" idstudent="38" position="Prez" />
+<students_union idunion="3" idstudent="39" position="Viceprez" />
+<students_union idunion="3" idstudent="40" position="Trez" />
+<students_union idunion="3" idstudent="41" position="Trez" />
+<students_union idunion="3" idstudent="42" position="Secrétaire" />
+<students_union idunion="3" idstudent="43" position="Respo Com" />
+<students_union idunion="3" idstudent="44" position="Respo Com" />
+<students_union idunion="3" idstudent="45" position="Respo Com" />
+<students_union idunion="3" idstudent="46" position="Respo Event" />
+<students_union idunion="3" idstudent="47" position="Respo Event" />
+<students_union idunion="3" idstudent="48" position="Respo Clubs" />
+<students_union idunion="3" idstudent="49" position="Respo Clubs" />
+<students_union idunion="3" idstudent="50" position="Respo Logistique" />
+<students_union idunion="3" idstudent="51" position="Respo Logistique" />
+<students_union idunion="3" idstudent="52" position="Respo Partenariats" />
+<students_union idunion="3" idstudent="53" position="Respo Partenariats" />
+<students_union idunion="4" idstudent="9" position="Prez" />
+<students_union idunion="4" idstudent="10" position="Viceprez" />
+<students_union idunion="4" idstudent="11" position="Trez" />
+<students_union idunion="4" idstudent="14" position="Secrétaire" />
+<students_union idunion="4" idstudent="12" position="Respo Com" />
+<students_union idunion="4" idstudent="13" position="Respo Com" />
+<students_union idunion="4" idstudent="15" position="Respo Clubs" />
+<students_union idunion="4" idstudent="16" position="Respo Matos" />
+<students_union idunion="4" idstudent="17" position="Respo Event" />
+<students_union idunion="4" idstudent="18" position="Vice-Respo Event" />
+<students_union idunion="4" idstudent="19" position="Respo Partenariats" />
+<students_union idunion="4" idstudent="20" position="Respo Partenariats" />
+<students_union idunion="5" idstudent="54" position="Prez" />
+<students_union idunion="5" idstudent="55" position="Viceprez" />
+<students_union idunion="5" idstudent="56" position="Trez" />
+<students_union idunion="5" idstudent="57" position="Vice-Trez" />
+<students_union idunion="5" idstudent="58" position="Secrétaire" />
+<students_union idunion="5" idstudent="59" position="Vice-Secrétaire" />
+<students_union idunion="5" idstudent="60" position="Respo Com" />
+<students_union idunion="5" idstudent="61" position="Vice-Respo Com" />
+<students_union idunion="5" idstudent="62" position="Respo Clubs" />
+<students_union idunion="5" idstudent="63" position="Respo Event" />
+<students_union idunion="5" idstudent="64" position="Respo Logistique" />
+<students_union idunion="5" idstudent="65" position="Vice-Respo Logistique" />
+<students_union idunion="5" idstudent="66" position="Respo Partenariats" />
+<students_union idunion="6" idstudent="95" position="Prez" />
+<students_union idunion="6" idstudent="82" position="Secrétaire" />
+<students_union idunion="6" idstudent="96" position="Trez" />
+<students_union idunion="6" idstudent="97" position="Comptable" />
+<students_union idunion="6" idstudent="69" position="Respo DevCo" />
+<students_union idunion="6" idstudent="98" position="Respo Com" />
+<students_union idunion="6" idstudent="87" position="Respo Suivi d'études" />
+<students_union idunion="6" idstudent="99" position="RBU Info" />
+<students_union idunion="6" idstudent="100" position="RBU Elec" />
+<students_union idunion="6" idstudent="101" position="RBU Chimie" />
+<students_union idunion="6" idstudent="84" position="DSI" />
+<events id="1" idunion="2" idimage="60" title="Victoire au CAS 2016" text="L'ENSI remporte l'édition 2016 du CAS haut la main grâce notamment
+	aux victoires en handball et en football. Les autres équipes ont également porté fièrement les couleurs de l'équipe. Les supporters étaient au rendez-vous et
+	ont assuré l'ambiance épaulée par notre fanfare. C'est une année record pour l'ENSI, qui remporte son 2éme tournoi de suite après l'édition du TEIN organisée
+	à domicile. C'est l'un des derniers au tournoi auqule l'école participera cette année sauf si le nouveau BDS décide de se rendre au TOSS, comme l'année passée.
+	On remercie le BDS et plus particulièrement Marsel qui a brillé lors de ce tournoi grâce à son adresse au tir." />
+<events id="2" idunion="2" idimage="61" title="Caenpagne BDS 2017" text="Les premières années étaient très motivés à l'idée de participer à la campagne BDS
+puisque trois listes se sont portées candidates. Il a donc fallu les départager lors d'une présentation de projet sportif organisée le 24 novembre 2016. Le jury était 
+composé de trois membres du BDS, de deux membres du BDE et d'un membre des Caern'Flex." />
+<events id="3" idunion="1" idimage="62" title="Les 40 ans de l'ENSICAEN" text="L'année dernière, nous célèbrions les 40 ans de l'école et à cette 
+occasion, nous avons eu l'honneur d'organiser le TEIN. Le tournoi a été une réussite avec en prime la victoire de l'Ensicaen au football, tennis féminin et en saut en longueur" />
+<events id="4" idunion="1" idimage="63" title="Caenpagne BDE 2017" text="On espère que vous vous êtes bien remis des examens car la campagne BDE approche. 
+Le suspense ne sera pas vraiment au rendez-vous puisqu'il n'y a malheureusement qu'une seule liste canditate à l'élection. Ils sont par contre déjà motivés à vous montrer qu' ils méritent leur place
+avec déjà deux matinées crêpes.   " />
+<events id="5" idunion="4" idimage="64" title="Carnaval 2017" text="Le plus grand carnaval étudiant de France a lieu chaque année à Caen. Il aura lieu cette année le jeudi 6 avril.
+Le BDA commence déjà à vous préparer des surprises autour de cet évènement :)   " />
+<events id="6" idunion="5" idimage="65" title="BDH passation" text=" Coucou petit 1A !
+Si cela te tente de faire partie du nouveau cru du BDH, envoie leur un message et en fonction de vos réponses ils caleront une réunion qui arrangeront un maximum de personnes !   " />
+</root>

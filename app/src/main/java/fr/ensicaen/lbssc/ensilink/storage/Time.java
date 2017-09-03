@@ -35,6 +35,7 @@ public final class Time {
 
 	/**
 	 * The constructor
+	 *
 	 * @param time a string to parse to get the time with this form : hour:minutes. Example: 03:15
 	 */
 	public Time(String time) {

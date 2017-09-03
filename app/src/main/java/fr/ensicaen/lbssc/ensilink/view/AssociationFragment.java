@@ -40,7 +40,8 @@ public abstract class AssociationFragment extends ListFragment implements Updata
 
 	/**
 	 * Method to use to initialize an AssociationFragment
-	 * @param unionId the id of the union displayed in the fragment
+	 *
+	 * @param unionId  the id of the union displayed in the fragment
 	 * @param fragment the fragment to initialize
 	 */
 	protected static void newInstance(int unionId, AssociationFragment fragment) {
@@ -75,6 +76,7 @@ public abstract class AssociationFragment extends ListFragment implements Updata
 
 	/**
 	 * change the union displayed in the fragment by the union which has this ID
+	 *
 	 * @param unionId the id of the new union
 	 */
 	public void changeUnion(int unionId) {

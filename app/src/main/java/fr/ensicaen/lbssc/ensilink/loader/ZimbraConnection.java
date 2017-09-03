@@ -80,6 +80,7 @@ public class ZimbraConnection {
 
 	/**
 	 * Connect with email and password in SharedPreferences
+	 *
 	 * @param context an activity context to use SharedPreferences
 	 * @throws MessagingException javax.mail Exception
 	 */
@@ -90,7 +91,8 @@ public class ZimbraConnection {
 
 	/**
 	 * Connect to the zimbra server
-	 * @param email the ensicaen email address
+	 *
+	 * @param email    the ensicaen email address
 	 * @param password the ensicaen password
 	 * @throws MessagingException javax.mail Exception
 	 */
@@ -109,6 +111,7 @@ public class ZimbraConnection {
 
 	/**
 	 * Close the connection to the zimbra server
+	 *
 	 * @throws MessagingException javax.mail Exception
 	 */
 	public void close() throws MessagingException {
@@ -132,10 +135,11 @@ public class ZimbraConnection {
 
 	/**
 	 * Update the local database with the emails
-	 * @param db the database
+	 *
+	 * @param db      the database
 	 * @param context an application context
 	 * @throws MessagingException javax.mail Exception
-	 * @throws IOException Exception when getting the content of the mail
+	 * @throws IOException        Exception when getting the content of the mail
 	 */
 	void updateDatabase(SQLiteDatabase db, Context context) throws MessagingException, IOException {
 		Cursor maxCursor = db.rawQuery("SELECT max(date) FROM mails;", null, null);
@@ -187,9 +191,10 @@ public class ZimbraConnection {
 
 	/**
 	 * Use to get the content of a multipart mail
+	 *
 	 * @param message the mail
 	 * @return the content as a string
-	 * @throws IOException Exception when getting the content of the mail
+	 * @throws IOException        Exception when getting the content of the mail
 	 * @throws MessagingException javax.mail Exception
 	 */
 	private String getContentFromMultipart(Message message) throws IOException, MessagingException {
@@ -207,11 +212,12 @@ public class ZimbraConnection {
 
 	/**
 	 * Parse the mails and Insert them in the database
-	 * @param from the sender email address
+	 *
+	 * @param from    the sender email address
 	 * @param subject the subject of the mail
-	 * @param date the sent date of the mail
-	 * @param email the content of the mail
-	 * @param db the database
+	 * @param date    the sent date of the mail
+	 * @param email   the content of the mail
+	 * @param db      the database
 	 */
 	private void parseAndInsertMailAndSave(String from, String subject, String date, String email, SQLiteDatabase db) {
 		ContentValues values = new ContentValues();

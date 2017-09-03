@@ -39,6 +39,7 @@ public class DayNews extends News {
 
 	/**
 	 * Set the name of the day associate to the day ID
+	 *
 	 * @param days the array of the name of the days
 	 */
 	public void setDaysArray(String[] days) {

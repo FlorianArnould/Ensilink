@@ -71,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
 	/**
 	 * Method that allows the application to make sure that the email address entered has the
 	 * right format for the connection to zimbra
+	 *
 	 * @return boolean valid that allows the connection to proceed
 	 */
 	private boolean validate() {
@@ -110,6 +111,7 @@ public class LoginActivity extends AppCompatActivity {
 		/**
 		 * Method that handles the connection to zimbra in the AsyncTask once we entered our
 		 * user mail adress and our password
+		 *
 		 * @param params string array containing the email address and the password
 		 * @return true if the connection was successful
 		 */

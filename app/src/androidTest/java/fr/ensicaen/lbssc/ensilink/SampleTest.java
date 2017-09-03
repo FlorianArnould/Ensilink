@@ -14,7 +14,7 @@ import fr.ensicaen.lbssc.ensilink.utils.ColorCreator;
 @RunWith(AndroidJUnit4.class)
 public class SampleTest {
 	@Test
-	public void test(){
+	public void test() {
 		ColorCreator.darkerColor(Color.BLUE);
 	}
 }

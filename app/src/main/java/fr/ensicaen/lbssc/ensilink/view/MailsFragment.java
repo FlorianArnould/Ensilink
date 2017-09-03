@@ -65,6 +65,7 @@ public class MailsFragment extends ListFragment implements Updatable {
 
 	/**
 	 * create an instance of InformationFragment
+	 *
 	 * @return return the list of the mails
 	 */
 	public static MailsFragment newInstance(int unionId) {
@@ -77,6 +78,7 @@ public class MailsFragment extends ListFragment implements Updatable {
 
 	/**
 	 * create an instance of InformationFragment
+	 *
 	 * @return return the list of the mails
 	 */
 	public static MailsFragment newInstance(int unionId, int clubId) {
@@ -135,6 +137,7 @@ public class MailsFragment extends ListFragment implements Updatable {
 
 		/**
 		 * Constructor of the class
+		 *
 		 * @param mails a list of mails
 		 */
 		MailAdapter(List<Mail> mails) {
@@ -143,6 +146,7 @@ public class MailsFragment extends ListFragment implements Updatable {
 
 		/**
 		 * Replace the old list of mails by adding the new ones
+		 *
 		 * @param mails a list mails to add to the ListView
 		 */
 		void update(List<Mail> mails) {

@@ -61,6 +61,7 @@ public final class ClubsFragment extends AssociationFragment {
 
 	/**
 	 * Method to use to create an instance of ClubsFragment
+	 *
 	 * @param unionId the id of the union of the club
 	 * @return a new instance of ClubsFragment
 	 */
@@ -109,13 +110,14 @@ public final class ClubsFragment extends AssociationFragment {
 	}
 
 	/**
-	 *  Class which store the clubs to show in the ListView
+	 * Class which store the clubs to show in the ListView
 	 */
 	private final class ClubsAdapter extends BaseAdapter {
 		List<Club> _clubs;
 
 		/**
 		 * Fill the adapter
+		 *
 		 * @param clubs a list with all the clubs
 		 */
 		ClubsAdapter(List<Club> clubs) {
@@ -125,6 +127,7 @@ public final class ClubsFragment extends AssociationFragment {
 
 		/**
 		 * Replace the list of the clubs
+		 *
 		 * @param clubs a list with all the clubs
 		 */
 		void update(List<Club> clubs) {

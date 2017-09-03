@@ -39,9 +39,9 @@ public class MailNotificationContainer {
 
 	/**
 	 * @param subject the subject of the mail
-	 * @param text the content of the mail
-	 * @param union the union of the club
-	 * @param club the club of the mail
+	 * @param text    the content of the mail
+	 * @param union   the union of the club
+	 * @param club    the club of the mail
 	 */
 	public MailNotificationContainer(String subject, String text, Union union, Club club) {
 		_subject = subject;
@@ -52,8 +52,8 @@ public class MailNotificationContainer {
 
 	/**
 	 * @param subject the subject of the mail
-	 * @param text the content of the mail
-	 * @param union the union of the mail
+	 * @param text    the content of the mail
+	 * @param union   the union of the mail
 	 */
 	public MailNotificationContainer(String subject, String text, Union union) {
 		_subject = subject;

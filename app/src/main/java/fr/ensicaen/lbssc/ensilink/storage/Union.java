@@ -40,13 +40,14 @@ public final class Union extends Association {
 
 	/**
 	 * The constructor
-	 * @param id the id of the union
-	 * @param name the name of the union
-	 * @param logo the logo image
-	 * @param photo the photo image
-	 * @param color an integer representing the color of the union
+	 *
+	 * @param id          the id of the union
+	 * @param name        the name of the union
+	 * @param logo        the logo image
+	 * @param photo       the photo image
+	 * @param color       an integer representing the color of the union
 	 * @param facebookUrl the link to the facebook page of the union
-	 * @param email the email address of the club
+	 * @param email       the email address of the club
 	 */
 	public Union(int id, String name, Image logo, Image photo, int color, String facebookUrl, String email) {
 		super(id, name, logo, photo);
@@ -59,6 +60,7 @@ public final class Union extends Association {
 
 	/**
 	 * Add the club to this union
+	 *
 	 * @param newClub the club to add
 	 */
 	public void addClub(Club newClub) {
@@ -67,6 +69,7 @@ public final class Union extends Association {
 
 	/**
 	 * Add the tag to this union to parse the emails
+	 *
 	 * @param tag the tag to add
 	 */
 	public void addTag(String tag) {

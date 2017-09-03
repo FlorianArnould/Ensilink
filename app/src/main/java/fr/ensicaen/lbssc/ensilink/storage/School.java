@@ -64,7 +64,8 @@ public final class School {
 
 	/**
 	 * Updates the information of the unions
-	 * @param context an application context
+	 *
+	 * @param context  an application context
 	 * @param listener a listener to get when the school will be updated
 	 */
 	public void refreshData(Context context, final OnSchoolDataListener listener) {

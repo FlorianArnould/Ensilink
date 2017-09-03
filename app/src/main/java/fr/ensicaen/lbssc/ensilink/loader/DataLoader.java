@@ -138,6 +138,7 @@ final public class DataLoader extends Thread {
 
 	/**
 	 * Opens the local database
+	 *
 	 * @return true if the database is opened
 	 */
 	private boolean openDatabase() {
@@ -155,6 +156,7 @@ final public class DataLoader extends Thread {
 
 	/**
 	 * Download the images
+	 *
 	 * @param images map containing the images to download
 	 */
 	private void downloadFiles(Map<String, Long> images) {
@@ -211,8 +213,9 @@ final public class DataLoader extends Thread {
 
 	/**
 	 * Loads the students of an union
+	 *
 	 * @param cursor a cursor from a query on the unions' table
-	 * @param union the union to which the students belong
+	 * @param union  the union to which the students belong
 	 */
 	private void loadStudentsUnionFromDatabase(Cursor cursor, Union union) {
 		Cursor studentCursor = _db.rawQuery("SELECT lastname, name, nickname, email, position " +
@@ -233,6 +236,7 @@ final public class DataLoader extends Thread {
 
 	/**
 	 * Loads the mails of an union
+	 *
 	 * @param union the union to which the mail belong
 	 */
 	private void loadMailsUnionFromDatabase(Union union) {
@@ -247,8 +251,9 @@ final public class DataLoader extends Thread {
 
 	/**
 	 * Loads the clubs of an union
+	 *
 	 * @param cursor a cursor from a query on the unions' table
-	 * @param union the union to which the clubs belong
+	 * @param union  the union to which the clubs belong
 	 */
 	private void loadClubsFromDatabase(Cursor cursor, Union union) {
 		Cursor clubCursor = _db.rawQuery("SELECT c.id, c.name, c.day, c.date, c.start_hour, c.duration, c.place, l.name, l.attribution, p.name, p.attribution FROM clubs AS c LEFT JOIN images AS l ON c.idlogo=l.id LEFT JOIN images AS p ON c.idphoto=p.id where idunion=?;",
@@ -287,8 +292,9 @@ final public class DataLoader extends Thread {
 
 	/**
 	 * Loads the students of a club
+	 *
 	 * @param cursor a cursor from a query on the clubs' table
-	 * @param club the club to which the students belong
+	 * @param club   the club to which the students belong
 	 */
 	private void loadStudentsClubFromDatabase(Cursor cursor, Club club) {
 		Cursor studentClubCursor = _db.rawQuery("SELECT lastname, name, nickname, email, position " +
@@ -309,6 +315,7 @@ final public class DataLoader extends Thread {
 
 	/**
 	 * Loads the mails of a club
+	 *
 	 * @param club the club to which the mail belong
 	 */
 	private void loadMailsClubFromDatabase(Club club) {
@@ -323,6 +330,7 @@ final public class DataLoader extends Thread {
 
 	/**
 	 * Sets the listener
+	 *
 	 * @param listener the listener to execute when data will be loaded
 	 */
 	public void setOnLoadingFinishListener(OnLoadingFinishListener listener) {
@@ -381,7 +389,7 @@ final public class DataLoader extends Thread {
 
 	/**
 	 * @param unionCursor cursor with union information
-	 * @param union organiser union of the event
+	 * @param union       organiser union of the event
 	 */
 	private void loadEventsFromUnion(Cursor unionCursor, Union union) {
 		Cursor cursor = _db.rawQuery("SELECT e.title, e.text, i.name FROM events AS e LEFT JOIN images AS i ON e.idimage=i.id WHERE idunion=?;", new String[]{unionCursor.getString(0)});
@@ -395,6 +403,7 @@ final public class DataLoader extends Thread {
 
 	/**
 	 * Remove the unused files to free some memory
+	 *
 	 * @param filesUsed list of the files really used in the application
 	 */
 	private void removeUnusedFiles(Set<String> filesUsed) {

@@ -24,6 +24,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import org.w3c.dom.Document;
@@ -72,7 +73,7 @@ final class DatabaseCloner {
 	/**
 	 * @param db the database instance
 	 */
-	DatabaseCloner(SQLiteDatabase db) {
+	DatabaseCloner(@NonNull SQLiteDatabase db) {
 		_success = false;
 		_db = db;
 		_imagesTimestamp = new HashMap<>();
@@ -81,6 +82,7 @@ final class DatabaseCloner {
 
 	/**
 	 * How to know if the cloning succeeded
+	 *
 	 * @return true if the cloning has succeeded
 	 */
 	boolean succeed() {
@@ -96,7 +98,7 @@ final class DatabaseCloner {
 			_success = false;
 			return;
 		}
-		Document doc = parseResponse(in);
+		Document doc = parseAnswer(in);
 		if (doc == null) {
 			_success = false;
 			return;
@@ -109,9 +111,10 @@ final class DatabaseCloner {
 
 	/**
 	 * Connects to the PHP script and get his answer
+	 *
 	 * @return an InputStream on the script's answer
 	 */
-	private InputStream connect() {
+	InputStream connect() {
 		String login = "android";
 		String password = "wantToClone";
 		String urlString = "http://www.ecole.ensicaen.fr/~arnould/others/test/interface.php";
@@ -141,29 +144,31 @@ final class DatabaseCloner {
 
 	/**
 	 * Parses the PHP script answer
+	 *
 	 * @param in InputStream on the PHP script answer
 	 * @return a DOM Document which contains the XML version of the online database
 	 */
-	private Document parseResponse(InputStream in) {
+	Document parseAnswer(@NonNull InputStream in) {
 		try {
-			DocumentBuilder builder = (DocumentBuilderFactory.newInstance()).newDocumentBuilder();
-			return builder.parse(in);
+			DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+			return builder.parse(in, "UTF-8");
 		} catch (ParserConfigurationException e) {
-			Log.d("parseResponse", "Error with the parser configuration : " + e.getMessage(), e);
+			Log.d("parseAnswer", "Error with the parser configuration : " + e.getMessage(), e);
 		} catch (SAXException e) {
-			Log.d("parseResponse", "Error with DOM parser : " + e.getMessage(), e);
+			Log.d("parseAnswer", "Error with DOM parser : " + e.getMessage(), e);
 		} catch (IOException e) {
-			Log.d("parseResponse", "Error when use inputStream to parse : " + e.getMessage(), e);
+			Log.d("parseAnswer", "Error when use inputStream to parse : " + e.getMessage(), e);
 		}
 		return null;
 	}
 
 	/**
 	 * Updates the local database from a DOM Document
+	 *
 	 * @param doc DOM Document with the XML version of the online database
 	 * @return true if the local database is updated
 	 */
-	private boolean updateDatabase(Document doc) {
+	boolean updateDatabase(@NonNull Document doc) {
 		NodeList timestamps = doc.getElementsByTagName("last_update_image_file");
 		for (int i = 0; i < timestamps.getLength(); i++) {
 			Node node = timestamps.item(i);
@@ -200,7 +205,7 @@ final class DatabaseCloner {
 	/**
 	 * Cleans all tables in the database
 	 */
-	private void clearDatabase() {
+	void clearDatabase() {
 		String[] tableList = LocalDatabaseManager.getTables();
 		for (int i = tableList.length - 1; i >= 0; i--) {
 			_db.delete(tableList[i], null, null);
@@ -216,9 +221,10 @@ final class DatabaseCloner {
 
 	/**
 	 * Create the private list which contains the news which needs a notification
+	 *
 	 * @param doc DOM document which represent the XML file
 	 */
-	private void checkClubNews(Document doc) {
+	private void checkClubNews(@NonNull Document doc) {
 		NodeList clubs = doc.getElementsByTagName("clubs");
 		for (int i = 0; i < clubs.getLength(); i++) {
 			Node club = clubs.item(i);
@@ -244,6 +250,7 @@ final class DatabaseCloner {
 
 	/**
 	 * Give the modifications of the database
+	 *
 	 * @return a list of News for notifications
 	 */
 	List<News> getModifications() {

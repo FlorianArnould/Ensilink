@@ -33,6 +33,7 @@ import android.graphics.drawable.Drawable;
 public interface OnImageLoadedListener {
 	/**
 	 * method called when the image is loaded
+	 *
 	 * @param image the loaded image
 	 */
 	void OnImageLoaded(Drawable image);

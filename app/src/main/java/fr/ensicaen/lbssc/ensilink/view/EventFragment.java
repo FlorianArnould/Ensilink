@@ -107,6 +107,7 @@ public final class EventFragment extends ListFragment implements Updatable {
 
 		/**
 		 * The constructor
+		 *
 		 * @param events a list of the events
 		 */
 		EventAdapter(List<Event> events) {
@@ -116,6 +117,7 @@ public final class EventFragment extends ListFragment implements Updatable {
 
 		/**
 		 * Replace the list of the events
+		 *
 		 * @param events a list of the events
 		 */
 		void update(List<Event> events) {

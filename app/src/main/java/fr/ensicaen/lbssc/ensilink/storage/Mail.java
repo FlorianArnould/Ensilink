@@ -36,10 +36,11 @@ public final class Mail {
 
 	/**
 	 * The constructor
+	 *
 	 * @param transmitter person who sent the email
-	 * @param subject the subject of the mail
-	 * @param text the text sent with the email
-	 * @param date the date of the email reception
+	 * @param subject     the subject of the mail
+	 * @param text        the text sent with the email
+	 * @param date        the date of the email reception
 	 */
 	public Mail(String transmitter, String subject, String text, String date) {
 		_transmitter = transmitter;

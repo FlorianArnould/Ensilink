@@ -134,4 +134,6 @@ final class LocalDatabaseManager extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 
 	}
+
+	// TODO: 02/09/17 Move the clearDatabase from DatabaseCloner to here
 }

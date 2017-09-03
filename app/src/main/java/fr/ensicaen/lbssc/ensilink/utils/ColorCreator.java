@@ -31,6 +31,10 @@ import android.graphics.Color;
  * Class to modify colors
  */
 public final class ColorCreator {
+	private ColorCreator() {
+		throw new UnsupportedOperationException("Cannot create an instance of ColorCreator");
+	}
+
 	/**
 	 * @param color the color to modify
 	 * @return a 15% darker color

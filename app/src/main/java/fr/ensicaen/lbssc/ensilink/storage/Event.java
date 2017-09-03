@@ -42,10 +42,11 @@ public final class Event {
 
 	/**
 	 * The constructor
-	 * @param title the title of the event
-	 * @param text the main text of the article
+	 *
+	 * @param title     the title of the event
+	 * @param text      the main text of the article
 	 * @param imageFile the header image of the article
-	 * @param union the organiser union of the event
+	 * @param union     the organiser union of the event
 	 */
 	public Event(String title, String text, File imageFile, Union union) {
 		_title = title;

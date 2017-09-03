@@ -59,6 +59,7 @@ public class MembersFragment extends AssociationFragment {
 
 	/**
 	 * Create an object MembersFragment
+	 *
 	 * @return the list of members of an union
 	 */
 	public static MembersFragment newInstance(int unionId) {

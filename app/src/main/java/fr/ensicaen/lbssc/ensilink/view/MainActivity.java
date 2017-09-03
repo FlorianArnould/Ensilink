@@ -195,6 +195,7 @@ public final class MainActivity extends AppCompatActivity
 
 	/**
 	 * Set the current fragment as a union fragment
+	 *
 	 * @param unionId the position of the union
 	 */
 	private void initializeOrSetUnionFragment(int unionId) {
@@ -209,6 +210,7 @@ public final class MainActivity extends AppCompatActivity
 
 	/**
 	 * set the text displayed in the action bar
+	 *
 	 * @param title the text to display
 	 */
 	public void setActionBarTitle(String title) {
@@ -219,6 +221,7 @@ public final class MainActivity extends AppCompatActivity
 
 	/**
 	 * Set the color of the action bar
+	 *
 	 * @param color the color to set
 	 */
 	public void setApplicationColor(@ColorInt int color) {
@@ -237,6 +240,7 @@ public final class MainActivity extends AppCompatActivity
 
 	/**
 	 * Replace the main fragment by another
+	 *
 	 * @param fragment the new fragment
 	 */
 	private void changeFragment(Fragment fragment) {
@@ -277,6 +281,7 @@ public final class MainActivity extends AppCompatActivity
 
 	/**
 	 * Update the state of the "swipe to refresh" action
+	 *
 	 * @param absListView active listview
 	 */
 	public void updateRefresherState(AbsListView absListView) {
@@ -287,6 +292,7 @@ public final class MainActivity extends AppCompatActivity
 
 	/**
 	 * Set the state of the "swipe to refresh" action
+	 *
 	 * @param enabled the new state
 	 */
 	public void setRefresherEnabled(boolean enabled) {

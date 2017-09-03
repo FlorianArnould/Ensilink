@@ -54,6 +54,7 @@ final class FileDownloader {
 
 	/**
 	 * Download one image from the network
+	 *
 	 * @param imageName the image name
 	 */
 	void download(String imageName) throws IOException {
@@ -76,10 +77,11 @@ final class FileDownloader {
 
 	/**
 	 * Rename the original file to the target
+	 *
 	 * @param original the name of the existing file
-	 * @param target the new name of the file
+	 * @param target   the new name of the file
 	 */
-	private void move(String original, String target) {
+	void move(String original, String target) {
 		File originalFile = new File(_context.getFilesDir(), original);
 		try {
 			InputStream in = new FileInputStream(originalFile);

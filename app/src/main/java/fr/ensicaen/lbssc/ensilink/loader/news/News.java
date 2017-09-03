@@ -44,6 +44,7 @@ public abstract class News {
 
 	/**
 	 * Create the string to show in the notification
+	 *
 	 * @return the string
 	 */
 	public abstract String toNotificationString();

@@ -41,7 +41,7 @@ import fr.ensicaen.lbssc.ensilink.storage.Student;
  */
 
 /**
- *  Class which store the students to show them in the ListView
+ * Class which store the students to show them in the ListView
  */
 public final class StudentAdapter extends BaseAdapter {
 	private final Context _context;
@@ -49,6 +49,7 @@ public final class StudentAdapter extends BaseAdapter {
 
 	/**
 	 * Fill the adapter
+	 *
 	 * @param students a list with all the students
 	 */
 	public StudentAdapter(List<Student> students, Context context) {
@@ -59,6 +60,7 @@ public final class StudentAdapter extends BaseAdapter {
 
 	/**
 	 * Replace the list of the students
+	 *
 	 * @param students a list with all the students
 	 */
 	public void update(List<Student> students) {

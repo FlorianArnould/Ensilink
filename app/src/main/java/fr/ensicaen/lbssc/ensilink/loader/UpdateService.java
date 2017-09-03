@@ -89,6 +89,7 @@ public class UpdateService extends Service {
 
 	/**
 	 * Set the listener, it will be removed after being called.
+	 *
 	 * @param listener listener called after the refresh
 	 */
 	public void setListener(OnServiceFinishedListener listener) {
@@ -142,6 +143,7 @@ public class UpdateService extends Service {
 
 	/**
 	 * Send a notification if it is needed
+	 *
 	 * @param news list of the news which needs a notifications
 	 */
 	private void createNotification(List<News> news) {
@@ -194,6 +196,7 @@ public class UpdateService extends Service {
 
 	/**
 	 * Send a notification if it is needed
+	 *
 	 * @param newMails list of the new mails
 	 */
 	private void createMailNotification(List<MailNotificationContainer> newMails) {

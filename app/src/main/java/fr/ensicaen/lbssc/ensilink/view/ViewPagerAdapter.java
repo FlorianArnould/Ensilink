@@ -41,6 +41,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
 	/**
 	 * The constructor
+	 *
 	 * @param manager the FragmentManager of the parent activity or the parent fragment
 	 */
 	public ViewPagerAdapter(FragmentManager manager) {
@@ -61,8 +62,9 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
 	/**
 	 * Add a fragment to the adapter (in order they will be shown from left to right)
+	 *
 	 * @param fragment the fragment to add
-	 * @param title the title to show in the TabLayout
+	 * @param title    the title to show in the TabLayout
 	 */
 	public void addFragment(Fragment fragment, String title) {
 		_FragmentList.add(fragment);
