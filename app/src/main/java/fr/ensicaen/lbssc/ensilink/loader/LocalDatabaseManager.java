@@ -34,7 +34,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 final class LocalDatabaseManager extends SQLiteOpenHelper {
 	private static final int VERSION = 1;
-	private static final String DATABASE_NAME = "ProjectsDatabase.db";
+	static final String DATABASE_NAME = "ProjectsDatabase.db";
 	private static final String[] _tables = {"colors", "images", "students", "unions", "clubs", "students_club", "students_union", "events"};
 
 	/**
@@ -132,7 +132,7 @@ final class LocalDatabaseManager extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-
+		// TODO: 03/09/17 Remove all the tables and execute onCreate
 	}
 
 	// TODO: 02/09/17 Move the clearDatabase from DatabaseCloner to here
