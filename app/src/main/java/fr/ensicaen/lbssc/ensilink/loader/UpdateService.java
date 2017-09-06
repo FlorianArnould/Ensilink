@@ -111,7 +111,7 @@ public class UpdateService extends Service {
 	/**
 	 * Refresh the database, get the mails and create a notification
 	 */
-	private void updateInformation() {
+	void updateInformation() {
 		LocalDatabaseManager manager = new LocalDatabaseManager(getBaseContext());
 		SQLiteDatabase db;
 		try {
@@ -132,9 +132,9 @@ public class UpdateService extends Service {
 					_listener = null;
 				}
 				db.close();
-				createNotification(cloner.getModifications());
-				createMailNotification(zimbra.getNewMails());
-
+				NotificationManager notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+				createNotification(cloner.getModifications(), notificationManager);
+				createMailNotification(zimbra.getNewMails(), notificationManager);
 			}
 		} catch (SQLiteException e) {
 			Log.e("updateInformation", "Error when tried to open SQLite database : " + e.getMessage(), e);
@@ -146,12 +146,13 @@ public class UpdateService extends Service {
 	 *
 	 * @param news list of the news which needs a notifications
 	 */
-	private void createNotification(List<News> news) {
+	void createNotification(List<News> news, NotificationManager notificationManager) {
 		String text = "";
 		if (!news.isEmpty()) {
 			SharedPreferences pref = getBaseContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 			for (int i = 0; i < news.size() - 1; i++) {
 				if (pref.getBoolean(news.get(i).getClubName(), false)) {
+					// TODO: 03/09/17 Use an Enumeration instead of an intanceof to store the type in the News class
 					if (news.get(i) instanceof DayNews) {
 						((DayNews)news.get(i)).setDaysArray(getResources().getStringArray(R.array.days));
 					}
@@ -188,8 +189,7 @@ public class UpdateService extends Service {
 								.setVibrate(new long[]{0, 500})
 								.setStyle(notificationStyle);
 				builder.setColor(Color.rgb(63, 81, 181));
-				NotificationManager notifyMgr = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-				notifyMgr.notify(1, builder.build());
+				notificationManager.notify(1, builder.build());
 			}
 		}
 	}
@@ -199,7 +199,7 @@ public class UpdateService extends Service {
 	 *
 	 * @param newMails list of the new mails
 	 */
-	private void createMailNotification(List<MailNotificationContainer> newMails) {
+	void createMailNotification(List<MailNotificationContainer> newMails, NotificationManager notificationManager) {
 		SharedPreferences pref = getBaseContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 		for (MailNotificationContainer container : newMails) {
 			boolean wantANotification;
@@ -235,8 +235,7 @@ public class UpdateService extends Service {
 								.setVibrate(new long[]{0, 500})
 								.setStyle(notificationStyle);
 				builder.setColor(Color.rgb(63, 81, 181));
-				NotificationManager notifyMgr = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-				notifyMgr.notify(_notificationMailId, builder.build());
+				notificationManager.notify(_notificationMailId, builder.build());
 				_notificationMailId++;
 				if (_notificationMailId < 2) {
 					_notificationMailId = 2;

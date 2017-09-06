@@ -31,8 +31,8 @@ package fr.ensicaen.lbssc.ensilink.loader.news;
 public class HourNews extends News {
 	private final String _newHour;
 
-	public HourNews(int unionId, String clubName, String newHour) {
-		super(unionId, clubName);
+	public HourNews(int unionId, int clubId, String clubName, String newHour) {
+		super(unionId, clubId, clubName);
 		_newHour = newHour;
 	}
 

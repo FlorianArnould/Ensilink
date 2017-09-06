@@ -32,8 +32,8 @@ public class DayNews extends News {
 	private final int _newDayId;
 	private String _newDay;
 
-	public DayNews(int unionId, String clubName, int newDayId) {
-		super(unionId, clubName);
+	public DayNews(int unionId, int clubId, String clubName, int newDayId) {
+		super(unionId, clubId, clubName);
 		_newDayId = newDayId;
 	}
 

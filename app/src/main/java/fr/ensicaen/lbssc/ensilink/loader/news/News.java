@@ -25,21 +25,18 @@ package fr.ensicaen.lbssc.ensilink.loader.news;
  * @version 1.0
  */
 
-import java.util.List;
-
-import fr.ensicaen.lbssc.ensilink.storage.Club;
-import fr.ensicaen.lbssc.ensilink.storage.School;
-
 /**
  * Interface of a News that represent a modification
  */
 public abstract class News {
 	private final String _clubName;
 	private final int _unionIndex;
+	private final int _clubIndex;
 
-	News(int unionId, String clubName) {
+	News(int unionId, int clubId, String clubName) {
 		_clubName = clubName;
 		_unionIndex = unionId - 1;
+		_clubIndex = clubId - 1;
 	}
 
 	/**
@@ -67,12 +64,6 @@ public abstract class News {
 	 * @return the index of the club
 	 */
 	public int getClubIndex() {
-		List<Club> list = School.getInstance().getUnion(_unionIndex).getClubs();
-		for (int i = 0; i < list.size(); i++) {
-			if (list.get(i).getName().equals(_clubName)) {
-				return i;
-			}
-		}
-		return 0;
+		return _clubIndex;
 	}
 }

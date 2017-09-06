@@ -31,8 +31,8 @@ package fr.ensicaen.lbssc.ensilink.loader.news;
 public class PlaceNews extends News {
 	private final String _newPlace;
 
-	public PlaceNews(int unionId, String clubName, String newPlace) {
-		super(unionId, clubName);
+	public PlaceNews(int unionId, int clubId, String clubName, String newPlace) {
+		super(unionId, clubId, clubName);
 		_newPlace = newPlace;
 	}
 

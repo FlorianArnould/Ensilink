@@ -33,8 +33,8 @@ import android.database.sqlite.SQLiteOpenHelper;
  * The class needed to open the local database and which creates it if it doesn't already exist
  */
 final class LocalDatabaseManager extends SQLiteOpenHelper {
-	private static final int VERSION = 1;
 	static final String DATABASE_NAME = "ProjectsDatabase.db";
+	private static final int VERSION = 1;
 	private static final String[] _tables = {"colors", "images", "students", "unions", "clubs", "students_club", "students_union", "events"};
 
 	/**

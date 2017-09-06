@@ -26,6 +26,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.io.BufferedWriter;
@@ -181,8 +182,8 @@ public class ZimbraConnection {
 				} else if (message.isMimeType("text/plain")) {
 					email += message.getContent().toString();
 				}
-				_parent = context.getDir("emails", Context.MODE_PRIVATE);
-				parseAndInsertMailAndSave(message.getFrom()[0].toString(), message.getSubject(), ft.format(message.getSentDate()), email, db);
+				setMailFolder(context.getDir("emails", Context.MODE_PRIVATE));
+				parseAndInsertMailAndSave(message.getFrom()[0].toString(), message.getSubject(), ft.format(message.getSentDate()), email, db, School.getInstance().getUnions(), null);
 			} else {
 				break;
 			}
@@ -197,13 +198,14 @@ public class ZimbraConnection {
 	 * @throws IOException        Exception when getting the content of the mail
 	 * @throws MessagingException javax.mail Exception
 	 */
-	private String getContentFromMultipart(Message message) throws IOException, MessagingException {
+	String getContentFromMultipart(Message message) throws IOException, MessagingException {
 		Object objectContent = message.getContent();
 		Multipart multipart = (Multipart)objectContent;
 		String emailContent = "";
 		int count = multipart.getCount();
 		for (int i = 0; i < count; i++) {
-			if (!multipart.getBodyPart(i).getContentType().contains(CONTENT_TYPE_TEXT_HTML) && multipart.getBodyPart(i).getContentType().contains(CONTENT_TYPE_TEXT_PLAIN)) {
+			String contentType = multipart.getBodyPart(i).getContentType();
+			if (!contentType.contains(CONTENT_TYPE_TEXT_HTML) && contentType.contains(CONTENT_TYPE_TEXT_PLAIN)) {
 				emailContent += multipart.getBodyPart(i).getContent().toString();
 			}
 		}
@@ -219,17 +221,17 @@ public class ZimbraConnection {
 	 * @param email   the content of the mail
 	 * @param db      the database
 	 */
-	private void parseAndInsertMailAndSave(String from, String subject, String date, String email, SQLiteDatabase db) {
+	void parseAndInsertMailAndSave(String from, String subject, String date, String email, SQLiteDatabase db, List<Union> unions, OnMailSavedListener listener) {
 		ContentValues values = new ContentValues();
 		values.put("date", date);
 		long id = db.insert("mails", null, values);
 		if (id != -1) {
-			new DiskSaver().execute(String.valueOf(id), from, subject, email);
+			new DiskSaver(listener).execute(String.valueOf(id), from, subject, email);
 			boolean finished = false;
 			ContentValues values2 = new ContentValues();
 			values2.put("idmail", id);
 			String table = "";
-			for (Union union : School.getInstance().getUnions()) {
+			for (Union union : unions) {
 				if (from.contains(union.getEmail())) {
 					values2.put("idunion", union.getId());
 					_newMails.add(new MailNotificationContainer(subject, email, union));
@@ -270,6 +272,10 @@ public class ZimbraConnection {
 		}
 	}
 
+	void setMailFolder(File folder) {
+		_parent = folder;
+	}
+
 	/**
 	 * @return the list of the new mails
 	 */
@@ -281,6 +287,12 @@ public class ZimbraConnection {
 	 * ASyncTask used to save the mails on the disk in background
 	 */
 	private class DiskSaver extends AsyncTask<String, Void, Void> {
+		private final OnMailSavedListener _listener;
+
+		DiskSaver(@Nullable OnMailSavedListener listener) {
+			_listener = listener;
+		}
+
 		@Override
 		protected Void doInBackground(String... params) {
 			try {
@@ -293,6 +305,13 @@ public class ZimbraConnection {
 				Log.e("doInBackground", "mail file not saved", e);
 			}
 			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			if (_listener != null) {
+				_listener.onMailSaved();
+			}
 		}
 	}
 }

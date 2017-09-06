@@ -186,4 +186,6 @@ public final class CreditsActivity extends AppCompatActivity {
 			return view;
 		}
 	}
+
+	// TODO: 05/09/17 Take a long time to display the credits
 }

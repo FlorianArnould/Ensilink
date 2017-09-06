@@ -30,6 +30,8 @@ import android.database.sqlite.SQLiteException;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -41,6 +43,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CountDownLatch;
 
 import fr.ensicaen.lbssc.ensilink.storage.Association;
 import fr.ensicaen.lbssc.ensilink.storage.Club;
@@ -97,11 +100,13 @@ final public class DataLoader extends Thread {
 		openDatabase();
 		if (_preload && !isDatabaseEmpty()) {
 			loadUnionsFromDatabase();
+			getAllImagesAttribution();
 			if (_listener != null) {
 				_listener.OnLoadingFinish(this);
 			}
 		}
 		Intent serviceIntent = new Intent(_context, UpdateService.class);
+		final CountDownLatch signal = new CountDownLatch(1);
 		final ServiceConnection connection = new ServiceConnection() {
 			UpdateService service;
 
@@ -115,12 +120,10 @@ final public class DataLoader extends Thread {
 						if (succeed) {
 							downloadFiles(images);
 							loadUnionsFromDatabase();
-							if (_listener != null) {
-								_listener.OnLoadingFinish(DataLoader.this);
-							}
 						}
 						getAllImagesAttribution();
 						_db.close();
+						signal.countDown();
 					}
 				});
 				_context.startService(new Intent(_context, UpdateService.class));
@@ -133,7 +136,19 @@ final public class DataLoader extends Thread {
 				}
 			}
 		};
-		_context.bindService(serviceIntent, connection, Context.BIND_AUTO_CREATE);
+		boolean isBounded = _context.bindService(serviceIntent, connection, Context.BIND_AUTO_CREATE);
+		try {
+			signal.await();
+		} catch (InterruptedException e) {
+			Log.w("run", "Loading interrupted", e);
+			return;
+		}
+		if (isBounded) {
+			_context.unbindService(connection);
+		}
+		if (_listener != null) {
+			_listener.OnLoadingFinish(this);
+		}
 	}
 
 	/**
@@ -141,7 +156,7 @@ final public class DataLoader extends Thread {
 	 *
 	 * @return true if the database is opened
 	 */
-	private boolean openDatabase() {
+	boolean openDatabase() {
 		if (_db != null) {
 			return true;
 		}
@@ -159,7 +174,7 @@ final public class DataLoader extends Thread {
 	 *
 	 * @param images map containing the images to download
 	 */
-	private void downloadFiles(Map<String, Long> images) {
+	void downloadFiles(Map<String, Long> images) {
 		_progress++;
 		updateImages(images);
 	}
@@ -167,11 +182,9 @@ final public class DataLoader extends Thread {
 	/**
 	 * @return true if the local database is empty
 	 */
-	private boolean isDatabaseEmpty() {
-		if (_db == null) {
-			if (!openDatabase()) {
-				return true;
-			}
+	boolean isDatabaseEmpty() {
+		if (_db == null && !openDatabase()) {
+			return true;
 		}
 		String[] columns = {"name"};
 		Cursor result = _db.query("unions", columns, null, null, null, null, null);
@@ -183,7 +196,7 @@ final public class DataLoader extends Thread {
 	/**
 	 * Loads unions and their information in a private attribute
 	 */
-	private void loadUnionsFromDatabase() {
+	void loadUnionsFromDatabase() {
 		_unions = new ArrayList<>();
 		_events = new ArrayList<>();
 		Cursor unionCursor = _db.rawQuery("SELECT u.id, u.name, l.name, l.attribution, p.name, p.attribution, c.red, c.green, c.blue, u.facebook, u.email, u.tags FROM unions AS u LEFT JOIN images AS l ON u.idlogo=l.id LEFT JOIN images AS p ON u.idphoto=p.id LEFT JOIN colors AS c ON u.idcolor=c.id;", null, null);
@@ -205,7 +218,7 @@ final public class DataLoader extends Thread {
 				loadClubsFromDatabase(unionCursor, union);
 				_unions.add(union);
 				loadEventsFromUnion(unionCursor, union);
-				loadMailsUnionFromDatabase(union);
+				loadMailsUnionFromDatabase(union, null);
 			} while (unionCursor.moveToNext());
 		}
 		unionCursor.close();
@@ -239,11 +252,11 @@ final public class DataLoader extends Thread {
 	 *
 	 * @param union the union to which the mail belong
 	 */
-	private void loadMailsUnionFromDatabase(Union union) {
+	void loadMailsUnionFromDatabase(Union union, @Nullable OnMailLoadedListener listener) {
 		Cursor cursor = _db.rawQuery("SELECT idmail, date FROM union_mails JOIN mails ON idmail=id WHERE idunion=?;", new String[]{String.valueOf(union.getId())});
 		if (cursor.moveToFirst()) {
 			do {
-				new MailLoader(union).execute(cursor.getString(0), cursor.getString(1));
+				new MailLoader(union, listener).execute(cursor.getString(0), cursor.getString(1));
 			} while (cursor.moveToNext());
 		}
 		cursor.close();
@@ -283,7 +296,7 @@ final public class DataLoader extends Thread {
 						new Image(new File(_fileDir, clubCursor.getString(7)), clubCursor.getString(8)),
 						new Image(new File(_fileDir, clubCursor.getString(9)), clubCursor.getString(10)));
 				loadStudentsClubFromDatabase(clubCursor, club);
-				loadMailsClubFromDatabase(club);
+				loadMailsClubFromDatabase(club, null);
 				union.addClub(club);
 			} while (clubCursor.moveToNext());
 		}
@@ -318,11 +331,11 @@ final public class DataLoader extends Thread {
 	 *
 	 * @param club the club to which the mail belong
 	 */
-	private void loadMailsClubFromDatabase(Club club) {
+	void loadMailsClubFromDatabase(Club club, @Nullable OnMailLoadedListener listener) {
 		Cursor cursor = _db.rawQuery("SELECT idmail, date FROM club_mails JOIN mails ON idmail=id WHERE idclub=?;", new String[]{String.valueOf(club.getId())});
 		if (cursor.moveToFirst()) {
 			do {
-				new MailLoader(club).execute(cursor.getString(0), cursor.getString(1));
+				new MailLoader(club, listener).execute(cursor.getString(0), cursor.getString(1));
 			} while (cursor.moveToNext());
 		}
 		cursor.close();
@@ -410,7 +423,7 @@ final public class DataLoader extends Thread {
 		for (String file : _fileDir.list()) {
 			if (!filesUsed.contains(file)) {
 				if (!new File(file).delete()) {
-					Log.d("Error", "Unused file " + file + " wasn't deleted");
+					Log.w("Error", "Unused file " + file + " wasn't deleted");
 				}
 			}
 		}
@@ -448,15 +461,17 @@ final public class DataLoader extends Thread {
 	/**
 	 * AsyncTask to load mails from hard disk in background
 	 */
-	private class MailLoader extends AsyncTask<String, Void, Void> {
+	private class MailLoader extends AsyncTask<String, Void, Association> {
 		private final Association _association;
+		private final OnMailLoadedListener _listener;
 
-		MailLoader(Association association) {
+		MailLoader(@NonNull Association association, @Nullable OnMailLoadedListener listener) {
 			_association = association;
+			_listener = listener;
 		}
 
 		@Override
-		protected Void doInBackground(String... params) {
+		protected Association doInBackground(String... params) {
 			File parent = _context.getDir("emails", Context.MODE_PRIVATE);
 			try {
 				BufferedReader rd = new BufferedReader(new FileReader(new File(parent, params[0] + ".txt")));
@@ -467,11 +482,20 @@ final public class DataLoader extends Thread {
 				while ((line = rd.readLine()) != null) {
 					content += line + "\n";
 				}
+				rd.close();
 				_association.addMail(new Mail(from, subject, content, params[1]));
+				return _association;
 			} catch (IOException e) {
 				Log.w("doInBackground", "Mail not loaded : " + e.getMessage(), e);
 			}
 			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Association association) {
+			if (_listener != null) {
+				_listener.onMailLoaded(association);
+			}
 		}
 	}
 }

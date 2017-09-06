@@ -12,13 +12,12 @@ import org.junit.runner.RunWith;
  */
 @RunWith(AndroidJUnit4.class)
 public class LocalDatabaseManagerTest {
-
 	@Test
-	public void onCreateTest() throws Exception{
+	public void onCreateTest() throws Exception {
 		InstrumentationRegistry.getTargetContext().deleteDatabase(LocalDatabaseManager.DATABASE_NAME);
 		LocalDatabaseManager manager = new LocalDatabaseManager(InstrumentationRegistry.getTargetContext());
 		Assert.assertTrue(manager.getWritableDatabase() != null);
 	}
 
-	// TODO: 03/09/17 Add an onUpgrade test 
+	// TODO: 03/09/17 Add an onUpgrade test
 }
