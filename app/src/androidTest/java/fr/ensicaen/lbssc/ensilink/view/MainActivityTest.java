@@ -184,5 +184,24 @@ public class MainActivityTest {
 		Assert.assertFalse(School.getInstance().isConnected());
 	}
 
+	@Test
+	public void slideToClubsAndRefreshTest() throws Exception {
+		final Union union = School.getInstance().getUnion(1);
+		Intent intent = new Intent(InstrumentationRegistry.getTargetContext(), MainActivity.class);
+		intent.putExtra("UNION_ID", union.getId() - 1);
+		_rule.launchActivity(intent);
+		Espresso.onView(ViewMatchers.withId(R.id.photo)).perform(ViewActions.swipeLeft());
+		final CountDownLatch signal = new CountDownLatch(1);
+		School.getInstance().setOnRefreshListener(new OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				signal.countDown();
+			}
+		});
+		Thread.sleep(1000); // TODO: 10/09/17 Remove the Thread.sleep
+		Espresso.onView(Matchers.allOf(ViewMatchers.withParent(ViewMatchers.withId(R.id.clubs_list_parent)), ViewMatchers.withId(android.R.id.list))).perform(ViewActions.swipeDown());
+		signal.await();
+	}
+
 	// TODO: 10/09/17 Check MainActivity method to not forget a test
 }

@@ -95,7 +95,7 @@ public final class School {
 		}
 	}
 
-	@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+	@VisibleForTesting(otherwise = VisibleForTesting.NONE)
 	public void loadLocalData(Context context, @Nullable final OnSchoolDataListener listener) {
 		_loader = new DataLoader(context, false);
 		_loader.setOnLoadingFinishListener(new OnLoadingFinishListener() {

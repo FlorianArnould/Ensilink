@@ -42,13 +42,6 @@ public class LoginActivity extends AppCompatActivity {
 	private EditText _email;
 	private EditText _password;
 
-	/**
-	 * Constructor of the class which initializes three private class parameters
-	 */
-	public LoginActivity() {
-
-	}
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -79,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
 		String email = _email.getText().toString();
 		String password = _password.getText().toString();
 		if (email.isEmpty() || !email.contains("@ecole.ensicaen.fr")) {
-			_email.setError("Email de l'ensicaen");
+			_email.setError(getString(R.string.wrong_email_address_message));
 			valid = false;
 		}
 		if (password.isEmpty()) {

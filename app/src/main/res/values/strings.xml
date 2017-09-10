@@ -57,6 +57,7 @@
     <string name="parameters">Paramètres</string>
 
     <string name="error">Erreur</string>
+    <string name="wrong_email_address_message">Email de l\'ENSICAEN requis</string>
     <string name="authentification_error">Une erreur est survenue lors de l\'authentification, Veuillez réessayer.</string>
     <string name="preference_file_key">"fr.ensicaen.lbssc.ensilink.preferences"</string>
 

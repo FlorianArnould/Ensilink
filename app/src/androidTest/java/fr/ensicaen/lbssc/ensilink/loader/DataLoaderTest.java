@@ -124,23 +124,24 @@ public class DataLoaderTest {
 		String subject = "subject";
 		String content = "content";
 		String date = "2017-09-01";
+		String mailId = "1";
 
 		db.delete("club_mails", null, null);
 		db.delete("mails", null, null);
 		ContentValues mailValues = new ContentValues();
-		mailValues.put("id", "1");
+		mailValues.put("id", mailId);
 		mailValues.put("date", date);
 		db.insertOrThrow("mails", null, mailValues);
 		ContentValues clubMailValues = new ContentValues();
 		clubMailValues.put("idclub", String.valueOf(club.getId()));
-		clubMailValues.put("idmail", "1");
+		clubMailValues.put("idmail", mailId);
 		db.insertOrThrow("club_mails", null, clubMailValues);
 
 		DataLoader loader = new DataLoader(context, true);
 		loader.openDatabase();
 
 		File parent = context.getDir("emails", Context.MODE_PRIVATE);
-		File file = new File(parent, club.getId() + ".txt");
+		File file = new File(parent, mailId + ".txt");
 		BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 		writer.write(from);
 		writer.newLine();
@@ -176,23 +177,24 @@ public class DataLoaderTest {
 		String subject = "subject";
 		String content = "content";
 		String date = "2017-09-01";
+		String mailId = "1";
 
 		db.delete("union_mails", null, null);
 		db.delete("mails", null, null);
 		ContentValues mailValues = new ContentValues();
-		mailValues.put("id", "1");
+		mailValues.put("id", mailId);
 		mailValues.put("date", date);
 		db.insertOrThrow("mails", null, mailValues);
 		ContentValues unionMailValues = new ContentValues();
 		unionMailValues.put("idunion", String.valueOf(union.getId()));
-		unionMailValues.put("idmail", "1");
+		unionMailValues.put("idmail", mailId);
 		db.insertOrThrow("union_mails", null, unionMailValues);
 
 		DataLoader loader = new DataLoader(context, true);
 		loader.openDatabase();
 
 		File parent = context.getDir("emails", Context.MODE_PRIVATE);
-		File file = new File(parent, union.getId() + ".txt");
+		File file = new File(parent, mailId + ".txt");
 		BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 		writer.write(from);
 		writer.newLine();
