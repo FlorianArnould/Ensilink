@@ -25,6 +25,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import org.w3c.dom.Document;
@@ -114,6 +115,7 @@ final class DatabaseCloner {
 	 *
 	 * @return an InputStream on the script's answer
 	 */
+	@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 	InputStream connect() {
 		String login = "android";
 		String password = "wantToClone";
@@ -148,6 +150,7 @@ final class DatabaseCloner {
 	 * @param in InputStream on the PHP script answer
 	 * @return a DOM Document which contains the XML version of the online database
 	 */
+	@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 	Document parseAnswer(@NonNull InputStream in) {
 		try {
 			DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -168,6 +171,7 @@ final class DatabaseCloner {
 	 * @param doc DOM Document with the XML version of the online database
 	 * @return true if the local database is updated
 	 */
+	@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 	boolean updateDatabase(@NonNull Document doc) {
 		NodeList timestamps = doc.getElementsByTagName("last_update_image_file");
 		for (int i = 0; i < timestamps.getLength(); i++) {
@@ -205,6 +209,7 @@ final class DatabaseCloner {
 	/**
 	 * Cleans all tables in the database
 	 */
+	@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 	void clearDatabase() {
 		String[] tableList = LocalDatabaseManager.getTables();
 		for (int i = tableList.length - 1; i >= 0; i--) {

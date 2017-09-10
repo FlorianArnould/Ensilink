@@ -10,7 +10,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.w3c.dom.Document;
 
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -63,11 +62,7 @@ public class ZimbraConnectionTest {
 	@Test
 	public void parseAndInsertMailAndSaveFromUnionTest() throws Exception {
 		Context context = InstrumentationRegistry.getTargetContext();
-		SQLiteDatabase db = new LocalDatabaseManager(context).getWritableDatabase();
-		DatabaseCloner cloner = new DatabaseCloner(db);
-		Document doc = cloner.parseAnswer(InstrumentationRegistry.getContext().getResources().openRawResource(fr.ensicaen.lbssc.ensilink.test.R.raw.database));
-		Assert.assertTrue(doc != null);
-		cloner.updateDatabase(doc);
+		SQLiteDatabase db = DataManagerForTest.setDefaultLocalDatabase();
 		db.delete("mails", null, null);
 		db.delete("union_mails", null, null);
 		db.delete("club_mails", null, null);
@@ -124,11 +119,7 @@ public class ZimbraConnectionTest {
 	@Test
 	public void parseAndInsertMailAndSaveFromUnionTagsTest() throws Exception {
 		Context context = InstrumentationRegistry.getTargetContext();
-		SQLiteDatabase db = new LocalDatabaseManager(context).getWritableDatabase();
-		DatabaseCloner cloner = new DatabaseCloner(db);
-		Document doc = cloner.parseAnswer(InstrumentationRegistry.getContext().getResources().openRawResource(fr.ensicaen.lbssc.ensilink.test.R.raw.database));
-		Assert.assertTrue(doc != null);
-		cloner.updateDatabase(doc);
+		SQLiteDatabase db = DataManagerForTest.setDefaultLocalDatabase();
 		db.delete("mails", null, null);
 		db.delete("union_mails", null, null);
 		db.delete("club_mails", null, null);
@@ -185,11 +176,7 @@ public class ZimbraConnectionTest {
 	@Test
 	public void parseAndInsertMailAndSaveFromClubTest() throws Exception {
 		Context context = InstrumentationRegistry.getTargetContext();
-		SQLiteDatabase db = new LocalDatabaseManager(context).getWritableDatabase();
-		DatabaseCloner cloner = new DatabaseCloner(db);
-		Document doc = cloner.parseAnswer(InstrumentationRegistry.getContext().getResources().openRawResource(fr.ensicaen.lbssc.ensilink.test.R.raw.database));
-		Assert.assertTrue(doc != null);
-		cloner.updateDatabase(doc);
+		SQLiteDatabase db = DataManagerForTest.setDefaultLocalDatabase();
 		db.delete("mails", null, null);
 		db.delete("union_mails", null, null);
 		db.delete("club_mails", null, null);

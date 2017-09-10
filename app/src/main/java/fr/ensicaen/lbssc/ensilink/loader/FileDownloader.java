@@ -21,6 +21,7 @@
 package fr.ensicaen.lbssc.ensilink.loader;
 
 import android.content.Context;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import java.io.DataInputStream;
@@ -81,6 +82,7 @@ final class FileDownloader {
 	 * @param original the name of the existing file
 	 * @param target   the new name of the file
 	 */
+	@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 	void move(String original, String target) {
 		File originalFile = new File(_context.getFilesDir(), original);
 		try {

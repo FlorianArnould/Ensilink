@@ -22,6 +22,8 @@ package fr.ensicaen.lbssc.ensilink.storage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
 import java.util.List;
 
@@ -45,6 +47,7 @@ public final class School {
 	private static boolean _neverUpdated;
 	private static boolean _isConnected;
 	private DataLoader _loader;
+	private OnRefreshListener _refreshListener;
 
 	/**
 	 * The private constructor
@@ -53,6 +56,7 @@ public final class School {
 		_neverUpdated = true;
 		_loader = null;
 		_isConnected = false;
+		_refreshListener = null;
 	}
 
 	/**
@@ -68,7 +72,7 @@ public final class School {
 	 * @param context  an application context
 	 * @param listener a listener to get when the school will be updated
 	 */
-	public void refreshData(Context context, final OnSchoolDataListener listener) {
+	public void refreshData(Context context, @Nullable final OnSchoolDataListener listener) {
 		_loader = new DataLoader(context, _neverUpdated);
 		_loader.setOnLoadingFinishListener(new OnLoadingFinishListener() {
 			@Override
@@ -85,6 +89,27 @@ public final class School {
 		_loader.start();
 		SharedPreferences pref = context.getSharedPreferences(context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 		_isConnected = !pref.getString("email", "").isEmpty() && !pref.getString("password", "").isEmpty();
+		if (_refreshListener != null) {
+			//noinspection VisibleForTests
+			_refreshListener.onRefresh();
+		}
+	}
+
+	@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+	public void loadLocalData(Context context, @Nullable final OnSchoolDataListener listener) {
+		_loader = new DataLoader(context, false);
+		_loader.setOnLoadingFinishListener(new OnLoadingFinishListener() {
+			@Override
+			public void OnLoadingFinish(DataLoader loader) {
+				_unions = loader.getUnions();
+				_events = loader.getEvents();
+				_images = loader.getImages();
+				if (listener != null) {
+					listener.OnDataRefreshed();
+				}
+			}
+		});
+		_loader.start();
 	}
 
 	/**
@@ -165,5 +190,15 @@ public final class School {
 	 */
 	public void setConnected() {
 		_isConnected = true;
+	}
+
+	/**
+	 * Method used to test the refresh feature on the MainActivity
+	 *
+	 * @param listener called when the refreshData method is called
+	 */
+	@VisibleForTesting(otherwise = VisibleForTesting.NONE)
+	public void setOnRefreshListener(OnRefreshListener listener) {
+		_refreshListener = listener;
 	}
 }

@@ -27,6 +27,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import java.io.BufferedWriter;
@@ -198,6 +199,7 @@ public class ZimbraConnection {
 	 * @throws IOException        Exception when getting the content of the mail
 	 * @throws MessagingException javax.mail Exception
 	 */
+	@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 	String getContentFromMultipart(Message message) throws IOException, MessagingException {
 		Object objectContent = message.getContent();
 		Multipart multipart = (Multipart)objectContent;
@@ -221,6 +223,7 @@ public class ZimbraConnection {
 	 * @param email   the content of the mail
 	 * @param db      the database
 	 */
+	@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 	void parseAndInsertMailAndSave(String from, String subject, String date, String email, SQLiteDatabase db, List<Union> unions, OnMailSavedListener listener) {
 		ContentValues values = new ContentValues();
 		values.put("date", date);

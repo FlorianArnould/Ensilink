@@ -34,6 +34,7 @@ import android.media.RingtoneManager;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.IBinder;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -111,6 +112,7 @@ public class UpdateService extends Service {
 	/**
 	 * Refresh the database, get the mails and create a notification
 	 */
+	@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 	void updateInformation() {
 		LocalDatabaseManager manager = new LocalDatabaseManager(getBaseContext());
 		SQLiteDatabase db;
@@ -146,6 +148,7 @@ public class UpdateService extends Service {
 	 *
 	 * @param news list of the news which needs a notifications
 	 */
+	@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 	void createNotification(List<News> news, NotificationManager notificationManager) {
 		String text = "";
 		if (!news.isEmpty()) {
@@ -199,6 +202,7 @@ public class UpdateService extends Service {
 	 *
 	 * @param newMails list of the new mails
 	 */
+	@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 	void createMailNotification(List<MailNotificationContainer> newMails, NotificationManager notificationManager) {
 		SharedPreferences pref = getBaseContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 		for (MailNotificationContainer container : newMails) {
@@ -247,7 +251,9 @@ public class UpdateService extends Service {
 	/**
 	 * Binder used to get the service instance from other contexts like activities.
 	 */
+	@VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
 	class ServiceBinder extends Binder {
+		@VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
 		UpdateService getServiceInstance() {
 			return UpdateService.this;
 		}

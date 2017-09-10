@@ -57,10 +57,7 @@ public class DataLoaderTest {
 	@Test
 	public void databaseNotEmptyTest() throws Exception {
 		Context context = InstrumentationRegistry.getTargetContext();
-		DatabaseCloner cloner = new DatabaseCloner(new LocalDatabaseManager(context).getWritableDatabase());
-		Document doc = cloner.parseAnswer(InstrumentationRegistry.getContext().getResources().openRawResource(fr.ensicaen.lbssc.ensilink.test.R.raw.database));
-		Assert.assertTrue(doc != null);
-		cloner.updateDatabase(doc);
+		DataManagerForTest.setDefaultLocalDatabase();
 		DataLoader loader = new DataLoader(context, true);
 		Assert.assertFalse(loader.isDatabaseEmpty());
 	}
@@ -87,10 +84,7 @@ public class DataLoaderTest {
 	@Test
 	public void loadUnionsFromDatabase() throws Exception {
 		Context context = InstrumentationRegistry.getTargetContext();
-		DatabaseCloner cloner = new DatabaseCloner(new LocalDatabaseManager(context).getWritableDatabase());
-		Document doc = cloner.parseAnswer(InstrumentationRegistry.getContext().getResources().openRawResource(fr.ensicaen.lbssc.ensilink.test.R.raw.database));
-		Assert.assertTrue(doc != null);
-		cloner.updateDatabase(doc);
+		SQLiteDatabase db = DataManagerForTest.setDefaultLocalDatabase();
 		DataLoader loader = new DataLoader(context, true);
 		loader.openDatabase();
 		loader.loadUnionsFromDatabase();
@@ -123,11 +117,7 @@ public class DataLoaderTest {
 	@Test
 	public void loadMailClubTest() throws Exception {
 		Context context = InstrumentationRegistry.getTargetContext();
-		SQLiteDatabase db = new LocalDatabaseManager(context).getWritableDatabase();
-		DatabaseCloner cloner = new DatabaseCloner(db);
-		Document doc = cloner.parseAnswer(InstrumentationRegistry.getContext().getResources().openRawResource(fr.ensicaen.lbssc.ensilink.test.R.raw.database));
-		Assert.assertTrue(doc != null);
-		cloner.updateDatabase(doc);
+		SQLiteDatabase db = DataManagerForTest.setDefaultLocalDatabase();
 
 		Club club = new Club(1, "foot", 2, null, null, null, "", null, null);
 		String from = "from";
@@ -179,11 +169,7 @@ public class DataLoaderTest {
 	@Test
 	public void loadMailUnion() throws Exception {
 		Context context = InstrumentationRegistry.getTargetContext();
-		SQLiteDatabase db = new LocalDatabaseManager(context).getWritableDatabase();
-		DatabaseCloner cloner = new DatabaseCloner(db);
-		Document doc = cloner.parseAnswer(InstrumentationRegistry.getContext().getResources().openRawResource(fr.ensicaen.lbssc.ensilink.test.R.raw.database));
-		Assert.assertTrue(doc != null);
-		cloner.updateDatabase(doc);
+		SQLiteDatabase db = DataManagerForTest.setDefaultLocalDatabase();
 
 		Union union = new Union(1, "test", null, null, Color.WHITE, "", "");
 		String from = "from";

@@ -32,6 +32,7 @@ import android.os.AsyncTask;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -156,6 +157,7 @@ final public class DataLoader extends Thread {
 	 *
 	 * @return true if the database is opened
 	 */
+	@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 	boolean openDatabase() {
 		if (_db != null) {
 			return true;
@@ -174,6 +176,7 @@ final public class DataLoader extends Thread {
 	 *
 	 * @param images map containing the images to download
 	 */
+	@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 	void downloadFiles(Map<String, Long> images) {
 		_progress++;
 		updateImages(images);
@@ -182,6 +185,7 @@ final public class DataLoader extends Thread {
 	/**
 	 * @return true if the local database is empty
 	 */
+	@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 	boolean isDatabaseEmpty() {
 		if (_db == null && !openDatabase()) {
 			return true;
@@ -196,6 +200,7 @@ final public class DataLoader extends Thread {
 	/**
 	 * Loads unions and their information in a private attribute
 	 */
+	@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 	void loadUnionsFromDatabase() {
 		_unions = new ArrayList<>();
 		_events = new ArrayList<>();
@@ -252,6 +257,7 @@ final public class DataLoader extends Thread {
 	 *
 	 * @param union the union to which the mail belong
 	 */
+	@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 	void loadMailsUnionFromDatabase(Union union, @Nullable OnMailLoadedListener listener) {
 		Cursor cursor = _db.rawQuery("SELECT idmail, date FROM union_mails JOIN mails ON idmail=id WHERE idunion=?;", new String[]{String.valueOf(union.getId())});
 		if (cursor.moveToFirst()) {
@@ -331,6 +337,7 @@ final public class DataLoader extends Thread {
 	 *
 	 * @param club the club to which the mail belong
 	 */
+	@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 	void loadMailsClubFromDatabase(Club club, @Nullable OnMailLoadedListener listener) {
 		Cursor cursor = _db.rawQuery("SELECT idmail, date FROM club_mails JOIN mails ON idmail=id WHERE idclub=?;", new String[]{String.valueOf(club.getId())});
 		if (cursor.moveToFirst()) {
