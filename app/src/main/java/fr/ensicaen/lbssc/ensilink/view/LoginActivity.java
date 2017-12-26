@@ -47,14 +47,14 @@ public class LoginActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.login_screen_activity);
-		_email = (EditText)findViewById(R.id.input_email);
-		_password = (EditText)findViewById(R.id.input_password);
-		Button button = (Button)findViewById(R.id.login_btn);
+		_email = findViewById(R.id.input_email);
+		_password = findViewById(R.id.input_password);
+		Button button = findViewById(R.id.login_btn);
 		button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (validate()) {
-					connection test = new connection();
+					Connection test = new Connection();
 					test.execute(_email.getText().toString(), _password.getText().toString());
 				}
 			}
@@ -63,9 +63,9 @@ public class LoginActivity extends AppCompatActivity {
 
 	/**
 	 * Method that allows the application to make sure that the email address entered has the
-	 * right format for the connection to zimbra
+	 * right format for the Connection to zimbra
 	 *
-	 * @return boolean valid that allows the connection to proceed
+	 * @return boolean valid that allows the Connection to proceed
 	 */
 	private boolean validate() {
 		boolean valid = true;
@@ -85,28 +85,28 @@ public class LoginActivity extends AppCompatActivity {
 	 * This class was created because on Android we cannot handle network related actions in the
 	 * UI thread
 	 */
-	private class connection extends AsyncTask<String, Void, Boolean> {
-		private ProgressDialog progressDialog;
+	private class Connection extends AsyncTask<String, Void, Boolean> {
+		private ProgressDialog _progressDialog;
 
 		/**
-		 * Method that displays the status of the connection as soon as we click on the
-		 * connection button
+		 * Method that displays the status of the Connection as soon as we click on the
+		 * Connection button
 		 */
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			progressDialog = new ProgressDialog(LoginActivity.this, R.style.AppTheme_Dark_Dialog);
-			progressDialog.setIndeterminate(true);
-			progressDialog.setMessage("Authentification ...");
-			progressDialog.show();
+			_progressDialog = new ProgressDialog(LoginActivity.this, R.style.AppTheme_Dark_Dialog);
+			_progressDialog.setIndeterminate(true);
+			_progressDialog.setMessage("Authentification ...");
+			_progressDialog.show();
 		}
 
 		/**
-		 * Method that handles the connection to zimbra in the AsyncTask once we entered our
+		 * Method that handles the Connection to zimbra in the AsyncTask once we entered our
 		 * user mail adress and our password
 		 *
 		 * @param params string array containing the email address and the password
-		 * @return true if the connection was successful
+		 * @return true if the Connection was successful
 		 */
 		@Override
 		protected Boolean doInBackground(String... params) {
@@ -122,11 +122,11 @@ public class LoginActivity extends AppCompatActivity {
 		}
 
 		/**
-		 * Method that cancels the progressDialog at the end of the connection to zimbra
+		 * Method that cancels the _progressDialog at the end of the Connection to zimbra
 		 */
 		@Override
 		protected void onPostExecute(Boolean result) {
-			progressDialog.cancel();
+			_progressDialog.cancel();
 			if (result) {
 				SharedPreferences pref = LoginActivity.this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 				pref.edit().putString("email", _email.getText().toString()).putString("password", _password.getText().toString()).apply();

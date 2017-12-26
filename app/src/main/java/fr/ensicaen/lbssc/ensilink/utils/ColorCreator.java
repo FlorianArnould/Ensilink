@@ -40,9 +40,9 @@ public final class ColorCreator {
 	 * @return a 15% darker color
 	 */
 	public static int darkerColor(int color) {
-		float HSVColor[] = new float[3];
-		Color.colorToHSV(color, HSVColor);
-		HSVColor[2] *= 0.85;
-		return Color.HSVToColor(HSVColor);
+		float[] hsvColor = new float[3];
+		Color.colorToHSV(color, hsvColor);
+		hsvColor[2] *= 0.85;
+		return Color.HSVToColor(hsvColor);
 	}
 }

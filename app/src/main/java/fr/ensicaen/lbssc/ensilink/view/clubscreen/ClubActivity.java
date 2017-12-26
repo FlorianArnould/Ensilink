@@ -23,6 +23,7 @@ package fr.ensicaen.lbssc.ensilink.view.clubscreen;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -57,10 +58,10 @@ public class ClubActivity extends AppCompatActivity {
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 			getSupportActionBar().setElevation(0);
 		}
-		ViewPager viewPager = (ViewPager)findViewById(R.id.viewpager);
+		ViewPager viewPager = findViewById(R.id.viewpager);
 		setupViewPager(viewPager);
 
-		TabLayout tabLayout = (TabLayout)findViewById(R.id.tabs);
+		TabLayout tabLayout = findViewById(R.id.tabs);
 		tabLayout.setupWithViewPager(viewPager);
 		Union union = School.getInstance().getUnion(_unionId);
 		int color = union.getColor();
@@ -88,11 +89,18 @@ public class ClubActivity extends AppCompatActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				this.finish();
-				break;
+		if (item.getItemId() == android.R.id.home) {
+			finish();
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@VisibleForTesting(otherwise = VisibleForTesting.NONE)
+	public void setViewPagerListener(ViewPager.SimpleOnPageChangeListener listener) {
+		ViewPager viewPager = findViewById(R.id.viewpager);
+		if (viewPager != null) {
+			viewPager.addOnPageChangeListener(listener);
+		}
 	}
 }

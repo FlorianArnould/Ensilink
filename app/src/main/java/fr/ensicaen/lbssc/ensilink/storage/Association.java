@@ -20,7 +20,10 @@
  */
 package fr.ensicaen.lbssc.ensilink.storage;
 
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.view.ViewTreeObserver;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,9 +119,16 @@ public abstract class Association {
 	 *
 	 * @param listener listener called when the image will be loaded
 	 */
-	public void loadLogo(OnImageLoadedListener listener) {
-		ImageLoadThread thread = new ImageLoadThread(_logo.getAbsolutePath(), listener);
-		thread.start();
+	public void loadLogo(final ImageView imageView, final OnImageLoadedListener listener) {
+		imageView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+			@Override
+			public boolean onPreDraw() {
+				imageView.getViewTreeObserver().removeOnPreDrawListener(this);
+				ImageLoadThread thread = new ImageLoadThread(_logo.getAbsolutePath(), imageView.getMeasuredWidth(), imageView.getMeasuredHeight(), listener);
+				thread.start();
+				return true;
+			}
+		});
 	}
 
 	/**
@@ -135,9 +145,16 @@ public abstract class Association {
 	 *
 	 * @param listener listener called when the image will be loaded
 	 */
-	public void loadPhoto(OnImageLoadedListener listener) {
-		ImageLoadThread thread = new ImageLoadThread(_photo.getAbsolutePath(), listener);
-		thread.start();
+	public void loadPhoto(final ImageView imageView, final OnImageLoadedListener listener) {
+		imageView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+			@Override
+			public boolean onPreDraw() {
+				imageView.getViewTreeObserver().removeOnPreDrawListener(this);
+				ImageLoadThread thread = new ImageLoadThread(_photo.getAbsolutePath(), imageView.getMeasuredWidth(), imageView.getMeasuredHeight(), listener);
+				thread.start();
+				return true;
+			}
+		});
 	}
 
 	/**
@@ -146,6 +163,8 @@ public abstract class Association {
 	private class ImageLoadThread extends Thread {
 		private final String _path;
 		private final OnImageLoadedListener _listener;
+		private final int _width;
+		private final int _height;
 
 		/**
 		 * The constructor
@@ -153,9 +172,11 @@ public abstract class Association {
 		 * @param path     to the local file
 		 * @param listener the listener to call when the image will be loaded
 		 */
-		ImageLoadThread(String path, OnImageLoadedListener listener) {
+		ImageLoadThread(String path, int width, int height, OnImageLoadedListener listener) {
 			_path = path;
 			_listener = listener;
+			_width = width;
+			_height = height;
 		}
 
 		/**
@@ -163,7 +184,42 @@ public abstract class Association {
 		 */
 		@Override
 		public void run() {
-			_listener.OnImageLoaded(Drawable.createFromPath(_path));
+			final BitmapFactory.Options options = new BitmapFactory.Options();
+			options.inJustDecodeBounds = true;
+			BitmapFactory.decodeFile(_path, options);
+			options.inJustDecodeBounds = false;
+			options.inSampleSize = calculateInSampleSize(options, _width, _height);
+			_listener.onImageLoaded(BitmapFactory.decodeFile(_path, options));
+		}
+
+		/**
+		 * Calculate the sample size for the Bitmap
+		 *
+		 * @param options   the options for the loading
+		 * @param reqWidth  the width to load
+		 * @param reqHeight the height to load
+		 * @return inSampleSize for the options
+		 */
+		private int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+			// Raw height and width of image
+			final int height = options.outHeight;
+			final int width = options.outWidth;
+			int inSampleSize = 1;
+
+			if (height > reqHeight || width > reqWidth) {
+
+				final int halfHeight = height / 2;
+				final int halfWidth = width / 2;
+
+				// Calculate the largest inSampleSize value that is a power of 2 and keeps both
+				// height and width larger than the requested height and width.
+				while ((halfHeight / inSampleSize) >= reqHeight
+						&& (halfWidth / inSampleSize) >= reqWidth) {
+					inSampleSize *= 2;
+				}
+			}
+
+			return inSampleSize;
 		}
 	}
 }

@@ -20,7 +20,7 @@
  */
 package fr.ensicaen.lbssc.ensilink.storage;
 
-import android.graphics.drawable.Drawable;
+import android.graphics.Bitmap;
 
 /**
  * @author Florian Arnould
@@ -36,5 +36,5 @@ public interface OnImageLoadedListener {
 	 *
 	 * @param image the loaded image
 	 */
-	void OnImageLoaded(Drawable image);
+	void onImageLoaded(Bitmap image);
 }

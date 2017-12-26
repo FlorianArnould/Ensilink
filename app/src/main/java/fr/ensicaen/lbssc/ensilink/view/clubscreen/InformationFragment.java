@@ -20,7 +20,6 @@
  */
 package fr.ensicaen.lbssc.ensilink.view.clubscreen;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -32,8 +31,8 @@ import android.widget.TextView;
 
 import fr.ensicaen.lbssc.ensilink.R;
 import fr.ensicaen.lbssc.ensilink.storage.Club;
-import fr.ensicaen.lbssc.ensilink.storage.OnImageLoadedListener;
 import fr.ensicaen.lbssc.ensilink.storage.School;
+import fr.ensicaen.lbssc.ensilink.view.OnImageLoadedForImageViewListener;
 import fr.ensicaen.lbssc.ensilink.view.StudentAdapter;
 
 /**
@@ -48,13 +47,6 @@ public class InformationFragment extends Fragment {
 	private int _unionId;
 	private int _clubId;
 	private StudentAdapter _adapter;
-
-	/**
-	 * Required empty public constructor
-	 */
-	public InformationFragment() {
-
-	}
 
 	/**
 	 * Method to use to create an instance of InformationFragment
@@ -86,9 +78,9 @@ public class InformationFragment extends Fragment {
 		// Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.clubs_information_fragment, container, false);
 		Club club = School.getInstance().getUnion(_unionId).getClub(_clubId);
-		TextView text = (TextView)view.findViewById(R.id.place);
+		TextView text = view.findViewById(R.id.place);
 		text.setText(club.getPlace());
-		text = (TextView)view.findViewById(R.id.date_club);
+		text = view.findViewById(R.id.date_club);
 		if (club.getDayOfWeek(getContext()) != null) {
 			text.setText(club.getDayOfWeek(getContext()));
 		} else if (club.getDate() != null) {
@@ -96,7 +88,7 @@ public class InformationFragment extends Fragment {
 		} else {
 			text.setText(getString(R.string.unknown));
 		}
-		text = (TextView)view.findViewById(R.id.hours);
+		text = view.findViewById(R.id.hours);
 		if (club.getTime() != null) {
 			String str = club.getTime().toString() + "-";
 			if (club.getDuration() != null) {
@@ -108,25 +100,15 @@ public class InformationFragment extends Fragment {
 		} else {
 			text.setText(getString(R.string.unknown));
 		}
-		final ImageView imageView = (ImageView)view.findViewById(R.id.logo);
-		club.loadLogo(new OnImageLoadedListener() {
-			@Override
-			public void OnImageLoaded(final Drawable image) {
-				getActivity().runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						imageView.setImageDrawable(image);
-					}
-				});
-			}
-		});
+		final ImageView imageView = view.findViewById(R.id.logo);
+		club.loadLogo(imageView, new OnImageLoadedForImageViewListener(getActivity(), imageView));
 		return view;
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedStateInstance) {
 		super.onActivityCreated(savedStateInstance);
-		ListView list = (ListView)getActivity().findViewById(R.id.list);
+		ListView list = getActivity().findViewById(R.id.list);
 		list.setAdapter(_adapter);
 	}
 }

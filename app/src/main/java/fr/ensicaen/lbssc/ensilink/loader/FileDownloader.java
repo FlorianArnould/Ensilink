@@ -61,14 +61,13 @@ final class FileDownloader {
 	void download(String imageName) throws IOException {
 		try {
 			URL url = new URL("http://www.ecole.ensicaen.fr/~arnould/others/test/images/" + imageName);
-			InputStream in = url.openStream();
-			DataInputStream dis = new DataInputStream(in);
-			byte[] buffer = new byte[1024];
-			int length;
-
-			FileOutputStream fos = new FileOutputStream(new File(_context.getFilesDir(), imageName + ".new"));
-			while ((length = dis.read(buffer)) > 0) {
-				fos.write(buffer, 0, length);
+			try (DataInputStream dis = new DataInputStream(url.openStream());
+				 FileOutputStream fos = new FileOutputStream(new File(_context.getFilesDir(), imageName + ".new"))) {
+				byte[] buffer = new byte[1024];
+				int length;
+				while ((length = dis.read(buffer)) > 0) {
+					fos.write(buffer, 0, length);
+				}
 			}
 			move(imageName + ".new", imageName);
 		} catch (MalformedURLException e) {
@@ -85,19 +84,16 @@ final class FileDownloader {
 	@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 	void move(String original, String target) {
 		File originalFile = new File(_context.getFilesDir(), original);
-		try {
-			InputStream in = new FileInputStream(originalFile);
-			OutputStream out = new FileOutputStream(new File(_context.getFilesDir(), target));
+		try (InputStream in = new FileInputStream(originalFile);
+			 OutputStream out = new FileOutputStream(new File(_context.getFilesDir(), target))) {
 			byte[] buffer = new byte[1024];
 			int read;
 			while ((read = in.read(buffer)) != -1) {
 				out.write(buffer, 0, read);
 			}
-			in.close();
 			out.flush();
-			out.close();
 			if (!originalFile.delete()) {
-				Log.d("D", "File " + original + " was not removed correctly");
+				Log.w("move downloaded file", "File " + original + " was not removed correctly");
 			}
 		} catch (FileNotFoundException e) {
 			Log.w("move", "File not found when moving image " + target + " : " + e.getMessage(), e);

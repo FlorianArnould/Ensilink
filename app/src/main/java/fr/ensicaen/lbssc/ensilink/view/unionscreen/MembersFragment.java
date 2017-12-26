@@ -21,7 +21,7 @@
 package fr.ensicaen.lbssc.ensilink.view.unionscreen;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -51,13 +51,6 @@ public class MembersFragment extends AssociationFragment {
 	private View _view;
 
 	/**
-	 * Required empty public constructor
-	 */
-	public MembersFragment() {
-
-	}
-
-	/**
 	 * Create an object MembersFragment
 	 *
 	 * @return the list of members of an union
@@ -82,20 +75,20 @@ public class MembersFragment extends AssociationFragment {
 		final String link = getUnion().getFacebookUrl();
 		Log.d("maison", link);
 		if (_view != null) {
-			final ImageView imageView = (ImageView)_view.findViewById(R.id.photo);
-			getUnion().loadPhoto(new OnImageLoadedListener() {
+			final ImageView imageView = _view.findViewById(R.id.photo);
+			getUnion().loadPhoto(imageView, new OnImageLoadedListener() {
 				@Override
-				public void OnImageLoaded(final Drawable image) {
+				public void onImageLoaded(final Bitmap image) {
 					getActivity().runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
-							imageView.setImageDrawable(image);
+							imageView.setImageBitmap(image);
 						}
 					});
 				}
 			});
-			FloatingActionButton _fab = (FloatingActionButton)_view.findViewById(R.id.facebook);
-			_fab.setOnClickListener(new View.OnClickListener() {
+			FloatingActionButton fab = _view.findViewById(R.id.facebook);
+			fab.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
 					Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));

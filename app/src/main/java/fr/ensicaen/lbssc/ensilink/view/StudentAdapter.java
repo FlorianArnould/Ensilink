@@ -90,15 +90,15 @@ public final class StudentAdapter extends BaseAdapter {
 			view = inflater.inflate(R.layout.members_fragment_row, parent, false);
 		}
 		final Student student = _students.get(i);
-		TextView text = (TextView)view.findViewById(R.id.listview_union_membre_role);
+		TextView text = view.findViewById(R.id.listview_union_membre_role);
 		text.setText(student.getPosition());
-		text = (TextView)view.findViewById(R.id.listview_union_membre_nom);
+		text = view.findViewById(R.id.listview_union_membre_nom);
 		text.setText(student.getName() + " \"" + student.getNickname() + "\" " + student.getLastName());
-		text = (TextView)view.findViewById(R.id.listview_union_membre_mail);
+		text = view.findViewById(R.id.listview_union_membre_mail);
 		text.setText(student.getEmail());
 
 
-		ImageButton button = (ImageButton)view.findViewById(R.id.image_mail);
+		ImageButton button = view.findViewById(R.id.image_mail);
 		button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {

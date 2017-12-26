@@ -22,8 +22,8 @@ package fr.ensicaen.lbssc.ensilink.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -53,13 +53,6 @@ import fr.ensicaen.lbssc.ensilink.view.eventscreen.EventActivity;
  */
 public final class EventFragment extends ListFragment implements Updatable {
 	private EventAdapter _adapter;
-
-	/**
-	 * Required empty public constructor
-	 */
-	public EventFragment() {
-
-	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -147,21 +140,21 @@ public final class EventFragment extends ListFragment implements Updatable {
 				view = inflater.inflate(R.layout.event_row, parent, false);
 			}
 			Event event = _events.get(i);
-			final ImageView image = (ImageView)view.findViewById(R.id.listview_image);
-			event.getParentUnion().loadLogo(new OnImageLoadedListener() {
+			final ImageView image = view.findViewById(R.id.listview_image);
+			event.getParentUnion().loadLogo(image, new OnImageLoadedListener() {
 				@Override
-				public void OnImageLoaded(final Drawable logo) {
+				public void onImageLoaded(final Bitmap logo) {
 					getActivity().runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
-							image.setImageDrawable(logo);
+							image.setImageBitmap(logo);
 						}
 					});
 				}
 			});
-			TextView title = (TextView)view.findViewById(R.id.listview_item_title);
+			TextView title = view.findViewById(R.id.listview_item_title);
 			title.setText(event.getTitle());
-			TextView description = (TextView)view.findViewById(R.id.listview_item_short_description);
+			TextView description = view.findViewById(R.id.listview_item_short_description);
 			String shortDescription = event.getMainText();
 			if (shortDescription.length() > 35) {
 				shortDescription = shortDescription.substring(0, 35) + "...";

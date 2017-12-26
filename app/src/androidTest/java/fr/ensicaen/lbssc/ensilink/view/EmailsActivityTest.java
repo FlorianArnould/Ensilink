@@ -37,7 +37,7 @@ public class EmailsActivityTest {
 		final CountDownLatch signal = new CountDownLatch(1);
 		School.getInstance().loadLocalData(InstrumentationRegistry.getTargetContext(), new OnSchoolDataListener() {
 			@Override
-			public void OnDataRefreshed() {
+			public void onDataRefreshed() {
 				signal.countDown();
 			}
 		});
@@ -50,7 +50,9 @@ public class EmailsActivityTest {
 		Intent intent = new Intent(InstrumentationRegistry.getTargetContext(), MainActivity.class);
 		intent.putExtra("UNION_ID", union.getId() - 1);
 		_rule.launchActivity(intent);
-		Espresso.onView(ViewMatchers.withText(R.string.emails)).perform(ViewActions.click());
+		Espresso.onView(ViewMatchers.withId(R.id.viewpager)).perform(ViewActions.swipeLeft());
+		Espresso.onView(ViewMatchers.withId(R.id.viewpager)).perform(ViewActions.swipeLeft());
+		Espresso.onView(ViewMatchers.withId(R.id.viewpager)).perform(ViewActions.swipeLeft());
 		Espresso.onView(ViewMatchers.withText("from")).perform(ViewActions.click());
 		Espresso.onView(ViewMatchers.withText("subject")).check(ViewAssertions.matches(ViewMatchers.withParent(ViewMatchers.withId(R.id.action_bar))));
 		Espresso.onView(ViewMatchers.withId(R.id.mailTransmitter)).check(ViewAssertions.matches(ViewMatchers.withText("from")));
@@ -64,7 +66,9 @@ public class EmailsActivityTest {
 		Intent intent = new Intent(InstrumentationRegistry.getTargetContext(), MainActivity.class);
 		intent.putExtra("UNION_ID", union.getId() - 1);
 		_rule.launchActivity(intent);
-		Espresso.onView(ViewMatchers.withText(R.string.emails)).perform(ViewActions.click());
+		Espresso.onView(ViewMatchers.withId(R.id.viewpager)).perform(ViewActions.swipeLeft());
+		Espresso.onView(ViewMatchers.withId(R.id.viewpager)).perform(ViewActions.swipeLeft());
+		Espresso.onView(ViewMatchers.withId(R.id.viewpager)).perform(ViewActions.swipeLeft());
 		Espresso.onView(ViewMatchers.withText("from")).perform(ViewActions.click());
 		Espresso.onView(ViewMatchers.withContentDescription(R.string.abc_action_bar_up_description)).perform(ViewActions.click());
 		Espresso.onView(ViewMatchers.withText(R.string.emails)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));

@@ -20,6 +20,7 @@
  */
 package fr.ensicaen.lbssc.ensilink.view.creditsscreen;
 
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
 import fr.ensicaen.lbssc.ensilink.storage.Image;
@@ -49,7 +50,7 @@ final class Artist {
 	 * @param image which needs an attribution
 	 */
 	Artist(Image image) {
-		_drawable = Drawable.createFromPath(image.getAbsolutePath());
+		_drawable = BitmapDrawable.createFromPath(image.getAbsolutePath());
 		_attribution = image.getAttribution();
 	}
 

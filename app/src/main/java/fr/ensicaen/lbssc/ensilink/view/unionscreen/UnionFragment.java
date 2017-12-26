@@ -2,6 +2,7 @@ package fr.ensicaen.lbssc.ensilink.view.unionscreen;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
@@ -30,6 +31,7 @@ public class UnionFragment extends Fragment implements Updatable {
 	private TabLayout _tabLayout;
 	private boolean _created;
 	private View _view;
+	private ViewPager _viewPager;
 	private MembersFragment _membersFragment;
 	private ClubsFragment _clubsFragment;
 	private MailsFragment _emailsFragment;
@@ -74,12 +76,12 @@ public class UnionFragment extends Fragment implements Updatable {
 		if (!_created) {
 			_view = inflater.inflate(R.layout.union_fragment, container, false);
 
-			ViewPager viewPager = (ViewPager)_view.findViewById(R.id.viewpager);
-			setupViewPager(viewPager);
-			_tabLayout = (TabLayout)_view.findViewById(R.id.tabs);
-			_tabLayout.setupWithViewPager(viewPager);
+			_viewPager = _view.findViewById(R.id.viewpager);
+			setupViewPager(_viewPager);
+			_tabLayout = _view.findViewById(R.id.tabs);
+			_tabLayout.setupWithViewPager(_viewPager);
 			_tabLayout.setBackgroundColor(_color);
-			viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+			_viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 				@Override
 				public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 					//Do nothing because it is always called during animation
@@ -88,12 +90,10 @@ public class UnionFragment extends Fragment implements Updatable {
 				@Override
 				public void onPageSelected(int position) {
 					ListFragment listFragment;
-					switch (position) {
-						case 0:
-							listFragment = _membersFragment;
-							break;
-						default:
-							listFragment = _clubsFragment;
+					if (position == 0) {
+						listFragment = _membersFragment;
+					} else {
+						listFragment = _clubsFragment;
 					}
 					if (getActivity() != null) {
 						((MainActivity)getActivity()).updateRefresherState(listFragment.getListView());
@@ -140,7 +140,7 @@ public class UnionFragment extends Fragment implements Updatable {
 			_color = union.getColor();
 			activity.setApplicationColor(_color);
 			if (_view != null) {
-				TabLayout tabLayout = (TabLayout)_view.findViewById(R.id.tabs);
+				TabLayout tabLayout = _view.findViewById(R.id.tabs);
 				tabLayout.setBackgroundColor(_color);
 			}
 		}
@@ -166,5 +166,12 @@ public class UnionFragment extends Fragment implements Updatable {
 	public void changeUnion(int unionId) {
 		_unionId = unionId;
 		update();
+	}
+
+	@VisibleForTesting(otherwise = VisibleForTesting.NONE)
+	public void setViewPagerListener(ViewPager.SimpleOnPageChangeListener listener) {
+		if (_viewPager != null) {
+			_viewPager.addOnPageChangeListener(listener);
+		}
 	}
 }

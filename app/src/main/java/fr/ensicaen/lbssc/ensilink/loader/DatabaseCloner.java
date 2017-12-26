@@ -39,7 +39,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -123,18 +122,14 @@ final class DatabaseCloner {
 		try {
 			URL url = new URL(urlString);
 			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-			try {
-				connection.setRequestMethod("POST");
-				connection.setDoInput(true);
-				connection.setDoOutput(true);
-				DataOutputStream out = new DataOutputStream(connection.getOutputStream());
-				String postData = "login=" + login + "&password=" + password;
-				out.write(postData.getBytes());
-				out.flush();
-				return connection.getInputStream();
-			} catch (ProtocolException e) {
-				Log.w("connect", "Error with the protocol : " + e.getMessage(), e);
-			}
+			connection.setRequestMethod("POST");
+			connection.setDoInput(true);
+			connection.setDoOutput(true);
+			DataOutputStream out = new DataOutputStream(connection.getOutputStream());
+			String postData = "login=" + login + "&password=" + password;
+			out.write(postData.getBytes());
+			out.flush();
+			return connection.getInputStream();
 			// TODO: 10/06/17 send toast if the internet connection is not available
 		} catch (MalformedURLException e) {
 			Log.w("connect", "Error with the url: " + e.getMessage(), e);
@@ -156,11 +151,11 @@ final class DatabaseCloner {
 			DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 			return builder.parse(in, "UTF-8");
 		} catch (ParserConfigurationException e) {
-			Log.d("parseAnswer", "Error with the parser configuration : " + e.getMessage(), e);
+			Log.e("Parser Error", "Error with the parser configuration : " + e.getMessage(), e);
 		} catch (SAXException e) {
-			Log.d("parseAnswer", "Error with DOM parser : " + e.getMessage(), e);
+			Log.e("SAX Error", "Error with DOM parser : " + e.getMessage(), e);
 		} catch (IOException e) {
-			Log.d("parseAnswer", "Error when use inputStream to parse : " + e.getMessage(), e);
+			Log.e("IO Error", "Error when use inputStream to parse : " + e.getMessage(), e);
 		}
 		return null;
 	}
@@ -234,7 +229,7 @@ final class DatabaseCloner {
 		for (int i = 0; i < clubs.getLength(); i++) {
 			Node club = clubs.item(i);
 			NamedNodeMap attributes = club.getAttributes();
-			int id = Integer.valueOf(attributes.getNamedItem("id").getNodeValue());
+			int id = Integer.parseInt(attributes.getNamedItem("id").getNodeValue());
 			Cursor cursor = _db.query("clubs", new String[]{"idunion", "day", "date", "start_hour", "place"}, "id=?", new String[]{String.valueOf(id)}, null, null, null, null);
 			if (cursor.moveToFirst()) {
 				if (!cursor.getString(1).equals(attributes.getNamedItem("day").getNodeValue())) {

@@ -136,7 +136,7 @@ public class UpdateServiceTest {
 		SharedPreferences.Editor editor = preferences.edit();
 		editor.putBoolean(club.getName(), true);
 		editor.apply();
-		service.createMailNotification(news, notificationManager);
+		service.createMailNotifications(news, notificationManager);
 		signal.await();
 	}
 
@@ -204,7 +204,7 @@ public class UpdateServiceTest {
 		SharedPreferences.Editor editor = preferences.edit();
 		editor.putBoolean(union.getName(), true);
 		editor.apply();
-		service.createMailNotification(news, notificationManager);
+		service.createMailNotifications(news, notificationManager);
 		signal.await();
 	}
 }

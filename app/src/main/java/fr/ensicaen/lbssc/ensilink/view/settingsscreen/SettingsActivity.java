@@ -63,7 +63,7 @@ public class SettingsActivity extends AppCompatActivity {
 		if (getSupportActionBar() != null) {
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		}
-		ListView list = (ListView)findViewById(R.id.list);
+		ListView list = findViewById(R.id.list);
 		list.setAdapter(new UnionsAdapter());
 		list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
@@ -77,10 +77,9 @@ public class SettingsActivity extends AppCompatActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				this.finish();
-				break;
+		if (item.getItemId() == android.R.id.home) {
+			finish();
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -119,7 +118,7 @@ public class SettingsActivity extends AppCompatActivity {
 				LayoutInflater inflater = (LayoutInflater)SettingsActivity.this.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				view = inflater.inflate(R.layout.settings_union_row, parent, false);
 			}
-			TextView text = (TextView)view.findViewById(R.id.union_name);
+			TextView text = view.findViewById(R.id.union_name);
 			text.setText(_unions.get(position));
 			return view;
 		}

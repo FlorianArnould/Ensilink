@@ -65,20 +65,19 @@ public class EmailsActivity extends AppCompatActivity {
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 			getSupportActionBar().setTitle(mail.getSubject());
 		}
-		TextView mailDate = (TextView)findViewById(R.id.mail_date);
+		TextView mailDate = findViewById(R.id.mail_date);
 		mailDate.setText(mail.getDate());
-		TextView mailTransmitter = (TextView)findViewById(R.id.mailTransmitter);
+		TextView mailTransmitter = findViewById(R.id.mailTransmitter);
 		mailTransmitter.setText(mail.getTransmitter());
-		TextView mailText = (TextView)findViewById(R.id.mailText);
+		TextView mailText = findViewById(R.id.mailText);
 		mailText.setText(mail.getText());
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				finish();
-				return true;
+		if (item.getItemId() == android.R.id.home) {
+			finish();
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}

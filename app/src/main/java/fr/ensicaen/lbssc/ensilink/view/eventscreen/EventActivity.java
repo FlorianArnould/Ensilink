@@ -55,20 +55,19 @@ public class EventActivity extends AppCompatActivity {
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		}
 		Event event = School.getInstance().getEvent(getIntent().getIntExtra("EVENT_ID", 0));
-		TextView eventTitle = (TextView)findViewById(R.id.eventTitle);
+		TextView eventTitle = findViewById(R.id.eventTitle);
 		eventTitle.setText(event.getTitle());
-		ImageView eventImage = (ImageView)findViewById(R.id.imageView);
+		ImageView eventImage = findViewById(R.id.imageView);
 		eventImage.setImageBitmap(event.getImage());
-		TextView description = (TextView)findViewById(R.id.textViewDescription);
+		TextView description = findViewById(R.id.textViewDescription);
 		description.setText(event.getMainText());
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				finish();
-				return true;
+		if (item.getItemId() == android.R.id.home) {
+			finish();
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}

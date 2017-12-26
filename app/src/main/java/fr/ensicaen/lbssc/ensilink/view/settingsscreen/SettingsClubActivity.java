@@ -70,23 +70,22 @@ public class SettingsClubActivity extends AppCompatActivity {
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 			getSupportActionBar().setElevation(0);
 		}
-		ListView list = (ListView)findViewById(R.id.list);
+		ListView list = findViewById(R.id.list);
 		list.setAdapter(new ClubsAdapter());
 		String unionName = School.getInstance().getUnion(getIntent().getIntExtra("UNION_POSITION", 0)).getName();
-		TextView text = (TextView)findViewById(R.id.union_name);
+		TextView text = findViewById(R.id.union_name);
 		text.setText(unionName);
-		Switch switchButton = (Switch)findViewById(R.id.union_switch);
+		Switch switchButton = findViewById(R.id.union_switch);
 		SharedPreferences pref = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 		switchButton.setChecked(pref.getBoolean(unionName, false));
-		switchButton.setOnCheckedChangeListener(new OnCheckedChangeListener(unionName));
+		switchButton.setOnCheckedChangeListener(new OnPreferenceChangedListener(unionName));
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				this.finish();
-				break;
+		if (item.getItemId() == android.R.id.home) {
+			finish();
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -96,7 +95,7 @@ public class SettingsClubActivity extends AppCompatActivity {
 	 */
 	private class ClubsAdapter extends BaseAdapter {
 		private final List<String> _clubs;
-		private final boolean _switchButtonsInitialized[];
+		private final boolean[] _switchButtonsInitialized;
 
 		ClubsAdapter() {
 			_clubs = new ArrayList<>();
@@ -128,12 +127,12 @@ public class SettingsClubActivity extends AppCompatActivity {
 				LayoutInflater inflater = (LayoutInflater)SettingsClubActivity.this.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				view = inflater.inflate(R.layout.settings_club_row, parent, false);
 			}
-			TextView text = (TextView)view.findViewById(R.id.union_name);
+			TextView text = view.findViewById(R.id.union_name);
 			text.setText(_clubs.get(position));
 			if (!_switchButtonsInitialized[position]) {
-				SwitchCompat switchButton = (SwitchCompat)view.findViewById(R.id.switch_button);
+				SwitchCompat switchButton = view.findViewById(R.id.switch_button);
 				switchButton.setChecked(_pref.getBoolean(_clubs.get(position), false));
-				switchButton.setOnCheckedChangeListener(new OnCheckedChangeListener(_clubs.get(position)));
+				switchButton.setOnCheckedChangeListener(new OnPreferenceChangedListener(_clubs.get(position)));
 			}
 			return view;
 		}
@@ -142,10 +141,10 @@ public class SettingsClubActivity extends AppCompatActivity {
 	/**
 	 * listener use to store the associationName to change the shared preferences of the application
 	 */
-	private class OnCheckedChangeListener implements CompoundButton.OnCheckedChangeListener {
+	private class OnPreferenceChangedListener implements CompoundButton.OnCheckedChangeListener {
 		private final String _associationName;
 
-		OnCheckedChangeListener(String associationName) {
+		OnPreferenceChangedListener(String associationName) {
 			_associationName = associationName;
 		}
 

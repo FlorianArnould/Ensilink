@@ -22,13 +22,13 @@ package fr.ensicaen.lbssc.ensilink.view.unionscreen;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -36,9 +36,9 @@ import java.util.List;
 
 import fr.ensicaen.lbssc.ensilink.R;
 import fr.ensicaen.lbssc.ensilink.storage.Club;
-import fr.ensicaen.lbssc.ensilink.storage.OnImageLoadedListener;
 import fr.ensicaen.lbssc.ensilink.view.AssociationFragment;
 import fr.ensicaen.lbssc.ensilink.view.MainActivity;
+import fr.ensicaen.lbssc.ensilink.view.OnImageLoadedForImageViewListener;
 import fr.ensicaen.lbssc.ensilink.view.clubscreen.ClubActivity;
 
 /**
@@ -51,13 +51,6 @@ import fr.ensicaen.lbssc.ensilink.view.clubscreen.ClubActivity;
  */
 public final class ClubsFragment extends AssociationFragment {
 	private ClubsAdapter _adapter;
-
-	/**
-	 * Required empty public constructor
-	 */
-	public ClubsFragment() {
-
-	}
 
 	/**
 	 * Method to use to create an instance of ClubsFragment
@@ -157,22 +150,10 @@ public final class ClubsFragment extends AssociationFragment {
 				view = inflater.inflate(R.layout.clubs_fragment_row, parent, false);
 			}
 			Club club = _clubs.get(i);
-			final TextView text = (TextView)view.findViewById(R.id.listview_union_name_club);
+			final TextView text = view.findViewById(R.id.listview_union_name_club);
 			text.setText(club.getName());
-			club.loadLogo(new OnImageLoadedListener() {
-				@Override
-				public void OnImageLoaded(final Drawable image) {
-					getActivity().runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							if (image != null) {
-								image.setBounds(0, 0, 150, 150);
-								text.setCompoundDrawables(image, null, null, null);
-							}
-						}
-					});
-				}
-			});
+			final ImageView imageView = view.findViewById(R.id.image);
+			club.loadLogo(imageView, new OnImageLoadedForImageViewListener(getActivity(), imageView));
 			return view;
 		}
 	}

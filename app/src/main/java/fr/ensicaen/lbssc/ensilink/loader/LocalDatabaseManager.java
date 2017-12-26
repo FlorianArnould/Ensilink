@@ -132,7 +132,7 @@ final class LocalDatabaseManager extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-		// TODO: 03/09/17 Remove all the tables and execute onCreate
+		// TODO: 03/09/17 Remove all the tables and execute onCreate if you change the database
 	}
 
 	// TODO: 02/09/17 Move the clearDatabase from DatabaseCloner to here

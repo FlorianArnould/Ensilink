@@ -84,7 +84,6 @@ public class DataLoaderTest {
 	@Test
 	public void loadUnionsFromDatabase() throws Exception {
 		Context context = InstrumentationRegistry.getTargetContext();
-		SQLiteDatabase db = DataManagerForTest.setDefaultLocalDatabase();
 		DataLoader loader = new DataLoader(context, true);
 		loader.openDatabase();
 		loader.loadUnionsFromDatabase();
@@ -105,7 +104,7 @@ public class DataLoaderTest {
 		final CountDownLatch signal = new CountDownLatch(1);
 		loader.setOnLoadingFinishListener(new OnLoadingFinishListener() {
 			@Override
-			public void OnLoadingFinish(DataLoader loader) {
+			public void onLoadingFinish(DataLoader loader) {
 				signal.countDown();
 			}
 		});

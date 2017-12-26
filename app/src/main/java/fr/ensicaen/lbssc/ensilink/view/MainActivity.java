@@ -30,6 +30,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -67,7 +69,7 @@ import fr.ensicaen.lbssc.ensilink.view.unionscreen.UnionFragment;
  */
 public final class MainActivity extends AppCompatActivity
 		implements NavigationView.OnNavigationItemSelectedListener, OnScrollListener {
-	private final int LOGIN_ACTIVITY_ID = 1;
+	private static final int LOGIN_ACTIVITY_ID = 1;
 	private UnionFragment _unionFragment;
 	private Updatable _currentFragment;
 	private SwipeRefreshLayout _refresher;
@@ -78,16 +80,16 @@ public final class MainActivity extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
 
-		Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+		Toolbar toolbar = findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 
-		_drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
+		_drawer = findViewById(R.id.drawer_layout);
 		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
 				this, _drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 		_drawer.addDrawerListener(toggle);
 		toggle.syncState();
 
-		_refresher = (SwipeRefreshLayout)findViewById(R.id.swipeRefresh);
+		_refresher = findViewById(R.id.swipeRefresh);
 		_refresher.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 			@Override
 			public void onRefresh() {
@@ -95,7 +97,7 @@ public final class MainActivity extends AppCompatActivity
 			}
 		});
 
-		NavigationView navigationView = (NavigationView)findViewById(R.id.nav_view);
+		NavigationView navigationView = findViewById(R.id.nav_view);
 		navigationView.setItemIconTintList(null);
 		navigationView.setNavigationItemSelectedListener(this);
 
@@ -115,7 +117,7 @@ public final class MainActivity extends AppCompatActivity
 
 	@Override
 	public void onBackPressed() {
-		DrawerLayout drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
+		DrawerLayout drawer = findViewById(R.id.drawer_layout);
 		if (drawer.isDrawerOpen(GravityCompat.START)) {
 			drawer.closeDrawer(GravityCompat.START);
 		} else {
@@ -127,7 +129,8 @@ public final class MainActivity extends AppCompatActivity
 	 * Replace the drawer rows with the new ones
 	 */
 	private void refreshDrawer() {
-		final Menu menu = ((NavigationView)findViewById(R.id.nav_view)).getMenu();
+		NavigationView navigationView = findViewById(R.id.nav_view);
+		final Menu menu = navigationView.getMenu();
 		menu.clear();
 		Drawable drawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_kangaroo);
 		drawable.mutate().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
@@ -155,8 +158,7 @@ public final class MainActivity extends AppCompatActivity
 		drawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_library_books);
 		drawable.mutate().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
 		item.setIcon(drawable);
-		NavigationView nav = (NavigationView)findViewById(R.id.nav_view);
-		TextView email = (TextView)nav.getHeaderView(0).findViewById(R.id.mailAddress);
+		TextView email = navigationView.getHeaderView(0).findViewById(R.id.mailAddress);
 		email.setText(getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE).getString("email", "nom@ecole.ensicaen.fr"));
 
 	}
@@ -175,8 +177,8 @@ public final class MainActivity extends AppCompatActivity
 			School.getInstance().logout(getApplicationContext());
 			refreshDrawer();
 		} else if (item.getTitle().equals(getString(R.string.settings))) {
-			Intent intent_settings = new Intent(MainActivity.this, SettingsActivity.class);
-			startActivity(intent_settings);
+			Intent intentSettings = new Intent(MainActivity.this, SettingsActivity.class);
+			startActivity(intentSettings);
 		} else if (item.getTitle().equals(getString(R.string.credits))) {
 			Intent intent = new Intent(MainActivity.this, CreditsActivity.class);
 			startActivity(intent);
@@ -188,7 +190,7 @@ public final class MainActivity extends AppCompatActivity
 				}
 			}
 		}
-		DrawerLayout drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
+		DrawerLayout drawer = findViewById(R.id.drawer_layout);
 		drawer.closeDrawer(GravityCompat.START);
 		return true;
 	}
@@ -234,7 +236,7 @@ public final class MainActivity extends AppCompatActivity
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			getWindow().setStatusBarColor(color);
 		}
-		NavigationView nav = (NavigationView)findViewById(R.id.nav_view);
+		NavigationView nav = findViewById(R.id.nav_view);
 		nav.getHeaderView(0).findViewById(R.id.drawer_header).setBackgroundColor(color);
 	}
 
@@ -254,7 +256,7 @@ public final class MainActivity extends AppCompatActivity
 	private void refresh() {
 		School.getInstance().refreshData(getApplicationContext(), new OnSchoolDataListener() {
 			@Override
-			public void OnDataRefreshed() {
+			public void onDataRefreshed() {
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
@@ -304,5 +306,11 @@ public final class MainActivity extends AppCompatActivity
 		if (requestCode == LOGIN_ACTIVITY_ID && resultCode == RESULT_OK) {
 			refreshDrawer();
 		}
+	}
+
+	@VisibleForTesting(otherwise = VisibleForTesting.NONE)
+	@Nullable
+	public UnionFragment getUnionFragment() {
+		return _unionFragment;
 	}
 }

@@ -181,7 +181,7 @@ public class ZimbraConnection {
 				if (message.isMimeType("multipart/*")) {
 					email = getContentFromMultipart(message);
 				} else if (message.isMimeType("text/plain")) {
-					email += message.getContent().toString();
+					email = message.getContent().toString();
 				}
 				setMailFolder(context.getDir("emails", Context.MODE_PRIVATE));
 				parseAndInsertMailAndSave(message.getFrom()[0].toString(), message.getSubject(), ft.format(message.getSentDate()), email, db, School.getInstance().getUnions(), null);
@@ -203,15 +203,15 @@ public class ZimbraConnection {
 	String getContentFromMultipart(Message message) throws IOException, MessagingException {
 		Object objectContent = message.getContent();
 		Multipart multipart = (Multipart)objectContent;
-		String emailContent = "";
+		StringBuilder emailContent = new StringBuilder();
 		int count = multipart.getCount();
 		for (int i = 0; i < count; i++) {
 			String contentType = multipart.getBodyPart(i).getContentType();
 			if (!contentType.contains(CONTENT_TYPE_TEXT_HTML) && contentType.contains(CONTENT_TYPE_TEXT_PLAIN)) {
-				emailContent += multipart.getBodyPart(i).getContent().toString();
+				emailContent.append(multipart.getBodyPart(i).getContent().toString());
 			}
 		}
-		return emailContent;
+		return emailContent.toString();
 	}
 
 	/**
@@ -230,49 +230,52 @@ public class ZimbraConnection {
 		long id = db.insert("mails", null, values);
 		if (id != -1) {
 			new DiskSaver(listener).execute(String.valueOf(id), from, subject, email);
-			boolean finished = false;
 			ContentValues values2 = new ContentValues();
 			values2.put("idmail", id);
 			String table = "";
-			for (Union union : unions) {
+			for (int i = 0; i < unions.size() && table.isEmpty(); i++) {
+				Union union = unions.get(i);
 				if (from.contains(union.getEmail())) {
 					values2.put("idunion", union.getId());
 					_newMails.add(new MailNotificationContainer(subject, email, union));
 					table = "union_mails";
-					finished = true;
-					break;
-				}
-				for (Club club : union.getClubs()) {
-					if (subject.toLowerCase().contains(club.getName().toLowerCase())) {
-						values2.put("idclub", club.getId());
-						_newMails.add(new MailNotificationContainer(subject, email, union, club));
-						table = "club_mails";
-						finished = true;
-						break;
+				} else {
+					table = checkTags(union, subject, values2, email);
+					if (table.isEmpty()) {
+						table = checkClub(union, subject, values2, email);
 					}
-				}
-				if (finished) {
-					break;
-				}
-				for (String tag : union.getTags()) {
-					if (subject.toLowerCase().contains(tag.toLowerCase())) {
-						values2.put("idunion", union.getId());
-						_newMails.add(new MailNotificationContainer(subject, email, union));
-						table = "union_mails";
-						finished = true;
-						break;
-					}
-				}
-				if (finished) {
-					break;
 				}
 			}
-			if (finished) {
+			if (!table.isEmpty()) {
 				db.insert(table, null, values2);
 			}
 		} else {
-			Log.e("ERROR", "Email ignored : " + subject);
+			Log.e("parse email", "Email ignored : " + subject);
 		}
+	}
+
+	private String checkTags(Union union, String subject, ContentValues values, String email) {
+		for (String tag : union.getTags()) {
+			if (subject.toLowerCase().contains(tag.toLowerCase())) {
+				values.put("idunion", union.getId());
+				_newMails.add(new MailNotificationContainer(subject, email, union));
+				return "union_mails";
+			}
+		}
+		return "";
+	}
+
+	private String checkClub(Union union, String subject, ContentValues values, String email) {
+		List<Club> clubs = union.getClubs();
+		for (int j = 0; j < clubs.size(); j++) {
+			Club club = union.getClubs().get(j);
+			if (subject.toLowerCase().contains(club.getName().toLowerCase())) {
+				values.put("idclub", club.getId());
+				_newMails.add(new MailNotificationContainer(subject, email, union, club));
+				return "club_mails";
+			}
+		}
+		return "";
 	}
 
 	void setMailFolder(File folder) {
@@ -298,8 +301,7 @@ public class ZimbraConnection {
 
 		@Override
 		protected Void doInBackground(String... params) {
-			try {
-				BufferedWriter wr = new BufferedWriter(new FileWriter(new File(_parent, params[0] + ".txt")));
+			try (BufferedWriter wr = new BufferedWriter(new FileWriter(new File(_parent, params[0] + ".txt")))) {
 				wr.write(params[1] + "\n");
 				wr.write(params[2] + "\n");
 				wr.write(params[3]);

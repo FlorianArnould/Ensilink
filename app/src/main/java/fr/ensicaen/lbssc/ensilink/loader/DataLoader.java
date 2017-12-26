@@ -64,7 +64,7 @@ import fr.ensicaen.lbssc.ensilink.storage.Union;
 /**
  * The class that load the information from the local database
  */
-final public class DataLoader extends Thread {
+public final class DataLoader extends Thread {
 	private final LocalDatabaseManager _databaseManager;
 	private final List<Image> _images;
 	private final FileDownloader _downloader;
@@ -97,25 +97,26 @@ final public class DataLoader extends Thread {
 	/**
 	 * The main method of the thread
 	 */
+	@Override
 	public void run() {
 		openDatabase();
 		if (_preload && !isDatabaseEmpty()) {
 			loadUnionsFromDatabase();
 			getAllImagesAttribution();
 			if (_listener != null) {
-				_listener.OnLoadingFinish(this);
+				_listener.onLoadingFinish(this);
 			}
 		}
 		Intent serviceIntent = new Intent(_context, UpdateService.class);
 		final CountDownLatch signal = new CountDownLatch(1);
 		final ServiceConnection connection = new ServiceConnection() {
-			UpdateService service;
+			UpdateService _service;
 
 			@Override
 			public void onServiceConnected(ComponentName name, IBinder iBinder) {
 				UpdateService.ServiceBinder binder = (UpdateService.ServiceBinder)iBinder;
-				service = binder.getServiceInstance();
-				service.setListener(new OnServiceFinishedListener() {
+				_service = binder.getServiceInstance();
+				_service.setListener(new OnServiceFinishedListener() {
 					@Override
 					public void onServiceFinished(boolean succeed, Map<String, Long> images) {
 						if (succeed) {
@@ -132,8 +133,8 @@ final public class DataLoader extends Thread {
 
 			@Override
 			public void onServiceDisconnected(ComponentName name) {
-				if (service != null) {
-					service.removeListener();
+				if (_service != null) {
+					_service.removeListener();
 				}
 			}
 		};
@@ -141,14 +142,14 @@ final public class DataLoader extends Thread {
 		try {
 			signal.await();
 		} catch (InterruptedException e) {
-			Log.w("run", "Loading interrupted", e);
-			return;
+			Log.w("run", "Loading interrupted : " + e.getMessage(), e);
+			Thread.currentThread().interrupt();
 		}
 		if (isBounded) {
 			_context.unbindService(connection);
 		}
 		if (_listener != null) {
-			_listener.OnLoadingFinish(this);
+			_listener.onLoadingFinish(this);
 		}
 	}
 
@@ -215,7 +216,7 @@ final public class DataLoader extends Thread {
 						Color.rgb(unionCursor.getInt(6), unionCursor.getInt(7), unionCursor.getInt(8)),
 						unionCursor.getString(9),
 						unionCursor.getString(10));
-				String tags[] = unionCursor.getString(11).split("-");
+				String[] tags = unionCursor.getString(11).split("-");
 				for (String tag : tags) {
 					union.addTag(tag);
 				}
@@ -428,10 +429,8 @@ final public class DataLoader extends Thread {
 	 */
 	private void removeUnusedFiles(Set<String> filesUsed) {
 		for (String file : _fileDir.list()) {
-			if (!filesUsed.contains(file)) {
-				if (!new File(file).delete()) {
-					Log.w("Error", "Unused file " + file + " wasn't deleted");
-				}
+			if (!filesUsed.contains(file) && !new File(file).delete()) {
+				Log.w("Error", "Unused file " + file + " wasn't deleted");
 			}
 		}
 	}
@@ -480,17 +479,17 @@ final public class DataLoader extends Thread {
 		@Override
 		protected Association doInBackground(String... params) {
 			File parent = _context.getDir("emails", Context.MODE_PRIVATE);
-			try {
-				BufferedReader rd = new BufferedReader(new FileReader(new File(parent, params[0] + ".txt")));
+
+			try (BufferedReader rd = new BufferedReader(new FileReader(new File(parent, params[0] + ".txt")))) {
 				String from = rd.readLine();
 				String subject = rd.readLine();
-				String content = "";
+				StringBuilder content = new StringBuilder();
 				String line;
 				while ((line = rd.readLine()) != null) {
-					content += line + "\n";
+					content.append(line);
+					content.append('\n');
 				}
-				rd.close();
-				_association.addMail(new Mail(from, subject, content, params[1]));
+				_association.addMail(new Mail(from, subject, content.toString(), params[1]));
 				return _association;
 			} catch (IOException e) {
 				Log.w("doInBackground", "Mail not loaded : " + e.getMessage(), e);

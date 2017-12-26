@@ -12,6 +12,7 @@ import android.support.test.espresso.contrib.DrawerMatchers;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.v4.view.ViewPager;
 
 import org.hamcrest.Matchers;
 import org.junit.Assert;
@@ -30,6 +31,7 @@ import fr.ensicaen.lbssc.ensilink.storage.OnSchoolDataListener;
 import fr.ensicaen.lbssc.ensilink.storage.School;
 import fr.ensicaen.lbssc.ensilink.storage.Student;
 import fr.ensicaen.lbssc.ensilink.storage.Union;
+import fr.ensicaen.lbssc.ensilink.view.unionscreen.UnionFragment;
 
 /**
  * @author Florian Arnould
@@ -45,7 +47,7 @@ public class MainActivityTest {
 		final CountDownLatch signal = new CountDownLatch(1);
 		School.getInstance().loadLocalData(InstrumentationRegistry.getTargetContext(), new OnSchoolDataListener() {
 			@Override
-			public void OnDataRefreshed() {
+			public void onDataRefreshed() {
 				signal.countDown();
 			}
 		});
@@ -147,6 +149,7 @@ public class MainActivityTest {
 	@Test
 	public void openSettingsActivityTest() throws Exception {
 		Espresso.onView(ViewMatchers.withId(R.id.drawer_layout)).perform(DrawerActions.open());
+		Espresso.onView(ViewMatchers.withId(R.id.drawer_layout)).perform(ViewActions.swipeUp());
 		Espresso.onView(Matchers.allOf(ViewMatchers.withId(R.id.design_menu_item_text), ViewMatchers.withText(R.string.settings))).perform(ViewActions.click());
 		Espresso.onView(ViewMatchers.withText(R.string.settings)).check(ViewAssertions.matches(ViewMatchers.withParent(ViewMatchers.withId(R.id.action_bar))));
 	}
@@ -154,6 +157,7 @@ public class MainActivityTest {
 	@Test
 	public void openCreditsActivityTest() throws Exception {
 		Espresso.onView(ViewMatchers.withId(R.id.drawer_layout)).perform(DrawerActions.open());
+		Espresso.onView(ViewMatchers.withId(R.id.drawer_layout)).perform(ViewActions.swipeUp());
 		Espresso.onView(Matchers.allOf(ViewMatchers.withId(R.id.design_menu_item_text), ViewMatchers.withText(R.string.credits))).perform(ViewActions.click());
 		Espresso.onView(ViewMatchers.withText(R.string.credits)).check(ViewAssertions.matches(ViewMatchers.withParent(ViewMatchers.withId(R.id.action_bar))));
 	}
@@ -161,6 +165,7 @@ public class MainActivityTest {
 	@Test
 	public void openLoginActivityTest() throws Exception {
 		Espresso.onView(ViewMatchers.withId(R.id.drawer_layout)).perform(DrawerActions.open());
+		Espresso.onView(ViewMatchers.withId(R.id.drawer_layout)).perform(ViewActions.swipeUp());
 		Espresso.onView(Matchers.allOf(ViewMatchers.withId(R.id.design_menu_item_text), ViewMatchers.withText(R.string.login))).perform(ViewActions.click());
 		Espresso.onView(ViewMatchers.withId(R.id.input_email)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 	}
@@ -173,13 +178,14 @@ public class MainActivityTest {
 		final CountDownLatch signal = new CountDownLatch(1);
 		School.getInstance().refreshData(InstrumentationRegistry.getTargetContext(), new OnSchoolDataListener() {
 			@Override
-			public void OnDataRefreshed() {
+			public void onDataRefreshed() {
 				signal.countDown();
 			}
 		});
 		signal.await();
 		_rule.launchActivity(new Intent(context, MainActivity.class));
 		Espresso.onView(ViewMatchers.withId(R.id.drawer_layout)).perform(DrawerActions.open());
+		Espresso.onView(ViewMatchers.withId(R.id.drawer_layout)).perform(ViewActions.swipeUp());
 		Espresso.onView(Matchers.allOf(ViewMatchers.withId(R.id.design_menu_item_text), ViewMatchers.withText(R.string.logout))).perform(ViewActions.click());
 		Assert.assertFalse(School.getInstance().isConnected());
 	}
@@ -189,19 +195,28 @@ public class MainActivityTest {
 		final Union union = School.getInstance().getUnion(1);
 		Intent intent = new Intent(InstrumentationRegistry.getTargetContext(), MainActivity.class);
 		intent.putExtra("UNION_ID", union.getId() - 1);
-		_rule.launchActivity(intent);
-		Espresso.onView(ViewMatchers.withId(R.id.photo)).perform(ViewActions.swipeLeft());
+		MainActivity activity = _rule.launchActivity(intent);
+		UnionFragment fragment = activity.getUnionFragment();
+		Assert.assertNotNull(fragment);
 		final CountDownLatch signal = new CountDownLatch(1);
+		fragment.setViewPagerListener(new ViewPager.SimpleOnPageChangeListener() {
+			@Override
+			public void onPageScrollStateChanged(int state) {
+				if (state == ViewPager.SCROLL_STATE_IDLE) {
+					signal.countDown();
+				}
+			}
+		});
+		Espresso.onView(ViewMatchers.withId(R.id.photo)).perform(ViewActions.swipeLeft());
+		final CountDownLatch signal2 = new CountDownLatch(1);
 		School.getInstance().setOnRefreshListener(new OnRefreshListener() {
 			@Override
 			public void onRefresh() {
-				signal.countDown();
+				signal2.countDown();
 			}
 		});
-		Thread.sleep(1000); // TODO: 10/09/17 Remove the Thread.sleep
-		Espresso.onView(Matchers.allOf(ViewMatchers.withParent(ViewMatchers.withId(R.id.clubs_list_parent)), ViewMatchers.withId(android.R.id.list))).perform(ViewActions.swipeDown());
 		signal.await();
+		Espresso.onView(Matchers.allOf(ViewMatchers.withParent(ViewMatchers.withId(R.id.clubs_list_parent)), ViewMatchers.withId(android.R.id.list))).perform(ViewActions.swipeDown());
+		signal2.await();
 	}
-
-	// TODO: 10/09/17 Check MainActivity method to not forget a test
 }

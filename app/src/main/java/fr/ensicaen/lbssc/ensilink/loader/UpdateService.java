@@ -121,14 +121,7 @@ public class UpdateService extends Service {
 			if (db != null) {
 				DatabaseCloner cloner = new DatabaseCloner(db);
 				cloner.cloneDatabase();
-				ZimbraConnection zimbra = new ZimbraConnection();
-				try {
-					zimbra.connect(getBaseContext());
-					zimbra.updateDatabase(db, getBaseContext());
-					// TODO: 07/06/17 check to change this catch
-				} catch (Exception e) {
-					Log.e("updateInformation", "Connection to the zimbra server is not possible : " + e.getMessage(), e);
-				}
+				ZimbraConnection zimbra = updateFromZimbra(db);
 				if (_listener != null) {
 					_listener.onServiceFinished(cloner.succeed(), cloner.lastUpdateImages());
 					_listener = null;
@@ -136,11 +129,23 @@ public class UpdateService extends Service {
 				db.close();
 				NotificationManager notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
 				createNotification(cloner.getModifications(), notificationManager);
-				createMailNotification(zimbra.getNewMails(), notificationManager);
+				createMailNotifications(zimbra.getNewMails(), notificationManager);
 			}
 		} catch (SQLiteException e) {
 			Log.e("updateInformation", "Error when tried to open SQLite database : " + e.getMessage(), e);
 		}
+	}
+
+	private ZimbraConnection updateFromZimbra(SQLiteDatabase db) {
+		ZimbraConnection zimbra = new ZimbraConnection();
+		try {
+			zimbra.connect(getBaseContext());
+			zimbra.updateDatabase(db, getBaseContext());
+			// TODO: 07/06/17 check to change this catch to another more specific Exception
+		} catch (Exception e) {
+			Log.e("updateInformation", "Connection to the zimbra server is not possible : " + e.getMessage(), e);
+		}
+		return zimbra;
 	}
 
 	/**
@@ -150,7 +155,7 @@ public class UpdateService extends Service {
 	 */
 	@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 	void createNotification(List<News> news, NotificationManager notificationManager) {
-		String text = "";
+		StringBuilder text = new StringBuilder();
 		if (!news.isEmpty()) {
 			SharedPreferences pref = getBaseContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 			for (int i = 0; i < news.size() - 1; i++) {
@@ -159,42 +164,47 @@ public class UpdateService extends Service {
 					if (news.get(i) instanceof DayNews) {
 						((DayNews)news.get(i)).setDaysArray(getResources().getStringArray(R.array.days));
 					}
-					text += news.get(i).toNotificationString() + "\n";
+					text.append(news.get(i).toNotificationString());
+					text.append('\n');
 				}
 			}
 			if (pref.getBoolean(news.get(news.size() - 1).getClubName(), false)) {
-				text += news.get(news.size() - 1).toNotificationString();
+				text.append(news.get(news.size() - 1).toNotificationString());
 			}
-			if (!text.isEmpty()) {
-				NotificationCompat.BigTextStyle notificationStyle = new
-						NotificationCompat.BigTextStyle();
-				notificationStyle.bigText(text);
-				Intent intent;
-				if (news.size() >= 2) {
-					intent = new Intent(this, SplashActivity.class);
-				} else {
-					intent = new Intent(this, ClubActivity.class);
-					intent.putExtra("UNION_ID", news.get(0).getUnionIndex());
-					intent.putExtra("CLUB_ID", news.get(0).getClubIndex());
-				}
-				PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-						intent, PendingIntent.FLAG_UPDATE_CURRENT);
-				NotificationCompat.Builder builder =
-						new NotificationCompat.Builder(UpdateService.this.getApplicationContext())
-								.setContentIntent(contentIntent)
-								.setAutoCancel(true)
-								.setSmallIcon(R.drawable.ic_kangaroo)
-								.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_kangaroo))
-								.setContentTitle("News")
-								.setContentText(text)
-								.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-								.setLights(Color.rgb(63, 81, 181), 3000, 3000)
-								.setVibrate(new long[]{0, 500})
-								.setStyle(notificationStyle);
-				builder.setColor(Color.rgb(63, 81, 181));
-				notificationManager.notify(1, builder.build());
+			if (!text.toString().isEmpty()) {
+				sendNotification(news, text.toString(), notificationManager);
 			}
 		}
+	}
+
+	private void sendNotification(List<News> news, String text, NotificationManager notificationManager) {
+		NotificationCompat.BigTextStyle notificationStyle = new
+				NotificationCompat.BigTextStyle();
+		notificationStyle.bigText(text);
+		Intent intent;
+		if (news.size() >= 2) {
+			intent = new Intent(this, SplashActivity.class);
+		} else {
+			intent = new Intent(this, ClubActivity.class);
+			intent.putExtra("UNION_ID", news.get(0).getUnionIndex());
+			intent.putExtra("CLUB_ID", news.get(0).getClubIndex());
+		}
+		PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+				intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		NotificationCompat.Builder builder =
+				new NotificationCompat.Builder(UpdateService.this.getApplicationContext())
+						.setContentIntent(contentIntent)
+						.setAutoCancel(true)
+						.setSmallIcon(R.drawable.ic_kangaroo)
+						.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_kangaroo))
+						.setContentTitle("News")
+						.setContentText(text)
+						.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+						.setLights(Color.rgb(63, 81, 181), 3000, 3000)
+						.setVibrate(new long[]{0, 500})
+						.setStyle(notificationStyle);
+		builder.setColor(Color.rgb(63, 81, 181));
+		notificationManager.notify(1, builder.build());
 	}
 
 	/**
@@ -203,7 +213,7 @@ public class UpdateService extends Service {
 	 * @param newMails list of the new mails
 	 */
 	@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-	void createMailNotification(List<MailNotificationContainer> newMails, NotificationManager notificationManager) {
+	void createMailNotifications(List<MailNotificationContainer> newMails, NotificationManager notificationManager) {
 		SharedPreferences pref = getBaseContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 		for (MailNotificationContainer container : newMails) {
 			boolean wantANotification;
@@ -213,38 +223,42 @@ public class UpdateService extends Service {
 				wantANotification = pref.getBoolean(container.getUnion().getName(), false);
 			}
 			if (wantANotification) {
-				NotificationCompat.BigTextStyle notificationStyle = new
-						NotificationCompat.BigTextStyle();
-				notificationStyle.bigText(container.getText());
-				Intent intent;
-				if (container.isForAClub()) {
-					intent = new Intent(this, ClubActivity.class);
-					intent.putExtra("CLUB_ID", container.getUnion().getClubIndex(container.getClub()));
-				} else {
-					intent = new Intent(this, MainActivity.class);
-				}
-				intent.putExtra("UNION_ID", container.getUnion().getId() - 1);
-				PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-						intent, PendingIntent.FLAG_UPDATE_CURRENT);
-				NotificationCompat.Builder builder =
-						new NotificationCompat.Builder(UpdateService.this.getApplicationContext())
-								.setContentIntent(contentIntent)
-								.setAutoCancel(true)
-								.setSmallIcon(R.drawable.ic_kangaroo)
-								.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_kangaroo))
-								.setContentTitle(container.getSubject())
-								.setContentText(container.getText())
-								.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-								.setLights(Color.rgb(63, 81, 181), 3000, 3000)
-								.setVibrate(new long[]{0, 500})
-								.setStyle(notificationStyle);
-				builder.setColor(Color.rgb(63, 81, 181));
-				notificationManager.notify(_notificationMailId, builder.build());
-				_notificationMailId++;
-				if (_notificationMailId < 2) {
-					_notificationMailId = 2;
-				}
+				sendMailNotification(container, notificationManager);
 			}
+		}
+	}
+
+	private void sendMailNotification(MailNotificationContainer container, NotificationManager notificationManager) {
+		NotificationCompat.BigTextStyle notificationStyle = new
+				NotificationCompat.BigTextStyle();
+		notificationStyle.bigText(container.getText());
+		Intent intent;
+		if (container.isForAClub()) {
+			intent = new Intent(this, ClubActivity.class);
+			intent.putExtra("CLUB_ID", container.getUnion().getClubIndex(container.getClub()));
+		} else {
+			intent = new Intent(this, MainActivity.class);
+		}
+		intent.putExtra("UNION_ID", container.getUnion().getId() - 1);
+		PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+				intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		NotificationCompat.Builder builder =
+				new NotificationCompat.Builder(UpdateService.this.getApplicationContext())
+						.setContentIntent(contentIntent)
+						.setAutoCancel(true)
+						.setSmallIcon(R.drawable.ic_kangaroo)
+						.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_kangaroo))
+						.setContentTitle(container.getSubject())
+						.setContentText(container.getText())
+						.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+						.setLights(Color.rgb(63, 81, 181), 3000, 3000)
+						.setVibrate(new long[]{0, 500})
+						.setStyle(notificationStyle);
+		builder.setColor(Color.rgb(63, 81, 181));
+		notificationManager.notify(_notificationMailId, builder.build());
+		_notificationMailId++;
+		if (_notificationMailId < 2) {
+			_notificationMailId = 2;
 		}
 	}
 

@@ -36,8 +36,8 @@ import java.util.List;
  * A adapter used to store the fragment of a page
  */
 public class ViewPagerAdapter extends FragmentPagerAdapter {
-	private final List<Fragment> _FragmentList;
-	private final List<String> _TitleList;
+	private final List<Fragment> _fragmentList;
+	private final List<String> _titleList;
 
 	/**
 	 * The constructor
@@ -46,18 +46,18 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 	 */
 	public ViewPagerAdapter(FragmentManager manager) {
 		super(manager);
-		_FragmentList = new ArrayList<>();
-		_TitleList = new ArrayList<>();
+		_fragmentList = new ArrayList<>();
+		_titleList = new ArrayList<>();
 	}
 
 	@Override
 	public Fragment getItem(int position) {
-		return _FragmentList.get(position);
+		return _fragmentList.get(position);
 	}
 
 	@Override
 	public int getCount() {
-		return _FragmentList.size();
+		return _fragmentList.size();
 	}
 
 	/**
@@ -67,12 +67,12 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 	 * @param title    the title to show in the TabLayout
 	 */
 	public void addFragment(Fragment fragment, String title) {
-		_FragmentList.add(fragment);
-		_TitleList.add(title);
+		_fragmentList.add(fragment);
+		_titleList.add(title);
 	}
 
 	@Override
 	public CharSequence getPageTitle(int position) {
-		return _TitleList.get(position);
+		return _titleList.get(position);
 	}
 }

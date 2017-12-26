@@ -57,13 +57,6 @@ public class MailsFragment extends ListFragment implements Updatable {
 	private int _clubId;
 
 	/**
-	 * Required empty public constructor
-	 */
-	public MailsFragment() {
-
-	}
-
-	/**
 	 * create an instance of InformationFragment
 	 *
 	 * @return return the list of the mails
@@ -176,11 +169,11 @@ public class MailsFragment extends ListFragment implements Updatable {
 				view = inflater.inflate(R.layout.emails_row, parent, false);
 			}
 			Mail mail = _mails.get(i);
-			TextView mailSubject = (TextView)view.findViewById(R.id.email_subject);
+			TextView mailSubject = view.findViewById(R.id.email_subject);
 			mailSubject.setText(mail.getSubject());
-			TextView mailSender = (TextView)view.findViewById(R.id.email_sender);
+			TextView mailSender = view.findViewById(R.id.email_sender);
 			mailSender.setText(mail.getTransmitter());
-			TextView mailText = (TextView)view.findViewById(R.id.email_content);
+			TextView mailText = view.findViewById(R.id.email_content);
 			mailText.setText(mail.getDate());
 			return view;
 		}

@@ -34,5 +34,5 @@ public interface OnLoadingFinishListener {
 	 *
 	 * @param loader the DataLoader instance itself
 	 */
-	void OnLoadingFinish(DataLoader loader);
+	void onLoadingFinish(DataLoader loader);
 }

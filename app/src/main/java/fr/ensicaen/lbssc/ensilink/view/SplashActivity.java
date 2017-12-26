@@ -42,26 +42,28 @@ import fr.ensicaen.lbssc.ensilink.storage.School;
  * The Splash screen of the application
  */
 public class SplashActivity extends Activity {
-	private boolean isMainActivityLaunched;
+	private boolean _isMainActivityLaunched;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash_activity);
-		isMainActivityLaunched = false;
+		_isMainActivityLaunched = false;
 		School school = School.getInstance();
 		school.refreshData(getApplicationContext(), new OnSchoolDataListener() {
 			@Override
-			public void OnDataRefreshed() {
-				if (!isMainActivityLaunched) {
-					isMainActivityLaunched = true;
+			public void onDataRefreshed() {
+				if (!_isMainActivityLaunched) {
+					_isMainActivityLaunched = true;
 					Thread thread = new Thread() {
 						@Override
 						public void run() {
 							try {
 								sleep(1000);
 							} catch (InterruptedException e) {
-								e.printStackTrace();
+								Log.w("Launch MainActivity", "the 1 seconds wait was interrupted : " + e.getMessage(), e);
+								finish();
+								Thread.currentThread().interrupt();
 							}
 							Intent i = new Intent(SplashActivity.this, MainActivity.class);
 							startActivity(i);
@@ -75,11 +77,12 @@ public class SplashActivity extends Activity {
 		Thread progressThread = new Thread() {
 			@Override
 			public void run() {
-				final ProgressBar progressBar = (ProgressBar)findViewById(R.id.progressBar);
+				final ProgressBar progressBar = findViewById(R.id.progressBar);
 				try {
 					sleep(3000);
 				} catch (InterruptedException e) {
 					Log.w("Progress Thread", "the 3 seconds wait was interrupted : " + e.getMessage(), e);
+					Thread.currentThread().interrupt();
 				}
 				runOnUiThread(new Runnable() {
 					@Override
@@ -103,6 +106,7 @@ public class SplashActivity extends Activity {
 						sleep(1000);
 					} catch (InterruptedException e) {
 						Log.w("Progress", "the 1 seconds wait was interrupted : " + e.getMessage(), e);
+						Thread.currentThread().interrupt();
 					}
 				}
 			}

@@ -37,7 +37,7 @@ public class EventActivityTest {
 		final CountDownLatch signal = new CountDownLatch(1);
 		School.getInstance().loadLocalData(InstrumentationRegistry.getTargetContext(), new OnSchoolDataListener() {
 			@Override
-			public void OnDataRefreshed() {
+			public void onDataRefreshed() {
 				signal.countDown();
 			}
 		});

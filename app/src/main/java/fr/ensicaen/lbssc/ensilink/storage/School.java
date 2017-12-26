@@ -41,11 +41,11 @@ import fr.ensicaen.lbssc.ensilink.loader.OnLoadingFinishListener;
  */
 public final class School {
 	private static final School _ourInstance = new School();
-	private static List<Union> _unions;
-	private static List<Event> _events;
-	private static List<Image> _images;
-	private static boolean _neverUpdated;
-	private static boolean _isConnected;
+	private List<Union> _unions;
+	private List<Event> _events;
+	private List<Image> _images;
+	private boolean _neverUpdated;
+	private boolean _isConnected;
 	private DataLoader _loader;
 	private OnRefreshListener _refreshListener;
 
@@ -76,12 +76,12 @@ public final class School {
 		_loader = new DataLoader(context, _neverUpdated);
 		_loader.setOnLoadingFinishListener(new OnLoadingFinishListener() {
 			@Override
-			public void OnLoadingFinish(DataLoader loader) {
+			public void onLoadingFinish(DataLoader loader) {
 				_unions = loader.getUnions();
 				_events = loader.getEvents();
 				_images = loader.getImages();
 				if (listener != null) {
-					listener.OnDataRefreshed();
+					listener.onDataRefreshed();
 				}
 				_neverUpdated = false;
 			}
@@ -100,12 +100,12 @@ public final class School {
 		_loader = new DataLoader(context, false);
 		_loader.setOnLoadingFinishListener(new OnLoadingFinishListener() {
 			@Override
-			public void OnLoadingFinish(DataLoader loader) {
+			public void onLoadingFinish(DataLoader loader) {
 				_unions = loader.getUnions();
 				_events = loader.getEvents();
 				_images = loader.getImages();
 				if (listener != null) {
-					listener.OnDataRefreshed();
+					listener.onDataRefreshed();
 				}
 			}
 		});

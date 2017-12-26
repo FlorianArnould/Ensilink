@@ -10,8 +10,10 @@ import android.support.test.espresso.intent.matcher.IntentMatchers;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.v4.view.ViewPager;
 
 import org.hamcrest.Matchers;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -41,7 +43,7 @@ public class MembersFragmentTest {
 		final CountDownLatch signal = new CountDownLatch(1);
 		School.getInstance().loadLocalData(InstrumentationRegistry.getTargetContext(), new OnSchoolDataListener() {
 			@Override
-			public void OnDataRefreshed() {
+			public void onDataRefreshed() {
 				signal.countDown();
 			}
 		});
@@ -64,9 +66,31 @@ public class MembersFragmentTest {
 		final Union union = School.getInstance().getUnion(1);
 		Intent intent = new Intent(InstrumentationRegistry.getTargetContext(), MainActivity.class);
 		intent.putExtra("UNION_ID", union.getId() - 1);
-		_rule.launchActivity(intent);
-		Espresso.onView(ViewMatchers.withText(R.string.clubs)).perform(ViewActions.click());
-		Espresso.onView(ViewMatchers.withText(R.string.members)).perform(ViewActions.click());
+		MainActivity activity = _rule.launchActivity(intent);
+		UnionFragment fragment = activity.getUnionFragment();
+		Assert.assertNotNull(fragment);
+		final CountDownLatch signal = new CountDownLatch(1);
+		fragment.setViewPagerListener(new ViewPager.SimpleOnPageChangeListener() {
+			@Override
+			public void onPageScrollStateChanged(int state) {
+				if (state == ViewPager.SCROLL_STATE_IDLE) {
+					signal.countDown();
+				}
+			}
+		});
+		Espresso.onView(ViewMatchers.withId(R.id.viewpager)).perform(ViewActions.swipeLeft());
+		signal.await();
+		final CountDownLatch signal2 = new CountDownLatch(1);
+		fragment.setViewPagerListener(new ViewPager.SimpleOnPageChangeListener() {
+			@Override
+			public void onPageScrollStateChanged(int state) {
+				if (state == ViewPager.SCROLL_STATE_IDLE) {
+					signal2.countDown();
+				}
+			}
+		});
+		Espresso.onView(ViewMatchers.withId(R.id.viewpager)).perform(ViewActions.swipeRight());
+		signal2.await();
 		Student student = union.getStudents().get(0);
 		String name = student.getName() + " \"" + student.getNickname() + "\" " + student.getLastName();
 		Espresso.onView(ViewMatchers.withText(name)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));

@@ -32,5 +32,5 @@ public interface OnSchoolDataListener {
 	/**
 	 * Executes this when School is updated
 	 */
-	void OnDataRefreshed();
+	void onDataRefreshed();
 }

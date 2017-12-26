@@ -8,7 +8,9 @@ import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.v4.view.ViewPager;
 
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -23,6 +25,7 @@ import fr.ensicaen.lbssc.ensilink.storage.OnSchoolDataListener;
 import fr.ensicaen.lbssc.ensilink.storage.School;
 import fr.ensicaen.lbssc.ensilink.storage.Union;
 import fr.ensicaen.lbssc.ensilink.view.MainActivity;
+import fr.ensicaen.lbssc.ensilink.view.unionscreen.UnionFragment;
 
 /**
  * @author Florian Arnould
@@ -39,7 +42,7 @@ public class ClubActivityTest {
 		final CountDownLatch signal = new CountDownLatch(1);
 		School.getInstance().loadLocalData(InstrumentationRegistry.getTargetContext(), new OnSchoolDataListener() {
 			@Override
-			public void OnDataRefreshed() {
+			public void onDataRefreshed() {
 				signal.countDown();
 			}
 		});
@@ -51,24 +54,45 @@ public class ClubActivityTest {
 		final Union union = School.getInstance().getUnion(1);
 		Intent intent = new Intent(InstrumentationRegistry.getTargetContext(), MainActivity.class);
 		intent.putExtra("UNION_ID", union.getId() - 1);
-		_rule.launchActivity(intent);
-		Espresso.onView(ViewMatchers.withText(R.string.clubs)).perform(ViewActions.click());
+		MainActivity activity = _rule.launchActivity(intent);
+		UnionFragment fragment = activity.getUnionFragment();
+		Assert.assertNotNull(fragment);
+		final CountDownLatch signal = new CountDownLatch(1);
+		fragment.setViewPagerListener(new ViewPager.SimpleOnPageChangeListener() {
+			@Override
+			public void onPageScrollStateChanged(int state) {
+				if (state == ViewPager.SCROLL_STATE_IDLE) {
+					signal.countDown();
+				}
+			}
+		});
+		Espresso.onView(ViewMatchers.withId(R.id.viewpager)).perform(ViewActions.swipeLeft());
+		signal.await();
 		Club club = union.getClub(0);
 		Espresso.onView(ViewMatchers.withText(club.getName())).perform(ViewActions.click());
-		Espresso.onView(ViewMatchers.withText(R.string.emails)).perform(ViewActions.click());
+		Espresso.onView(ViewMatchers.withId(R.id.viewpager)).perform(ViewActions.swipeLeft());
 		Espresso.onView(ViewMatchers.withText("from")).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 	}
 
 	@Test
 	public void openEmailTest() throws Exception {
 		final Union union = School.getInstance().getUnion(1);
-		Intent intent = new Intent(InstrumentationRegistry.getTargetContext(), MainActivity.class);
-		intent.putExtra("UNION_ID", union.getId() - 1);
-		_rule.launchActivity(intent);
-		Espresso.onView(ViewMatchers.withText(R.string.clubs)).perform(ViewActions.click());
 		Club club = union.getClub(0);
-		Espresso.onView(ViewMatchers.withText(club.getName())).perform(ViewActions.click());
-		Espresso.onView(ViewMatchers.withText(R.string.emails)).perform(ViewActions.click());
+		Intent intent = new Intent(InstrumentationRegistry.getTargetContext(), ClubActivity.class);
+		intent.putExtra("UNION_ID", union.getId() - 1);
+		intent.putExtra("CLUB_ID", club.getId() - 1);
+		ClubActivity activity = new ActivityTestRule<>(ClubActivity.class).launchActivity(intent);
+		final CountDownLatch signal = new CountDownLatch(1);
+		activity.setViewPagerListener(new ViewPager.SimpleOnPageChangeListener() {
+			@Override
+			public void onPageScrollStateChanged(int state) {
+				if (state == ViewPager.SCROLL_STATE_IDLE) {
+					signal.countDown();
+				}
+			}
+		});
+		Espresso.onView(ViewMatchers.withId(R.id.viewpager)).perform(ViewActions.swipeLeft());
+		signal.await();
 		Espresso.onView(ViewMatchers.withText("from")).perform(ViewActions.click());
 		Espresso.onView(ViewMatchers.withText("subject")).check(ViewAssertions.matches(ViewMatchers.withParent(ViewMatchers.withId(R.id.action_bar))));
 	}
@@ -78,8 +102,20 @@ public class ClubActivityTest {
 		final Union union = School.getInstance().getUnion(1);
 		Intent intent = new Intent(InstrumentationRegistry.getTargetContext(), MainActivity.class);
 		intent.putExtra("UNION_ID", union.getId() - 1);
-		_rule.launchActivity(intent);
-		Espresso.onView(ViewMatchers.withText(R.string.clubs)).perform(ViewActions.click());
+		MainActivity activity = _rule.launchActivity(intent);
+		final CountDownLatch signal = new CountDownLatch(1);
+		UnionFragment fragment = activity.getUnionFragment();
+		Assert.assertNotNull(fragment);
+		fragment.setViewPagerListener(new ViewPager.SimpleOnPageChangeListener() {
+			@Override
+			public void onPageScrollStateChanged(int state) {
+				if (state == ViewPager.SCROLL_STATE_IDLE) {
+					signal.countDown();
+				}
+			}
+		});
+		Espresso.onView(ViewMatchers.withId(R.id.viewpager)).perform(ViewActions.swipeLeft());
+		signal.await();
 		Club club = union.getClub(0);
 		Espresso.onView(ViewMatchers.withText(club.getName())).perform(ViewActions.click());
 		Espresso.onView(ViewMatchers.withContentDescription(R.string.abc_action_bar_up_description)).perform(ViewActions.click());

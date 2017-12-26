@@ -68,7 +68,7 @@ public final class CreditsActivity extends AppCompatActivity {
 			getSupportActionBar().setTitle(getString(R.string.credits));
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		}
-		final ListView list = (ListView)findViewById(R.id.list);
+		final ListView list = findViewById(R.id.list);
 		new AsyncTask<Void, Void, Void>() {
 			@Override
 			protected Void doInBackground(Void... params) {
@@ -86,10 +86,9 @@ public final class CreditsActivity extends AppCompatActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				this.finish();
-				break;
+		if (item.getItemId() == android.R.id.home) {
+			finish();
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -103,7 +102,7 @@ public final class CreditsActivity extends AppCompatActivity {
 		CreditsAdapter() {
 			_rowContent = new ArrayList<>();
 			_rowContent.add(getString(R.string.developers));
-			String team[] = getResources().getStringArray(R.array.team_2016_2017);
+			String[] team = getResources().getStringArray(R.array.team_2016_2017);
 			_rowContent.add(new Developer(R.drawable.ic_manager, getString(R.string.manager), team[0]));
 			for (int i = 1; i < team.length; i++) {
 				_rowContent.add(new Developer(R.drawable.ic_developer, getString(R.string.developer), team[i]));
@@ -162,25 +161,25 @@ public final class CreditsActivity extends AppCompatActivity {
 			switch (getItemViewType(i)) {
 				case 0:
 					view = inflater.inflate(R.layout.credits_title_row, parent, false);
-					text = (TextView)view.findViewById(R.id.title);
+					text = view.findViewById(R.id.title);
 					text.setText((String)_rowContent.get(i));
 					break;
 				case 1:
 					view = inflater.inflate(R.layout.credits_developer_row, parent, false);
 					Developer dev = (Developer)_rowContent.get(i);
-					image = (ImageView)view.findViewById(R.id.icon);
+					image = view.findViewById(R.id.icon);
 					image.setImageResource(dev.getDrawableId());
-					text = (TextView)view.findViewById(R.id.position);
+					text = view.findViewById(R.id.position);
 					text.setText(dev.getPosition());
-					text = (TextView)view.findViewById(R.id.name);
+					text = view.findViewById(R.id.name);
 					text.setText(dev.getName());
 					break;
 				default:
 					view = inflater.inflate(R.layout.credits_attribution_row, parent, false);
 					Artist artist = (Artist)_rowContent.get(i);
-					image = (ImageView)view.findViewById(R.id.icon);
+					image = view.findViewById(R.id.icon);
 					image.setImageDrawable(artist.getDrawable());
-					text = (TextView)view.findViewById(R.id.attribution);
+					text = view.findViewById(R.id.attribution);
 					text.setText(artist.getAttribution());
 			}
 			return view;
